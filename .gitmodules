@@ -1,0 +1,6 @@
+[submodule "src/org/usfirst/frc4904/standard"]
+	path = src/org/usfirst/frc4904/standard
+	url = https://github.com/RoboticsTeam4904/standard.git
+[submodule "src/org/usfirst/frc4904/logkitten"]
+	path = src/org/usfirst/frc4904/logkitten
+	url = https://github.com/RoboticsTeam4904/logkitten.git
