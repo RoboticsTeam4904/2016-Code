@@ -1,7 +1,13 @@
-
 package org.usfirst.frc4904.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+
+import org.usfirst.frc4904.logkitten.LogKitten;
+import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
+import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -15,85 +21,79 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
-
-
-    Command autonomousCommand;
-    SendableChooser chooser;
-
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-    }
+public class Robot extends CommandRobotBase {
+	// Even static objects need initializers
+	RobotMap map = new RobotMap();
+	DriverStationMap dsMap = new DriverStationMap();
+	Command autonomousCommand;
+	SendableChooser chooser;
 	
 	/**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-     */
-    public void disabledInit(){
-
-    }
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	public void robotInit() {
+		super.robotInit(new PressureValveClosedTest(new Compressor(0), 5, 2));
+		System.out.println("CommandRobotBase init complete");
+		// Configure autonomous command chooser
+		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
+		// Configure driver command chooser
+		driverChooser.addObject(new Nathan());
+		// Display choosers on SmartDashboard
+		displayChoosers();
+		SmartDashboard.putData(Scheduler.getInstance());
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
+	}
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
+	
+	public void autonomousInit() {
+		// schedule the autonomous command (example)
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
+		}
+	}
+	
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
+	 * This function is called periodically during autonomous
 	 */
-    public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-    	
-    	// schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
-    }
-
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
-
-    public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
-    }
-
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+	}
+	
+	public void teleopInit() {
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
+		}
+		driverChooser.getSelected().bindCommands();
+		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
+		teleopCommand.start();
+	}
+	
+	/**
+	 * This function is called when the disabled button is hit. You can use it
+	 * to reset subsystems before shutting down.
+	 */
+	public void disabledInit() {
+		super.disabledInit();
+		if (teleopCommand != null) {
+			teleopCommand.cancel();
+		}
+	}
+	
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+	}
+	
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
 }
