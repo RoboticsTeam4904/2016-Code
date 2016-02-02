@@ -1,13 +1,13 @@
 package org.usfirst.frc4904.robot;
 
+
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.AccelMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.MotorGroup;
-
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
 
 /**
@@ -17,54 +17,45 @@ import edu.wpi.first.wpilibj.VictorSP;
  * floating around.
  */
 public class RobotMap {
-	
-    // For example to map the left and right motors, you could define the
-    // following variables to use with your drivetrain subsystem.
-    // public static int leftMotor = 1;
-    // public static int rightMotor = 2;
-    
-    // If you are using multiple modules, make sure to define both the port
-    // number and the module. For example you with a rangefinder:
-    // public static int rangefinderPort = 1;
-    // public static int rangefinderModule = 1;
-	
-	//TODO add encoders
-
+	// For example to map the left and right motors, you could define the
+	// following variables to use with your drivetrain subsystem.
+	// public static int leftMotor = 1;
+	// public static int rightMotor = 2;
+	// If you are using multiple modules, make sure to define both the port
+	// number and the module. For example you with a rangefinder:
+	// public static int rangefinderPort = 1;
+	// public static int rangefinderModule = 1;
+	// TODO add encoders
 	// PWM
 	public static int LEFT_WHEEL_A_PORT = 0;
 	public static int LEFT_WHEEL_B_PORT = 1;
 	public static int RIGHT_WHEEL_A_PORT = 2;
 	public static int RIGHT_WHEEL_B_PORT = 3;
-	
 	public static int SHOOTER_WHEEL_A_PORT = 4;
 	public static int SHOOTER_WHEEL_B_PORT = 5;
-	
-	public static int SPIN_ROLLERS_PORT = -1; //TODO
-	public static int ARM_LIFTER_PORT = -1; //TODO
-	public static int SPIN_BOTTOM_PORT = -1; //TODO
-	
-	public static int CLIMBER_WINCH_A_PORT = 6; //TODO
-	public static int CLIMBER_WINCH_B_PORT = 7; //TODO
-	
+	public static int SPIN_ROLLERS_PORT = -1; // TODO
+	public static int ARM_LIFTER_PORT = -1; // TODO
+	public static int SPIN_BOTTOM_PORT = -1; // TODO
+	public static int CLIMBER_WINCH_A_PORT = 6; // TODO
+	public static int CLIMBER_WINCH_B_PORT = 7; // TODO
+	public static int ROCKER_SERVO_PORT = 8;
 	// Drive
 	public static VictorSP LEFT_WHEEL_MOTOR_B;
 	public static VictorSP RIGHT_WHEEL_MOTOR_A;
 	public static VictorSP RIGHT_WHEEL_MOTOR_B;
 	public static VictorSP LEFT_WHEEL_MOTOR_A;
-	
 	// Shoot
 	public static VictorSP SHOOTER_WHEEL_MOTOR_A;
 	public static VictorSP SHOOTER_WHEEL_MOTOR_B;
-	
+	// Intake
+	public static Servo ROCKER_SERVO;
 	// Conveyor
 	public static CANTalon SPIN_ROLLERS_MOTOR;
 	public static CANTalon ARM_LIFTER_MOTOR;
 	public static CANTalon SPIN_BOTTOM_MOTOR;
-	
 	// Climb
 	public static VictorSP CLIMBER_WINCH_MOTOR_A;
 	public static VictorSP CLIMBER_WINCH_MOTOR_B;
-	
 	// Motors
 	public static Motor leftWheelA;
 	public static Motor leftWheelB;
@@ -97,6 +88,7 @@ public class RobotMap {
 		SPIN_BOTTOM_MOTOR = new CANTalon(SPIN_BOTTOM_PORT);
 		CLIMBER_WINCH_MOTOR_A = new VictorSP(CLIMBER_WINCH_A_PORT);
 		CLIMBER_WINCH_MOTOR_B = new VictorSP(CLIMBER_WINCH_B_PORT);
+		ROCKER_SERVO = new Servo(ROCKER_SERVO_PORT);
 		leftWheelA = new Motor("First left wheel", LEFT_WHEEL_MOTOR_A);
 		leftWheelB = new Motor("Second left wheel", LEFT_WHEEL_MOTOR_B);
 		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A, true);
@@ -106,9 +98,9 @@ public class RobotMap {
 		chassis = new TankDrive("StrongholdChassis", leftWheel, rightWheel);
 		shooterWheelA = new Motor("First shooter wheel", SHOOTER_WHEEL_MOTOR_A);
 		shooterWheelB = new Motor("Second shooter wheel", SHOOTER_WHEEL_MOTOR_B);
-		shooterWheel = new Motor("Shooter wheel accel", new MotorGroup("Shooter wheel", shooterWheelA, shooterWheelB)); //TODO fix motor type
+		shooterWheel = new Motor("Shooter wheel accel", new MotorGroup("Shooter wheel", shooterWheelA, shooterWheelB)); // TODO fix motor type
 		climberWinchA = new Motor("First climber winch", CLIMBER_WINCH_MOTOR_A);
 		climberWinchB = new Motor("Second climber winch", CLIMBER_WINCH_MOTOR_B);
-		climberWinch = new Motor("climber winch accel", new MotorGroup("climber winch", climberWinchA, climberWinchB)); //TODO fix motor type
+		climberWinch = new Motor("climber winch accel", new MotorGroup("climber winch", climberWinchA, climberWinchB)); // TODO fix motor type
 	}
 }
