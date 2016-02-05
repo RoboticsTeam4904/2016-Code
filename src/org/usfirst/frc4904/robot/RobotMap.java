@@ -1,6 +1,8 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
+import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.AccelMotor;
@@ -17,90 +19,122 @@ import edu.wpi.first.wpilibj.VictorSP;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
-	// TODO add encoders
-	// PWM
-	public static int LEFT_WHEEL_A_PORT = 0;
-	public static int LEFT_WHEEL_B_PORT = 1;
-	public static int RIGHT_WHEEL_A_PORT = 2;
-	public static int RIGHT_WHEEL_B_PORT = 3;
-	public static int SHOOTER_WHEEL_A_PORT = 4;
-	public static int SHOOTER_WHEEL_B_PORT = 5;
-	public static int SPIN_ROLLERS_PORT = -1; // TODO
-	public static int ARM_LIFTER_PORT = -1; // TODO
-	public static int SPIN_BOTTOM_PORT = -1; // TODO
-	public static int CLIMBER_WINCH_A_PORT = 6; // TODO
-	public static int CLIMBER_WINCH_B_PORT = 7; // TODO
-	public static int ROCKER_SERVO_PORT = 8;
-	// Drive
-	public static VictorSP LEFT_WHEEL_MOTOR_B;
-	public static VictorSP RIGHT_WHEEL_MOTOR_A;
-	public static VictorSP RIGHT_WHEEL_MOTOR_B;
-	public static VictorSP LEFT_WHEEL_MOTOR_A;
-	// Shoot
-	public static VictorSP SHOOTER_WHEEL_MOTOR_A;
-	public static VictorSP SHOOTER_WHEEL_MOTOR_B;
-	// Intake
-	public static Servo ROCKER_SERVO;
-	// Conveyor
-	public static CANTalon SPIN_ROLLERS_MOTOR;
-	public static CANTalon ARM_LIFTER_MOTOR;
-	public static CANTalon SPIN_BOTTOM_MOTOR;
-	// Climb
-	public static VictorSP CLIMBER_WINCH_MOTOR_A;
-	public static VictorSP CLIMBER_WINCH_MOTOR_B;
-	// Motors
-	public static Motor leftWheelA;
-	public static Motor leftWheelB;
-	public static Motor rightWheelA;
-	public static Motor rightWheelB;
-	public static Motor leftWheel;
-	public static Motor rightWheel;
-	public static Motor shooterWheelA;
-	public static Motor shooterWheelB;
-	public static Motor shooterWheel;
-	public static Motor spinRollers;
-	public static Motor armLifter;
-	public static Motor spinBottom;
-	public static Motor climberWinchA;
-	public static Motor climberWinchB;
-	public static Motor climberWinch;
-	public static TankDrive chassis;
-	public static PDP pdp;
+	public static class Port {
+		public static class Motors {
+			public static final int leftDriveA = 0;
+			public static final int leftDriveB = 1;
+			public static final int rightDriveA = 2;
+			public static final int rightDriveB = 3;
+			public static final int flywheelA = 4;
+			public static final int flywheelB = 5;
+			public static final int intakeTopRoller = -1; // TODO
+			public static final int intakeArm = -1; // TODO
+			public static final int intakeBottomRoller = -1; // TODO
+			public static final int climberWinchA = 6; // TODO
+			public static final int climberWinchB = 7; // TODO
+			public static final int rockerServo = 8;
+		}
+		
+		public static class HumanInput {
+			public static final int joystick = 0;
+			public static final int xboxController = 1;
+		}
+	}
 	
+	public static class Constant {
+		public static class HumanInput {
+			public static final double X_SPEED_SCALE = 1;
+			public static final double Y_SPEED_SCALE = 1;
+			public static final double TURN_SPEED_SCALE = 1;
+			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
+			public static final double SPEED_GAIN = 1;
+			public static final double SPEED_EXP = 2;
+			public static final double TURN_GAIN = 1;
+			public static final double TURN_EXP = 2;
+		}
+	}
+	
+	public static class Component {
+		private static class RawMotor {
+			public static VictorSP leftDriveA;
+			public static VictorSP leftDriveB;
+			public static VictorSP rightDriveA;
+			public static VictorSP rightDriveB;
+			// Shoot
+			public static VictorSP flywheelA;
+			public static VictorSP flywheelB;
+			// Intake
+			public static Servo rockerServo;
+			// Conveyor
+			public static CANTalon intakeTopRoller;
+			public static CANTalon intakeArm;
+			public static CANTalon intakeBottomRoller;
+			// Climb
+			public static VictorSP climberWinchA;
+			public static VictorSP climberWinchB;
+		}
+		
+		public static class Motors {
+			public static Motor leftWheelA;
+			public static Motor leftWheelB;
+			public static Motor rightWheelA;
+			public static Motor rightWheelB;
+			public static Motor leftWheel;
+			public static Motor rightWheel;
+			public static Motor shooterWheelA;
+			public static Motor shooterWheelB;
+			public static Motor shooterWheel;
+			public static Motor spinRollers;
+			public static Motor armLifter;
+			public static Motor spinBottom;
+			public static Motor climberWinchA;
+			public static Motor climberWinchB;
+			public static Motor climberWinch;
+		}
+		public static TankDrive chassis;
+		public static PDP pdp;
+	}
+	
+	public static class HumanInput {
+		public static class Driver {
+			public static CustomXbox xbox;
+		}
+		
+		public static class Operator {
+			// *** OPERATOR *** //
+			// Initialize operator joystick
+			public static CustomJoystick stick;
+		}
+	}
+	
+	// Initialize operator buttons
 	public RobotMap() {
-		pdp = new PDP();
-		LEFT_WHEEL_MOTOR_A = new VictorSP(LEFT_WHEEL_A_PORT);
-		LEFT_WHEEL_MOTOR_B = new VictorSP(LEFT_WHEEL_B_PORT);
-		RIGHT_WHEEL_MOTOR_A = new VictorSP(RIGHT_WHEEL_A_PORT);
-		RIGHT_WHEEL_MOTOR_B = new VictorSP(RIGHT_WHEEL_B_PORT);
-		SHOOTER_WHEEL_MOTOR_A = new VictorSP(SHOOTER_WHEEL_A_PORT);
-		SHOOTER_WHEEL_MOTOR_B = new VictorSP(SHOOTER_WHEEL_B_PORT);
-		SPIN_ROLLERS_MOTOR = new CANTalon(SPIN_ROLLERS_PORT);
-		ARM_LIFTER_MOTOR = new CANTalon(ARM_LIFTER_PORT);
-		SPIN_BOTTOM_MOTOR = new CANTalon(SPIN_BOTTOM_PORT);
-		CLIMBER_WINCH_MOTOR_A = new VictorSP(CLIMBER_WINCH_A_PORT);
-		CLIMBER_WINCH_MOTOR_B = new VictorSP(CLIMBER_WINCH_B_PORT);
-		ROCKER_SERVO = new Servo(ROCKER_SERVO_PORT);
-		leftWheelA = new Motor("First left wheel", LEFT_WHEEL_MOTOR_A);
-		leftWheelB = new Motor("Second left wheel", LEFT_WHEEL_MOTOR_B);
-		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A, true);
-		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
-		leftWheel = new AccelMotor("Left wheel accel", new MotorGroup("Left wheel", leftWheelA, leftWheelB), pdp);
-		rightWheel = new AccelMotor("Right wheel accel", new MotorGroup("Right wheel", rightWheelA, rightWheelB), pdp);
-		chassis = new TankDrive("StrongholdChassis", leftWheel, rightWheel);
-		shooterWheelA = new Motor("First shooter wheel", SHOOTER_WHEEL_MOTOR_A);
-		shooterWheelB = new Motor("Second shooter wheel", SHOOTER_WHEEL_MOTOR_B);
-		shooterWheel = new Motor("Shooter wheel accel", new MotorGroup("Shooter wheel", shooterWheelA, shooterWheelB)); // TODO fix motor type
-		climberWinchA = new Motor("First climber winch", CLIMBER_WINCH_MOTOR_A);
-		climberWinchB = new Motor("Second climber winch", CLIMBER_WINCH_MOTOR_B);
-		climberWinch = new Motor("climber winch accel", new MotorGroup("climber winch", climberWinchA, climberWinchB)); // TODO fix motor type
+		Component.pdp = new PDP();
+		Component.RawMotor.leftDriveA = new VictorSP(Port.Motors.leftDriveA);
+		Component.RawMotor.leftDriveB = new VictorSP(Port.Motors.leftDriveB);
+		Component.RawMotor.rightDriveA = new VictorSP(Port.Motors.rightDriveA);
+		Component.RawMotor.rightDriveB = new VictorSP(Port.Motors.rightDriveB);
+		Component.RawMotor.flywheelA = new VictorSP(Port.Motors.flywheelA);
+		Component.RawMotor.flywheelB = new VictorSP(Port.Motors.flywheelB);
+		Component.RawMotor.intakeTopRoller = new CANTalon(Port.Motors.intakeTopRoller);
+		Component.RawMotor.intakeArm = new CANTalon(Port.Motors.intakeArm);
+		Component.RawMotor.intakeBottomRoller = new CANTalon(Port.Motors.intakeBottomRoller);
+		Component.RawMotor.climberWinchA = new VictorSP(Port.Motors.climberWinchA);
+		Component.RawMotor.climberWinchB = new VictorSP(Port.Motors.climberWinchB);
+		Component.RawMotor.rockerServo = new Servo(Port.Motors.rockerServo);
+		Component.Motors.leftWheelA = new Motor("leftWheelA", Component.RawMotor.leftDriveA);
+		Component.Motors.leftWheelB = new Motor("leftWheelB", Component.RawMotor.leftDriveB);
+		Component.Motors.rightWheelA = new Motor("rightWheelA", Component.RawMotor.rightDriveA, true);
+		Component.Motors.rightWheelB = new Motor("rightWheelB", Component.RawMotor.rightDriveB, true);
+		Component.Motors.leftWheel = new AccelMotor("leftWheelAccel", new MotorGroup("leftWheel", Component.Motors.leftWheelA, Component.Motors.leftWheelB), Component.pdp);
+		Component.Motors.rightWheel = new AccelMotor("rightWheelAccel", new MotorGroup("rightWheel", Component.Motors.rightWheelA, Component.Motors.rightWheelB), Component.pdp);
+		Component.chassis = new TankDrive("StrongholdChassis", Component.Motors.leftWheel, Component.Motors.rightWheel);
+		Component.Motors.shooterWheelA = new Motor("shooterWheelA", Component.RawMotor.flywheelA);
+		Component.Motors.shooterWheelB = new Motor("shooterWheelB", Component.RawMotor.flywheelB);
+		Component.Motors.shooterWheel = new Motor("shooterWheelAccel", new MotorGroup("shooterWheel", Component.Motors.shooterWheelA, Component.Motors.shooterWheelB)); // TODO fix motor type
+		Component.Motors.climberWinchA = new Motor("climberWinchA", Component.RawMotor.climberWinchA);
+		Component.Motors.climberWinchB = new Motor("climberWinchB", Component.RawMotor.climberWinchB);
+		Component.Motors.climberWinch = new Motor("climberWinchAccel", new MotorGroup("climberWinch", Component.Motors.climberWinchA, Component.Motors.climberWinchB)); // TODO fix motor type
+		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 	}
 }

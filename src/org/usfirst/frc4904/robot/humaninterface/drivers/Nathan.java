@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
-import org.usfirst.frc4904.robot.DriverStationMap;
 import org.usfirst.frc4904.standard.humaninterface.Driver;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,7 +10,7 @@ public class Nathan extends Driver {
 	}
 	
 	public void bindCommands() {
-		DriverStationMap.xbox.back.whenPressed(new Command(){
+		org.usfirst.frc4904.robot.RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Command(){
 
 			@Override
 			protected void end() {
@@ -52,10 +51,10 @@ public class Nathan extends Driver {
 	}
 	
 	public double getY() {
-		return DriverStationMap.xbox.rt.getX() - DriverStationMap.xbox.lt.getX();
+		return org.usfirst.frc4904.robot.RobotMap.HumanInput.Driver.xbox.rt.getX() - org.usfirst.frc4904.robot.RobotMap.HumanInput.Driver.xbox.lt.getX();
 	}
 	
 	public double getTurnSpeed() {
-		return DriverStationMap.xbox.leftStick.getX();
+		return org.usfirst.frc4904.robot.RobotMap.HumanInput.Driver.xbox.leftStick.getX();
 	}
 }

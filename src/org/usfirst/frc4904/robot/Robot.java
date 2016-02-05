@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.RobotMap.Constant.HumanInput;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
@@ -24,7 +25,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends CommandRobotBase {
 	// Even static objects need initializers
 	RobotMap map = new RobotMap();
-	DriverStationMap dsMap = new DriverStationMap();
 	Command autonomousCommand;
 	SendableChooser chooser;
 	
@@ -36,7 +36,7 @@ public class Robot extends CommandRobotBase {
 		super.robotInit(new PressureValveClosedTest(new Compressor(0), 5, 2));
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
+		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
 		driverChooser.addObject(new Nathan());
 		// Display choosers on SmartDashboard
@@ -68,7 +68,7 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
-		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
+		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), HumanInput.X_SPEED_SCALE, HumanInput.Y_SPEED_SCALE, HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 	}
 	
