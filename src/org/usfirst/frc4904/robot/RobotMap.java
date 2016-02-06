@@ -8,7 +8,8 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
-import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.motor.AccelMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.EncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.MotorFactory;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Servo;
@@ -67,12 +68,12 @@ public class RobotMap {
 	}
 	
 	public static class Component {
-		public static Motor leftWheel;
-		public static Motor rightWheel;
-		public static Motor flywheel;
-		public static Motor bottomIntakeRoller;
-		public static Motor topIntakeRoller;
-		public static Motor defenseManipulator; // His name is Tim.
+		public static EncodedMotor leftWheel;
+		public static EncodedMotor rightWheel;
+		public static EncodedMotor flywheel;
+		public static AccelMotor bottomIntakeRoller;
+		public static AccelMotor topIntakeRoller;
+		public static EncodedMotor defenseManipulator; // His name is Tim.
 		public static Servo rocker;
 		public static TankDrive chassis;
 		public static PDP pdp;
