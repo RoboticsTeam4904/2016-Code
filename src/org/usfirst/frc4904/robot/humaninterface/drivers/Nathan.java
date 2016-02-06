@@ -2,7 +2,7 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.standard.humaninterface.Driver;
+import org.usfirst.frc4904.standard.humaninput.Driver;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Nathan extends Driver {
