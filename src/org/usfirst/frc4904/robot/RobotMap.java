@@ -1,11 +1,16 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.RobotMap.Port.Motors.CAN;
+import org.usfirst.frc4904.robot.RobotMap.Port.Motors.PWM;
+import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
+import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.AccelMotor;
-import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.MotorGroup;
+import org.usfirst.frc4904.standard.subsystems.motor.EncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.MotorFactory;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -17,90 +22,84 @@ import edu.wpi.first.wpilibj.VictorSP;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
-	// TODO add encoders
-	// PWM
-	public static int LEFT_WHEEL_A_PORT = 0;
-	public static int LEFT_WHEEL_B_PORT = 1;
-	public static int RIGHT_WHEEL_A_PORT = 2;
-	public static int RIGHT_WHEEL_B_PORT = 3;
-	public static int SHOOTER_WHEEL_A_PORT = 4;
-	public static int SHOOTER_WHEEL_B_PORT = 5;
-	public static int SPIN_ROLLERS_PORT = -1; // TODO
-	public static int ARM_LIFTER_PORT = -1; // TODO
-	public static int SPIN_BOTTOM_PORT = -1; // TODO
-	public static int CLIMBER_WINCH_A_PORT = 6; // TODO
-	public static int CLIMBER_WINCH_B_PORT = 7; // TODO
-	public static int ROCKER_SERVO_PORT = 8;
-	// Drive
-	public static VictorSP LEFT_WHEEL_MOTOR_B;
-	public static VictorSP RIGHT_WHEEL_MOTOR_A;
-	public static VictorSP RIGHT_WHEEL_MOTOR_B;
-	public static VictorSP LEFT_WHEEL_MOTOR_A;
-	// Shoot
-	public static VictorSP SHOOTER_WHEEL_MOTOR_A;
-	public static VictorSP SHOOTER_WHEEL_MOTOR_B;
-	// Intake
-	public static Servo ROCKER_SERVO;
-	// Conveyor
-	public static CANTalon SPIN_ROLLERS_MOTOR;
-	public static CANTalon ARM_LIFTER_MOTOR;
-	public static CANTalon SPIN_BOTTOM_MOTOR;
-	// Climb
-	public static VictorSP CLIMBER_WINCH_MOTOR_A;
-	public static VictorSP CLIMBER_WINCH_MOTOR_B;
-	// Motors
-	public static Motor leftWheelA;
-	public static Motor leftWheelB;
-	public static Motor rightWheelA;
-	public static Motor rightWheelB;
-	public static Motor leftWheel;
-	public static Motor rightWheel;
-	public static Motor shooterWheelA;
-	public static Motor shooterWheelB;
-	public static Motor shooterWheel;
-	public static Motor spinRollers;
-	public static Motor armLifter;
-	public static Motor spinBottom;
-	public static Motor climberWinchA;
-	public static Motor climberWinchB;
-	public static Motor climberWinch;
-	public static TankDrive chassis;
-	public static PDP pdp;
+	public static class Port {
+		public static class Motors {
+			public static class PWM {
+				public static final int leftDriveA = 0;
+				public static final int leftDriveB = 1;
+				public static final int rightDriveA = 2;
+				public static final int rightDriveB = 3;
+				public static final int flywheelA = 4;
+				public static final int flywheelB = 5;
+				public static final int rockerServo = 6;
+			}
+			
+			public static class CAN {
+				public static final int topIntakeRoller = 1;
+				public static final int bottomIntakeRoller = 2;
+				public static final int defenseManipulator = 3;
+			}
+		}
+		
+		public static class Sensors {
+			public static final int leftEncoder = 602;
+			public static final int rightEncoder = 603;
+			public static final int flywheelEncoder = 604;
+			public static final int defenseManipulatorEncoder = 605;
+		}
+		
+		public static class HumanInput {
+			public static final int joystick = 0;
+			public static final int xboxController = 1;
+		}
+	}
+	
+	public static class Constant {
+		public static class HumanInput {
+			public static final double X_SPEED_SCALE = 1;
+			public static final double Y_SPEED_SCALE = 1;
+			public static final double TURN_SPEED_SCALE = 1;
+			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
+			public static final double SPEED_GAIN = 1;
+			public static final double SPEED_EXP = 2;
+			public static final double TURN_GAIN = 1;
+			public static final double TURN_EXP = 2;
+		}
+	}
+	
+	public static class Component {
+		public static EncodedMotor leftWheel;
+		public static EncodedMotor rightWheel;
+		public static EncodedMotor flywheel;
+		public static AccelMotor bottomIntakeRoller;
+		public static AccelMotor topIntakeRoller;
+		public static EncodedMotor defenseManipulator; // His name is Tim.
+		public static Servo rocker;
+		public static TankDrive chassis;
+		public static PDP pdp;
+	}
+	
+	public static class HumanInput {
+		public static class Driver {
+			public static CustomXbox xbox;
+		}
+		
+		public static class Operator {
+			public static CustomJoystick stick;
+		}
+	}
 	
 	public RobotMap() {
-		pdp = new PDP();
-		LEFT_WHEEL_MOTOR_A = new VictorSP(LEFT_WHEEL_A_PORT);
-		LEFT_WHEEL_MOTOR_B = new VictorSP(LEFT_WHEEL_B_PORT);
-		RIGHT_WHEEL_MOTOR_A = new VictorSP(RIGHT_WHEEL_A_PORT);
-		RIGHT_WHEEL_MOTOR_B = new VictorSP(RIGHT_WHEEL_B_PORT);
-		SHOOTER_WHEEL_MOTOR_A = new VictorSP(SHOOTER_WHEEL_A_PORT);
-		SHOOTER_WHEEL_MOTOR_B = new VictorSP(SHOOTER_WHEEL_B_PORT);
-		SPIN_ROLLERS_MOTOR = new CANTalon(SPIN_ROLLERS_PORT);
-		ARM_LIFTER_MOTOR = new CANTalon(ARM_LIFTER_PORT);
-		SPIN_BOTTOM_MOTOR = new CANTalon(SPIN_BOTTOM_PORT);
-		CLIMBER_WINCH_MOTOR_A = new VictorSP(CLIMBER_WINCH_A_PORT);
-		CLIMBER_WINCH_MOTOR_B = new VictorSP(CLIMBER_WINCH_B_PORT);
-		ROCKER_SERVO = new Servo(ROCKER_SERVO_PORT);
-		leftWheelA = new Motor("First left wheel", LEFT_WHEEL_MOTOR_A);
-		leftWheelB = new Motor("Second left wheel", LEFT_WHEEL_MOTOR_B);
-		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A, true);
-		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
-		leftWheel = new AccelMotor("Left wheel accel", new MotorGroup("Left wheel", leftWheelA, leftWheelB), pdp);
-		rightWheel = new AccelMotor("Right wheel accel", new MotorGroup("Right wheel", rightWheelA, rightWheelB), pdp);
-		chassis = new TankDrive("StrongholdChassis", leftWheel, rightWheel);
-		shooterWheelA = new Motor("First shooter wheel", SHOOTER_WHEEL_MOTOR_A);
-		shooterWheelB = new Motor("Second shooter wheel", SHOOTER_WHEEL_MOTOR_B);
-		shooterWheel = new Motor("Shooter wheel accel", new MotorGroup("Shooter wheel", shooterWheelA, shooterWheelB)); // TODO fix motor type
-		climberWinchA = new Motor("First climber winch", CLIMBER_WINCH_MOTOR_A);
-		climberWinchB = new Motor("Second climber winch", CLIMBER_WINCH_MOTOR_B);
-		climberWinch = new Motor("climber winch accel", new MotorGroup("climber winch", climberWinchA, climberWinchB)); // TODO fix motor type
+		Component.pdp = new PDP();
+		Component.leftWheel = MotorFactory.getEncodedAccelMotorGroup("leftWheel", Component.pdp, new CANEncoder(Port.Sensors.leftEncoder), 0, 0, 0, 0, 0, 0, new VictorSP(PWM.leftDriveA), new VictorSP(PWM.leftDriveB));
+		Component.rightWheel = MotorFactory.getEncodedAccelMotorGroup("rightWheel", Component.pdp, new CANEncoder(Port.Sensors.rightEncoder), 0, 0, 0, 0, 0, 0, new VictorSP(PWM.rightDriveA), new VictorSP(PWM.rightDriveB));
+		Component.flywheel = MotorFactory.getEncodedAccelMotorGroup("flywheel", Component.pdp, new CANEncoder(Port.Sensors.flywheelEncoder), 0, 0, 0, 0, 0, 0, new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
+		Component.bottomIntakeRoller = MotorFactory.getAccelMotorGroup("bottomIntakeRoller", Component.pdp, new CANTalon(CAN.bottomIntakeRoller));
+		Component.topIntakeRoller = MotorFactory.getAccelMotorGroup("topIntakeRoller", Component.pdp, new CANTalon(CAN.topIntakeRoller));
+		Component.defenseManipulator = MotorFactory.getEncodedAccelMotorGroup("defenseManipulator", Component.pdp, new CANEncoder(Port.Sensors.defenseManipulatorEncoder), 0, 0, 0, 0, 0, 0, new CANTalon(CAN.defenseManipulator));
+		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
+		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
+		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
+		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 	}
 }
