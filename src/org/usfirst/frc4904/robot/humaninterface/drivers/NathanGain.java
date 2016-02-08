@@ -11,6 +11,10 @@ public class NathanGain extends Driver {
 		super("NathanGain");
 	}
 	
+	protected double scaleGain(double input, double gain, double exp) {
+		return Math.pow(input, exp) * gain * Math.signum(input);
+	}
+	
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
@@ -23,27 +27,15 @@ public class NathanGain extends Driver {
 	
 	@Override
 	public double getY() {
-		double speed = RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX();
-		if (speed < 0) {
-			speed = Math.pow(speed, RobotMap.Constant.HumanInput.SPEED_EXP);
-			speed *= -RobotMap.Constant.HumanInput.SPEED_GAIN;
-		} else {
-			speed = Math.pow(speed, RobotMap.Constant.HumanInput.SPEED_EXP);
-			speed *= RobotMap.Constant.HumanInput.SPEED_GAIN;
-		}
+		double rawSpeed = RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX();
+		double speed = scaleGain(rawSpeed, RobotMap.Constant.HumanInput.SPEED_GAIN, RobotMap.Constant.HumanInput.SPEED_EXP);
 		return speed;
 	}
 	
 	@Override
 	public double getTurnSpeed() {
-		double turnSpeed = RobotMap.HumanInput.Driver.xbox.leftStick.getX();
-		if (turnSpeed < 0) {
-			turnSpeed = Math.pow(turnSpeed, RobotMap.Constant.HumanInput.TURN_EXP);
-			turnSpeed *= -RobotMap.Constant.HumanInput.TURN_GAIN;
-		} else {
-			turnSpeed = Math.pow(turnSpeed, RobotMap.Constant.HumanInput.TURN_EXP);
-			turnSpeed *= RobotMap.Constant.HumanInput.TURN_GAIN;
-		}
+		double rawTurnSpeed = RobotMap.HumanInput.Driver.xbox.leftStick.getX();
+		double turnSpeed = scaleGain(rawTurnSpeed, RobotMap.Constant.HumanInput.TURN_GAIN, RobotMap.Constant.HumanInput.TURN_EXP);
 		return turnSpeed;
 	}
 }
