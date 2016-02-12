@@ -8,9 +8,9 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
-import org.usfirst.frc4904.standard.subsystems.motor.AccelMotor;
-import org.usfirst.frc4904.standard.subsystems.motor.EncodedMotor;
-import org.usfirst.frc4904.standard.subsystems.motor.MotorFactory;
+import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.motor.sensormotor.EncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -71,8 +71,8 @@ public class RobotMap {
 		public static EncodedMotor leftWheel;
 		public static EncodedMotor rightWheel;
 		public static EncodedMotor flywheel;
-		public static AccelMotor bottomIntakeRoller;
-		public static AccelMotor topIntakeRoller;
+		public static Motor bottomIntakeRoller;
+		public static Motor topIntakeRoller;
 		public static EncodedMotor defenseManipulator; // His name is Tim.
 		public static Servo rocker;
 		public static TankDrive chassis;
@@ -91,12 +91,12 @@ public class RobotMap {
 	
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.leftWheel = MotorFactory.getEncodedAccelMotorGroup("leftWheel", Component.pdp, new CANEncoder(Port.Sensors.leftEncoder), 0, 0, 0, 0, 0, 0, new VictorSP(PWM.leftDriveA), new VictorSP(PWM.leftDriveB));
-		Component.rightWheel = MotorFactory.getEncodedAccelMotorGroup("rightWheel", Component.pdp, new CANEncoder(Port.Sensors.rightEncoder), 0, 0, 0, 0, 0, 0, new VictorSP(PWM.rightDriveA), new VictorSP(PWM.rightDriveB));
-		Component.flywheel = MotorFactory.getEncodedAccelMotorGroup("flywheel", Component.pdp, new CANEncoder(Port.Sensors.flywheelEncoder), 0, 0, 0, 0, 0, 0, new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
-		Component.bottomIntakeRoller = MotorFactory.getAccelMotorGroup("bottomIntakeRoller", Component.pdp, new CANTalon(CAN.bottomIntakeRoller));
-		Component.topIntakeRoller = MotorFactory.getAccelMotorGroup("topIntakeRoller", Component.pdp, new CANTalon(CAN.topIntakeRoller));
-		Component.defenseManipulator = MotorFactory.getEncodedAccelMotorGroup("defenseManipulator", Component.pdp, new CANEncoder(Port.Sensors.defenseManipulatorEncoder), 0, 0, 0, 0, 0, 0, new CANTalon(CAN.defenseManipulator));
+		Component.leftWheel = new EncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.leftEncoder), new VictorSP(PWM.leftDriveA), new VictorSP(PWM.leftDriveB));
+		Component.rightWheel = new EncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.rightEncoder), new VictorSP(PWM.rightDriveA), new VictorSP(PWM.rightDriveB));
+		Component.flywheel = new EncodedMotor("flywheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.flywheelEncoder), new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
+		Component.bottomIntakeRoller = new Motor("bottomIntakeRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.bottomIntakeRoller));
+		Component.topIntakeRoller = new Motor("topIntakeRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.topIntakeRoller));
+		Component.defenseManipulator = new EncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.defenseManipulatorEncoder), new CANTalon(CAN.defenseManipulator));
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
