@@ -67,6 +67,7 @@ public class RobotMap {
 		}
 		public static final int ROCKER_INTAKE_ANGLE = 0;
 		public static final int ROCKER_SHOOT_ANGLE = 90;
+		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 	}
 	
 	public static class Component {

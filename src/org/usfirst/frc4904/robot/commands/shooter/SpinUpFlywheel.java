@@ -9,7 +9,7 @@ public class SpinUpFlywheel extends Command {
 	protected double targetDistance;
 	
 	public SpinUpFlywheel(Flywheel flywheel, double targetDistance) {
-		super();
+		super("SpinUpFlywheel");
 		this.flywheel = flywheel;
 		this.targetDistance = targetDistance;
 	}
@@ -21,9 +21,7 @@ public class SpinUpFlywheel extends Command {
 	}
 	
 	@Override
-	protected void execute() {
-		// is it bad to do nothing here?
-	}
+	protected void execute() {}
 	
 	@Override
 	protected boolean isFinished() {
@@ -31,12 +29,8 @@ public class SpinUpFlywheel extends Command {
 	}
 	
 	@Override
-	protected void end() {
-		// TODO Auto-generated method stub
-	}
+	protected void end() {}
 	
 	@Override
-	protected void interrupted() {
-		// TODO Auto-generated method stub
-	}
+	protected void interrupted() {}
 }

@@ -8,7 +8,7 @@ public class SpinDownFlywheel extends Command {
 	protected Flywheel flywheel;
 	
 	public SpinDownFlywheel(Flywheel flywheel) {
-		super();
+		super("SpinDownFlywheel");
 		this.flywheel = flywheel;
 	}
 	
@@ -18,9 +18,7 @@ public class SpinDownFlywheel extends Command {
 	}
 	
 	@Override
-	protected void execute() {
-		// TODO Auto-generated method stub
-	}
+	protected void execute() {}
 	
 	@Override
 	protected boolean isFinished() {
@@ -28,12 +26,8 @@ public class SpinDownFlywheel extends Command {
 	}
 	
 	@Override
-	protected void end() {
-		// TODO Auto-generated method stub
-	}
+	protected void end() {}
 	
 	@Override
-	protected void interrupted() {
-		// TODO Auto-generated method stub
-	}
+	protected void interrupted() {}
 }
