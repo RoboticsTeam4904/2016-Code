@@ -70,6 +70,7 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
+		operatorChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 	}
@@ -90,6 +91,12 @@ public class Robot extends CommandRobotBase {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		if (RobotMap.HumanInput.Operator.stick.button4.get()) {
+			RobotMap.Component.rockerServo.setAngle(RobotMap.Constant.ROCKER_INTAKE_ANGLE);
+		}
+		if (RobotMap.HumanInput.Operator.stick.button6.get()) {
+			RobotMap.Component.rockerServo.setAngle(RobotMap.Constant.ROCKER_SHOOT_ANGLE);
+		}
 	}
 	
 	/**
