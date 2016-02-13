@@ -1,14 +1,14 @@
 package org.usfirst.frc4904.robot.commands.shooter;
 
 
-import org.usfirst.frc4904.robot.subsystems.Rocker;
+import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RockTo extends Command {
-	protected final Rocker rocker;
-	protected final Rocker.RockerPosition position;
+public class RockNRollerSet extends Command {
+	protected final RockNRoller rocker;
+	protected final RockNRoller.RockerPosition position;
 	
-	public RockTo(String name, Rocker rocker, Rocker.RockerPosition position) {
+	public RockNRollerSet(String name, RockNRoller rocker, RockNRoller.RockerPosition position) {
 		super(name);
 		requires(rocker);
 		this.rocker = rocker;
@@ -16,8 +16,8 @@ public class RockTo extends Command {
 		setInterruptible(false);
 	}
 	
-	public RockTo(Rocker rocker, Rocker.RockerPosition position) {
-		this("RockTo", rocker, position);
+	public RockNRollerSet(RockNRoller rocker, RockNRoller.RockerPosition position) {
+		this("RockNRollerSet", rocker, position);
 	}
 	
 	@Override
