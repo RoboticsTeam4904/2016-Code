@@ -2,55 +2,31 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.standard.commands.Kill;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.humaninput.Driver;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class Nathan extends Driver {
 	public Nathan() {
 		super("Nathan"); // supernathan!
 	}
 	
+	@Override
 	public void bindCommands() {
-		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Command() {
-			@Override
-			protected void end() {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			protected void execute() {
-				System.out.println("TODO: Kill robot here");
-			}
-			
-			@Override
-			protected void initialize() {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			protected void interrupted() {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			protected boolean isFinished() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		});
-		// DriverStationMap.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.chassis)));
-		// DriverStationMap.xbox.a.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		// DriverStationMap.xbox.b.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
 	}
 	
+	@Override
 	public double getX() {
 		return 0;
 	}
 	
+	@Override
 	public double getY() {
 		return RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX();
 	}
 	
+	@Override
 	public double getTurnSpeed() {
 		return RobotMap.HumanInput.Driver.xbox.leftStick.getX();
 	}
