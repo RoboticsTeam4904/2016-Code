@@ -10,6 +10,7 @@ import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
@@ -86,6 +87,7 @@ public class RobotMap {
 		public static EncodedMotor defenseManipulator; // His name is Tim.
 		public static Motor rockNRollerMotor;
 		public static Solenoid hoodSolenoid;
+		public static CANSensor ultrasonicSensor;
 		public static TankDrive chassis;
 		public static RockNRoller rockNRoller;
 		public static Hood hood;
@@ -111,13 +113,14 @@ public class RobotMap {
 		Component.bottomIntakeRoller = new Motor("bottomIntakeRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.bottomIntakeRoller));
 		Component.topIntakeRoller = new Motor("topIntakeRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.topIntakeRoller));
 		Component.defenseManipulator = new EncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.defenseManipulatorEncoder), new CANTalon(CAN.defenseManipulator));
-		Component.hoodSolenoid = new Solenoid(Port.Motors.PWM.hoodSolenoid);
 		Component.rockNRollerMotor = new Motor("rockNRollerMotor", new AccelerationCap(Component.pdp), new Victor(Port.Motors.PWM.rockNRollerMotor));
+		Component.hoodSolenoid = new Solenoid(Port.Motors.PWM.hoodSolenoid);
+		Component.ultrasonicSensor = new CANSensor("Ultrasonic", Port.Sensors.ultrasonic);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		Component.rockNRoller = new RockNRoller(Component.rockNRollerMotor);
 		Component.hood = new Hood(Component.hoodSolenoid);
 		Component.flywheel = new Flywheel(Component.flywheelMotor);
-		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel);
+		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
