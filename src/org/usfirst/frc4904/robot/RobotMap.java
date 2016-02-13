@@ -65,6 +65,8 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
+		public static final int ROCKER_INTAKE_ANGLE = 0;
+		public static final int ROCKER_SHOOT_ANGLE = 90;
 	}
 	
 	public static class Component {

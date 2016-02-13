@@ -1,64 +1,51 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.shooter.RockToIntake;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Rocker extends Subsystem {
 	public enum RockerPosition {
-		UNDEFINED, INTAKE, SHOOT
+		INTAKE(RobotMap.Constant.ROCKER_INTAKE_ANGLE), SHOOT(RobotMap.Constant.ROCKER_SHOOT_ANGLE);
+		public final int angle; // the architecture allowing the enum states to have values
+		
+		private RockerPosition(int angle) {
+			this.angle = angle;
+		}
 	}
 	protected RockerPosition currentPosition;
-	protected Servo rockerServo;
-	protected double ANGLE_INTAKE = 0;
-	protected double ANGLE_SHOOT = 90;
+	protected final Servo rockerServo;
 	
 	public Rocker(Servo rockerServo) {
 		super("Rocker");
 		this.rockerServo = rockerServo;
-		this.currentPosition = RockerPosition.UNDEFINED;
+		set(RockerPosition.INTAKE);
 	}
 	
-	public void updateState() {
-		double currentAngle = rockerServo.getAngle(); // TODO does this reflect actual or set angle?
-		if (currentAngle <= ANGLE_INTAKE) {
-			currentPosition = RockerPosition.INTAKE;
-		}
-		if (currentAngle >= ANGLE_SHOOT) {
-			currentPosition = RockerPosition.SHOOT;
-		}
-		currentPosition = RockerPosition.UNDEFINED;
+	public RockerPosition getPosition() {
+		return currentPosition;
 	}
 	
 	public boolean isInIntakePosition() {
-		updateState();
 		return currentPosition == RockerPosition.INTAKE;
 	}
 	
 	public boolean isInShootPosition() {
-		updateState();
 		return currentPosition == RockerPosition.SHOOT;
-	}
-	
-	public boolean isInUndefinedPosition() {
-		updateState();
-		return currentPosition == RockerPosition.UNDEFINED;
 	}
 	
 	public void set(RockerPosition desiredPosition) {
 		if (desiredPosition == currentPosition) {
 			return;
 		}
-		if (desiredPosition == RockerPosition.INTAKE) {
-			rockerServo.setAngle(ANGLE_INTAKE);
-		}
-		if (desiredPosition == RockerPosition.SHOOT) {
-			rockerServo.setAngle(ANGLE_SHOOT);
-		}
+		rockerServo.setAngle(desiredPosition.angle);
+		currentPosition = desiredPosition;
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
+		setDefaultCommand(new RockToIntake(this));
 	}
 }
