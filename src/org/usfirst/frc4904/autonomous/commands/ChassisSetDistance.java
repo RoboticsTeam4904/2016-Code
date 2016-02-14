@@ -16,7 +16,7 @@ public class ChassisSetDistance extends Command{
 	Chassis chassis;
 	double distance;
 	double[] motorSpeeds;
-	MotorSet[] motorSetList;
+	ArrayList<MotorSet> motorSetList;
 	double speed;
 	
 	public ChassisSetDistance(Chassis chassis, double distance, double speed){
@@ -24,7 +24,7 @@ public class ChassisSetDistance extends Command{
 		 this.chassis = chassis;
 		 this.distance = distance;
 		 this.speed = speed;
-		 motorSetList = new MotorSet[chassis.getNumberWheels()];
+		 motorSetList = new ArrayList<MotorSet>();
 		 for(Motor motor : chassis.getMotors()) {
 			 if(motor instanceof EncodedMotor) {
 				 motorEncoders.add(((EncodedMotor) motor).getEncoder());
