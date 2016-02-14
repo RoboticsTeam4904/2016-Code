@@ -53,6 +53,7 @@ public class RobotMap {
 			public static final int rightEncoder = 603;
 			public static final int flywheelEncoder = 604;
 			public static final int defenseManipulatorEncoder = 605;
+			public static final int ultrasonic = 610;
 		}
 		
 		public static class HumanInput {
