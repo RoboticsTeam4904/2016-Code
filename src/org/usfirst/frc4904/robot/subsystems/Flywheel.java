@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -53,10 +52,5 @@ public class Flywheel extends VelocityEncodedMotor {
 		super.set(0.0);
 		targetSpeed = 0.0;
 		currentStatus = FlywheelStatus.IDLE;
-	}
-	
-	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new Idle(this));
 	}
 }

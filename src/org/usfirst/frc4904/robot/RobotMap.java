@@ -38,9 +38,9 @@ public class RobotMap {
 			}
 			
 			public static class CAN {
-				public static final int intakeRoller = 1;
-				public static final int rockNRoller = 2;
-				public static final int defenseManipulator = 3;
+				public static final int intakeRoller = 3;
+				public static final int rockNRoller = 1;
+				public static final int defenseManipulator = 2;
 			}
 			
 			public static class PCM {
@@ -120,6 +120,7 @@ public class RobotMap {
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.flywheelEncoder), new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
 		Component.flywheel.disablePID();
 		Component.hoodSolenoid = new Solenoid(Port.Motors.PCM.hoodSolenoid);
+		Component.hood = new Hood(Component.hoodSolenoid);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
