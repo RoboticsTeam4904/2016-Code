@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Rocker extends Subsystem {
 	public enum RockerPosition {
 		INTAKE(RobotMap.Constant.ROCKER_INTAKE_ANGLE), SHOOT(RobotMap.Constant.ROCKER_SHOOT_ANGLE);
-		public final int angle; // the architecture allowing the enum states to have values
+		public final double angle; // the architecture allowing the enum states to have values
 		
-		private RockerPosition(int angle) {
+		private RockerPosition(double angle) {
 			this.angle = angle;
 		}
 	}
@@ -40,7 +40,7 @@ public class Rocker extends Subsystem {
 		if (desiredPosition == currentPosition) {
 			return;
 		}
-		rockerServo.setAngle(desiredPosition.angle);
+		rockerServo.set(desiredPosition.angle);
 		currentPosition = desiredPosition;
 	}
 	

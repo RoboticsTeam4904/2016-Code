@@ -9,11 +9,9 @@ import org.usfirst.frc4904.robot.subsystems.Rocker;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
-import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.sensormotor.EncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Servo;
@@ -71,23 +69,23 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
-		public static final int ROCKER_INTAKE_ANGLE = 0;
-		public static final int ROCKER_SHOOT_ANGLE = 90;
+		public static final double ROCKER_INTAKE_ANGLE = 0;
+		public static final double ROCKER_SHOOT_ANGLE = 0.5;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 	}
 	
 	public static class Component {
 		public static PDP pdp;
-		public static EncodedMotor leftWheel;
-		public static EncodedMotor rightWheel;
-		public static EncodedMotor flywheelMotor;
+		public static Motor leftWheel;
+		public static Motor rightWheel;
+		public static Motor flywheelMotor;
 		public static Motor bottomIntakeRoller;
 		public static Motor topIntakeRoller;
-		public static EncodedMotor defenseManipulator; // His name is Tim.
+		public static Motor defenseManipulator; // His name is Tim.
+		public static Rocker rocker;
 		public static Servo rockerServo;
 		public static Solenoid hoodSolenoid;
 		public static TankDrive chassis;
-		public static Rocker rocker;
 		public static Hood hood;
 		public static Flywheel flywheel;
 		public static Shooter shooter;
@@ -105,18 +103,18 @@ public class RobotMap {
 	
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.leftWheel = new EncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.leftEncoder), new VictorSP(PWM.leftDriveAMotor), new VictorSP(PWM.leftDriveB));
-		Component.rightWheel = new EncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.rightEncoder), new VictorSP(PWM.rightDriveA), new VictorSP(PWM.rightDriveB));
-		Component.flywheelMotor = new EncodedMotor("flywheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.flywheelEncoder), new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
+		Component.leftWheel = new Motor("leftWheel", new AccelerationCap(Component.pdp), new VictorSP(PWM.leftDriveAMotor), new VictorSP(PWM.leftDriveB));
+		Component.rightWheel = new Motor("rightWheel", new AccelerationCap(Component.pdp), new VictorSP(PWM.rightDriveA), new VictorSP(PWM.rightDriveB));
+		Component.flywheelMotor = new Motor("flywheel", new AccelerationCap(Component.pdp), new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
 		Component.bottomIntakeRoller = new Motor("bottomIntakeRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.bottomIntakeRoller));
 		Component.topIntakeRoller = new Motor("topIntakeRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.topIntakeRoller));
-		Component.defenseManipulator = new EncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.defenseManipulatorEncoder), new CANTalon(CAN.defenseManipulator));
+		Component.defenseManipulator = new Motor("defenseManipulator", new AccelerationCap(Component.pdp), new CANTalon(CAN.defenseManipulator));
 		Component.hoodSolenoid = new Solenoid(Port.Motors.PWM.hoodSolenoid);
 		Component.rockerServo = new Servo(Port.Motors.PWM.rockerServo);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
-		Component.rocker = new Rocker(Component.rockerServo);
+		// Component.rocker = new Rocker(Component.rockerServo);
 		Component.hood = new Hood(Component.hoodSolenoid);
-		Component.flywheel = new Flywheel(Component.flywheelMotor);
+		// Component.flywheel = new Flywheel(Component.flywheelMotor);
 		Component.shooter = new Shooter(Component.rocker, Component.hood, Component.flywheel);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);

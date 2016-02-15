@@ -45,6 +45,7 @@ public class Robot extends CommandRobotBase {
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_WARN);
 	}
 	
 	public void disabledPeriodic() {
@@ -70,6 +71,7 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
+		operatorChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 	}
