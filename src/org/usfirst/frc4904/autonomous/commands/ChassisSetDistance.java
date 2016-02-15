@@ -1,8 +1,8 @@
 package org.usfirst.frc4904.autonomous.commands;
 
 import java.util.ArrayList;
-
 import org.usfirst.frc4904.standard.LogKitten;
+import org.usfirst.frc4904.standard.commands.motor.MotorEncoderSet;
 import org.usfirst.frc4904.standard.commands.motor.MotorSet;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
@@ -10,67 +10,49 @@ import org.usfirst.frc4904.standard.subsystems.motor.EncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ChassisSetDistance extends Command{
-	ArrayList<CustomEncoder> motorEncoders = new ArrayList<CustomEncoder>();
-	Chassis chassis;
-	double distance;
-	double[] motorSpeeds;
-	ArrayList<MotorSet> motorSetList;
-	double speed;
+public class ChassisSetDistance extends CommandGroup{
 	
-	public ChassisSetDistance(Chassis chassis, double distance, double speed){
-		 LogKitten.v("Moving Chassis " + distance + ". ");
-		 this.chassis = chassis;
-		 this.distance = distance;
-		 this.speed = speed;
-		 motorSetList = new ArrayList<MotorSet>();
-		 for(Motor motor : chassis.getMotors()) {
-			 if(motor instanceof EncodedMotor) {
-				 motorEncoders.add(((EncodedMotor) motor).getEncoder());
-			 } else {
-				 motorSetList.add(new MotorSet(motor));
-			 }
-		 }
-		 this.motorSpeeds = chassis.getMotorSpeeds();
-	}
-
-	@Override
-	protected void initialize() {
-		LogKitten.v("Chassis is moving distance.");
-	}
-
-	@Override
-	protected void execute() {
-		chassis.move2dc(0, speed, 0);
-		String motorSpeedString = "";
-		for(int i = 0; i < motorSpeeds.length; i++) {
-			motorSetList.get(i).set(motorSpeeds[i]);
-			motorSpeedString.concat(" " + motorSpeeds[i]);
+	protected CustomEncoder[] motorEncoders;
+	protected MotorSet[] motorSetCommands;
+	protected Chassis chassis;
+	protected double distance;
+	protected double speed;
+	
+	public ChassisSetDistance(Chassis chassis, double distance, double speed, boolean shouldUseEncode){
+		requires(chassis);
+		this.chassis = chassis;
+		this.distance = distance;
+		this.speed = speed;
+		Motor[] chassisMotors = chassis.getMotors();
+		motorSetCommands = new MotorEncoderSet[chassisMotors.length];
+		motorEncoders = new CustomEncoder[chassisMotors.length];
+		for(int i = 0; i < chassisMotors.length; i++) {
+			if(chassisMotors[i] instanceof EncodedMotor && shouldUseEncode) {
+				EncodedMotor encodedMotor = (EncodedMotor) chassisMotors[i];
+				motorSetCommands[i] = new MotorEncoderSet(encodedMotor);
+				motorEncoders[i] = encodedMotor.getEncoder();
+			}
+			addParallel(motorSetCommands[i]);
 		}
-		LogKitten.v("Chassis Motor Speeds:");
 	}
 
-	@Override
-	protected boolean isFinished() {
-		double distanceSum = 0.0;
-		for(CustomEncoder encoder : motorEncoders) {
-			distanceSum += encoder.getDistance();
+	public void execute() {
+		chassis.move2dc(0.0, speed, 0.0);
+		double[] chassisMotorSpeeds = chassis.getMotorSpeeds();
+		for(int i = 0; i < motorSetCommands.length; i++) {
+			motorSetCommands[i].set(chassisMotorSpeeds[i]);
 		}
-		return distance < (distanceSum / motorEncoders.size());
-		
 	}
 
-	@Override
-	protected void end() {
-		
+	public boolean isFinished() {
+		double distanceSum = 0;
+		for (int i = 0; i < motorEncoders.length; i++) {
+			distanceSum += motorEncoders[i].getDistance();
+		}
+		double distanceAvg = distanceSum / motorEncoders.length;
+		return distanceAvg > distance;
 	}
 
-	@Override
-	protected void interrupted() {
-		
-	}
-	
-	
-	
 }

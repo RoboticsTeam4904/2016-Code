@@ -65,6 +65,12 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
+		public static class RobotMetrics {
+			public static final double WIDTH = 22.15;
+			public static final double HEIGHT = 25.81;
+			public static final double WHEEL_ENCODER_PPR = 256;
+			public static final double WHEEL_DIAMETER = 8;
+		}
 	}
 	
 	public static class Component {
