@@ -17,6 +17,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -125,7 +126,7 @@ public class RobotMap {
 		// Flywheel
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.flywheelEncoder), new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
 		Component.flywheel.disablePID(); // TODO add encoders
-		Component.hood = new Hood(new Solenoid(Port.Motors.PCM.hoodSolenoidDown), new Solenoid(Port.Motors.PCM.hoodSolenoidUp));
+		Component.hood = new Hood(new DoubleSolenoid(Port.Motors.PCM.hoodSolenoidDown, Port.Motors.PCM.hoodSolenoidUp));
 		Component.ultrasonicSensor = new CANSensor("Ultrasonic", Port.Sensors.ultrasonic);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
