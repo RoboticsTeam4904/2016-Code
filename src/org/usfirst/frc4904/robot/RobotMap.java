@@ -13,7 +13,6 @@ import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
-import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
@@ -78,8 +77,8 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
-		public static final int ROCKNROLLER_OUTTAKE_SPEED = -1;
-		public static final int ROCKNROLLER_SHOOT_SPEED = 1;
+		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
+		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 	}
 	
@@ -91,7 +90,6 @@ public class RobotMap {
 		public static PositionEncodedMotor defenseManipulator; // His name is Tim.
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
-		public static Motor rockNRollerMotor;
 		public static Solenoid hoodSolenoid;
 		public static CANSensor ultrasonicSensor;
 		public static RockNRoller rockNRoller;
@@ -121,8 +119,7 @@ public class RobotMap {
 		// Intake
 		Component.intakeRoller = new VelocityEncodedMotor("topIntakeRoller", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.intakeEncoder), new CANTalon(CAN.intakeRoller));
 		Component.intakeRoller.disablePID(); // TODO add encoders
-		Component.rockNRollerMotor = new Motor("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.rockNRoller));
-		Component.rockNRoller = new RockNRoller(Component.rockNRollerMotor);
+		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.rockNRoller));
 		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.defenseManipulatorEncoder), new CANTalon(CAN.defenseManipulator));
 		Component.defenseManipulator.disablePID(); // TODO add encoders
 		// Flywheel

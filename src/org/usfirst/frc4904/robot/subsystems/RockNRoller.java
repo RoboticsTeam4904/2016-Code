@@ -2,11 +2,12 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.commands.shooter.RockNRollerIdle;
+import org.usfirst.frc4904.standard.commands.motor.MotorIdle;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
+import edu.wpi.first.wpilibj.SpeedController;
 
-public class RockNRoller extends Subsystem {
+public class RockNRoller extends Motor {
 	public enum RockerState {
 		IDLE(0), SHOOT(RobotMap.Constant.ROCKNROLLER_SHOOT_SPEED), OUTTAKE(RobotMap.Constant.ROCKNROLLER_OUTTAKE_SPEED);
 		public final double speed; // the architecture allowing the enum states to have values
@@ -16,11 +17,9 @@ public class RockNRoller extends Subsystem {
 		}
 	}
 	protected RockerState currentState;
-	protected final Motor motor;
 	
-	public RockNRoller(Motor motor) {
-		super("RockNRoller");
-		this.motor = motor;
+	public RockNRoller(String name, SpeedModifier slopeController, SpeedController... motors) {
+		super(name, slopeController, motors);
 		set(RockerState.IDLE);
 	}
 	
@@ -29,15 +28,12 @@ public class RockNRoller extends Subsystem {
 	}
 	
 	public void set(RockerState desiredState) {
-		if (desiredState == currentState) {
-			return;
-		}
-		motor.set(desiredState.speed);
+		super.set(desiredState.speed);
 		currentState = desiredState;
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new RockNRollerIdle(this));
+		setDefaultCommand(new MotorIdle(this));
 	}
 }

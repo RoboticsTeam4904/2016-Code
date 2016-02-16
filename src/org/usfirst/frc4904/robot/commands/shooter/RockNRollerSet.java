@@ -30,7 +30,7 @@ public class RockNRollerSet extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return rocker.getState() == state;
+		return false;
 	}
 	
 	@Override
