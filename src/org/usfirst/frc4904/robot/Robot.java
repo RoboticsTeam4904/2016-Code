@@ -37,7 +37,7 @@ public class Robot extends CommandRobotBase {
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
 		//autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
-		autonomousCommand = new ChassisSetDistance(RobotMap.Component.chassis, 50, 50);
+		autonomousCommand = new ChassisSetDistance(RobotMap.Component.chassis, 50, 50, true);
 		// Configure driver command chooser
 		driverChooser.addObject(new Nathan());
 		// Display choosers on SmartDashboard
