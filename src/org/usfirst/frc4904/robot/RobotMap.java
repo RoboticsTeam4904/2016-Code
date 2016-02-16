@@ -122,6 +122,7 @@ public class RobotMap {
 		Component.intakeRoller = new VelocityEncodedMotor("topIntakeRoller", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.intakeEncoder), new CANTalon(CAN.intakeRoller));
 		Component.intakeRoller.disablePID(); // TODO add encoders
 		Component.rockNRollerMotor = new Motor("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.rockNRoller));
+		Component.rockNRoller = new RockNRoller(Component.rockNRollerMotor);
 		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.defenseManipulatorEncoder), new CANTalon(CAN.defenseManipulator));
 		Component.defenseManipulator.disablePID(); // TODO add encoders
 		// Flywheel
