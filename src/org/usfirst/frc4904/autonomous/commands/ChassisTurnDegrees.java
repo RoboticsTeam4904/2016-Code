@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.usfirst.frc4904.standard.LogKitten;
-import org.usfirst.frc4904.standard.commands.motor.MotorEncoderSet;
 import org.usfirst.frc4904.standard.commands.motor.MotorSet;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
-import org.usfirst.frc4904.standard.subsystems.motor.EncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.motor.SensorMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -30,7 +29,7 @@ public class ChassisTurnDegrees extends CommandGroup {
 	protected MotorSet[] motorSetCommands;
 	protected Chassis chassis;
 	
-	public ChassisTurnDegrees(Chassis chassis, Motor[] leftEncodedMotors, Motor[] rightEncodedMotors, double robotLength, double robotWidth, double encoderPPR, double wheelSize, int degrees, double speed, boolean shouldUseEncode) {
+	public ChassisTurnDegrees(Chassis chassis, double robotLength, double robotWidth, double encoderPPR, double wheelSize, int degrees, double speed, boolean usePID, CustomEncoder... customEncoders) {
 		requires(chassis);
 		this.chassis = chassis;
 		this.robotLength = robotLength;
@@ -45,14 +44,17 @@ public class ChassisTurnDegrees extends CommandGroup {
 		this.needsToTravel = distancePerDegree * degrees;
 
 		Motor[] chassisMotors = chassis.getMotors();
-		motorSetCommands = new MotorEncoderSet[chassisMotors.length];
-		motorEncoders = new CustomEncoder[chassisMotors.length];
-		for(int i = 0; i < chassisMotors.length; i++) {
-			if(chassisMotors[i] instanceof EncodedMotor && shouldUseEncode) {
-				EncodedMotor encodedMotor = (EncodedMotor) chassisMotors[i];
-				motorSetCommands[i] = new MotorEncoderSet(encodedMotor);
-				motorEncoders[i] = encodedMotor.getEncoder();
+		motorSetCommands = new MotorSet[chassisMotors.length];
+		motorEncoders = customEncoders;
+		for (int i = 0; i < chassisMotors.length; i++) {
+			if (chassisMotors[i] instanceof SensorMotor) {
+				if (usePID) {
+					((SensorMotor) chassisMotors[i]).enablePID();
+				} else {
+					((SensorMotor) chassisMotors[i]).disablePID();
+				}
 			}
+			motorSetCommands[i] = new MotorSet(chassisMotors[i]);
 			addParallel(motorSetCommands[i]);
 		}
 		
