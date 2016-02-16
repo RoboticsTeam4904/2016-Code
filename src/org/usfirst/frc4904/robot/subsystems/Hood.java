@@ -1,17 +1,19 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.commands.shooter.HoodUp;
+import org.usfirst.frc4904.standard.commands.Idle;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hood extends Subsystem {
 	protected boolean isUp;
-	protected final Solenoid solenoid;
+	protected final Solenoid down;
+	protected final Solenoid up;
 	
-	public Hood(Solenoid solenoid) {
+	public Hood(Solenoid down, Solenoid up) {
 		super("Hood");
-		this.solenoid = solenoid;
+		this.down = down;
+		this.up = up;
 	}
 	
 	/**
@@ -43,12 +45,13 @@ public class Hood extends Subsystem {
 	 * @param position
 	 *        True means up
 	 */
-	public void setPosition(boolean up) {
-		solenoid.set(up);
+	public void setPosition(boolean goUp) {
+		down.set(!goUp);
+		up.set(goUp);
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new HoodUp(this));
+		setDefaultCommand(new Idle(this));
 	}
 }

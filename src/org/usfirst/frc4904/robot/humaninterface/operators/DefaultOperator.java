@@ -16,12 +16,12 @@ public class DefaultOperator extends Operator {
 	
 	@Override
 	public void bindCommands() {
-		RobotMap.HumanInput.Operator.stick.button2.whenPressed(new HoodUp(RobotMap.Component.hood));
-		RobotMap.HumanInput.Operator.stick.button2.onlyWhileHeld(new MotorConstant(RobotMap.Component.flywheel, 1));
-		RobotMap.HumanInput.Operator.stick.button8.onlyWhileHeld(new MotorConstant(RobotMap.Component.intakeRoller, -1));
-		RobotMap.HumanInput.Operator.stick.button8.onlyWhileHeld(new MotorConstant(RobotMap.Component.rockNRoller, 1));
 		RobotMap.HumanInput.Operator.stick.button1.onlyWhileHeld(new MotorConstant(RobotMap.Component.rockNRoller, -0.5));
+		RobotMap.HumanInput.Operator.stick.button2.onlyWhileHeld(new MotorConstant(RobotMap.Component.flywheel, 1));
+		RobotMap.HumanInput.Operator.stick.button4.onlyWhileHeld(new MotorConstant(RobotMap.Component.intakeRoller, -1));
+		RobotMap.HumanInput.Operator.stick.button4.onlyWhileHeld(new MotorConstant(RobotMap.Component.rockNRoller, 1));
 		RobotMap.HumanInput.Operator.stick.button3.whenPressed(new HoodDown(RobotMap.Component.hood));
-		RobotMap.HumanInput.Operator.stick.button8.onlyWhileReleased(new MotorControl(RobotMap.Component.intakeRoller, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, false));
+		RobotMap.HumanInput.Operator.stick.button5.whenPressed(new HoodUp(RobotMap.Component.hood));
+		RobotMap.HumanInput.Operator.stick.button4.onlyWhileReleased(new MotorControl(RobotMap.Component.intakeRoller, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, false));
 	}
 }

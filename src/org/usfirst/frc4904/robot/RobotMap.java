@@ -44,7 +44,8 @@ public class RobotMap {
 			}
 			
 			public static class PCM {
-				public static final int hoodSolenoid = 7;
+				public static final int hoodSolenoidDown = 0;
+				public static final int hoodSolenoidUp = 1;
 			}
 		}
 		
@@ -85,7 +86,6 @@ public class RobotMap {
 		public static VelocityEncodedMotor intakeRoller;
 		public static Motor rockNRoller;
 		public static VelocityEncodedMotor defenseManipulator; // His name is Tim.
-		public static Solenoid hoodSolenoid;
 		public static TankDrive chassis;
 		public static Hood hood;
 		public static Flywheel flywheel;
@@ -119,8 +119,7 @@ public class RobotMap {
 		// Flywheel
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.flywheelEncoder), new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
 		Component.flywheel.disablePID();
-		Component.hoodSolenoid = new Solenoid(Port.Motors.PCM.hoodSolenoid);
-		Component.hood = new Hood(Component.hoodSolenoid);
+		Component.hood = new Hood(new Solenoid(Port.Motors.PCM.hoodSolenoidDown), new Solenoid(Port.Motors.PCM.hoodSolenoidUp));
 		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
