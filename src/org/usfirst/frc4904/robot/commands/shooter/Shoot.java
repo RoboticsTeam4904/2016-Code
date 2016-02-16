@@ -11,6 +11,6 @@ public class Shoot extends CommandGroup {
 		super("Shoot");
 		this.shooter = shooter;
 		// addSequential(new RunIf(new RockToShoot(shooter.rocker), shooter.hood::isUp, shooter.flywheel::isSpunUp));
-		addSequential(new RockNRollerShoot(shooter.rocker));
+		addSequential(new RockNRollerShoot(shooter.rockNRoller));
 	}
 }

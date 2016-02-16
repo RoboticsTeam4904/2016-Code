@@ -2,42 +2,38 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.commands.shooter.RockNRollerIdle;
+import org.usfirst.frc4904.standard.commands.motor.MotorIdle;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
+import edu.wpi.first.wpilibj.SpeedController;
 
-public class RockNRoller extends Subsystem {
-	public enum RockerPosition {
+public class RockNRoller extends Motor {
+	public enum RockerState {
 		IDLE(0), SHOOT(RobotMap.Constant.ROCKNROLLER_SHOOT_SPEED), OUTTAKE(RobotMap.Constant.ROCKNROLLER_OUTTAKE_SPEED);
 		public final double speed; // the architecture allowing the enum states to have values
 		
-		private RockerPosition(double speed) {
+		private RockerState(double speed) {
 			this.speed = speed;
 		}
 	}
-	protected RockerPosition currentPosition;
-	protected final Motor motor;
+	protected RockerState currentState;
 	
-	public RockNRoller(Motor motor) {
-		super("RockNRoller");
-		this.motor = motor;
-		set(RockerPosition.IDLE);
+	public RockNRoller(String name, SpeedModifier slopeController, SpeedController... motors) {
+		super(name, slopeController, motors);
+		set(RockerState.IDLE);
 	}
 	
-	public RockerPosition getPosition() {
-		return currentPosition;
+	public RockerState getState() {
+		return currentState;
 	}
 	
-	public void set(RockerPosition desiredPosition) {
-		if (desiredPosition == currentPosition) {
-			return;
-		}
-		motor.set(desiredPosition.speed);
-		currentPosition = desiredPosition;
+	public void set(RockerState desiredState) {
+		super.set(desiredState.speed);
+		currentState = desiredState;
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new RockNRollerIdle(this));
+		setDefaultCommand(new MotorIdle(this));
 	}
 }

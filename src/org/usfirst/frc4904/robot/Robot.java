@@ -2,13 +2,12 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
+import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -33,11 +32,12 @@ public class Robot extends CommandRobotBase {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		super.robotInit(new PressureValveClosedTest(new Compressor(0), 5, 2));
+		super.robotInit(null);
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
+		driverChooser.addObject(new NathanGain());
 		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
@@ -45,6 +45,7 @@ public class Robot extends CommandRobotBase {
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_WARN);
 	}
 	
 	public void disabledPeriodic() {
@@ -70,6 +71,7 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
+		operatorChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 	}
