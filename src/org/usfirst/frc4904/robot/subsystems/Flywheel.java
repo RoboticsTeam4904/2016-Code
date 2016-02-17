@@ -1,24 +1,21 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.standard.commands.Idle;
-import org.usfirst.frc4904.standard.subsystems.motor.sensormotor.EncodedMotor;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.SpeedController;
 
-public class Flywheel extends Subsystem {
+public class Flywheel extends VelocityEncodedMotor {
 	public enum FlywheelStatus {
 		IDLE, SPINNING_UP, AT_SPEED
 	}
 	protected FlywheelStatus currentStatus;
-	protected final EncodedMotor wheelMotors;
 	protected double targetSpeed = 0.0;
 	
-	public Flywheel(EncodedMotor wheelMotors) {
-		super("Flywheel");
-		this.wheelMotors = wheelMotors;
+	public Flywheel(SpeedModifier slopeController, PIDSource sensor, SpeedController... motors) {
+		super("Flywheel", slopeController, sensor, motors);
 		this.currentStatus = FlywheelStatus.IDLE;
-		wheelMotors.getPIDController().setPercentTolerance(RobotMap.Constant.FLYWHEEL_PERCENT_TOLERANCE);
 	}
 	
 	public FlywheelStatus getStatus() {
@@ -28,13 +25,13 @@ public class Flywheel extends Subsystem {
 	public void setTargetSpeedForDistance(double distance) {
 		targetSpeed = 0.7; // temporary magic number
 		if (currentStatus != FlywheelStatus.IDLE) {
-			wheelMotors.set(targetSpeed);
+			super.set(targetSpeed);
 		}
 	}
 	
 	public void spinUp() {
-		wheelMotors.enablePID();
-		wheelMotors.set(targetSpeed);
+		super.enablePID();
+		super.set(targetSpeed);
 		currentStatus = FlywheelStatus.SPINNING_UP;
 	}
 	
@@ -42,7 +39,7 @@ public class Flywheel extends Subsystem {
 		if (currentStatus == FlywheelStatus.IDLE) {
 			return false;
 		}
-		if (wheelMotors.getPIDController().onTarget()) {
+		if (super.pid.onTarget()) {
 			currentStatus = FlywheelStatus.AT_SPEED;
 			return true;
 		}
@@ -51,14 +48,9 @@ public class Flywheel extends Subsystem {
 	}
 	
 	public void spinDown() {
-		wheelMotors.disablePID();
-		wheelMotors.set(0.0);
+		super.disablePID();
+		super.set(0.0);
 		targetSpeed = 0.0;
 		currentStatus = FlywheelStatus.IDLE;
-	}
-	
-	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new Idle(this));
 	}
 }

@@ -5,6 +5,6 @@ import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 
 public class RockNRollerOuttake extends RockNRollerSet {
 	public RockNRollerOuttake(RockNRoller rocker) {
-		super("RockNRollerOuttake", rocker, RockNRoller.RockerPosition.OUTTAKE);
+		super("RockNRollerOuttake", rocker, RockNRoller.RockerState.OUTTAKE);
 	}
 }

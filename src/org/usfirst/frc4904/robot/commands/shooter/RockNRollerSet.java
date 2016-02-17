@@ -6,23 +6,23 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class RockNRollerSet extends Command {
 	protected final RockNRoller rocker;
-	protected final RockNRoller.RockerPosition position;
+	protected final RockNRoller.RockerState state;
 	
-	public RockNRollerSet(String name, RockNRoller rocker, RockNRoller.RockerPosition position) {
+	public RockNRollerSet(String name, RockNRoller rocker, RockNRoller.RockerState state) {
 		super(name);
 		requires(rocker);
 		this.rocker = rocker;
-		this.position = position;
+		this.state = state;
 		setInterruptible(false);
 	}
 	
-	public RockNRollerSet(RockNRoller rocker, RockNRoller.RockerPosition position) {
-		this("RockNRollerSet", rocker, position);
+	public RockNRollerSet(RockNRoller rocker, RockNRoller.RockerState state) {
+		this("RockNRollerSet", rocker, state);
 	}
 	
 	@Override
 	protected void initialize() {
-		rocker.set(position);
+		rocker.set(state);
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public class RockNRollerSet extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return rocker.getPosition() == position;
+		return false;
 	}
 	
 	@Override

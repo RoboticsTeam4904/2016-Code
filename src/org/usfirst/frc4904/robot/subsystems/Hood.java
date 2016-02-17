@@ -2,14 +2,14 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.robot.commands.shooter.HoodUp;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hood extends Subsystem {
 	protected boolean isUp;
-	protected final Solenoid solenoid;
+	protected final DoubleSolenoid solenoid;
 	
-	public Hood(Solenoid solenoid) {
+	public Hood(DoubleSolenoid solenoid) {
 		super("Hood");
 		this.solenoid = solenoid;
 	}
@@ -43,8 +43,12 @@ public class Hood extends Subsystem {
 	 * @param position
 	 *        True means up
 	 */
-	public void setPosition(boolean up) {
-		solenoid.set(up);
+	public void setPosition(boolean goUp) {
+		if (goUp) {
+			solenoid.set(DoubleSolenoid.Value.kForward);
+		} else {
+			solenoid.set(DoubleSolenoid.Value.kReverse);
+		}
 	}
 	
 	@Override
