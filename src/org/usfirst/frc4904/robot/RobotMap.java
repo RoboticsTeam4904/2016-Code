@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.RobotMap.Port.Motors.CAN;
 import org.usfirst.frc4904.robot.RobotMap.Port.Motors.PWM;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
+import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
@@ -87,7 +88,7 @@ public class RobotMap {
 		public static PDP pdp;
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
-		public static VelocityEncodedMotor intakeRoller;
+		public static Innie intakeRoller;
 		public static PositionEncodedMotor defenseManipulator; // His name is Tim.
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
@@ -118,7 +119,7 @@ public class RobotMap {
 		Component.rightWheel.disablePID(); // TODO add encoders
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
-		Component.intakeRoller = new VelocityEncodedMotor("topIntakeRoller", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.intakeEncoder), new CANTalon(CAN.intakeRoller));
+		Component.intakeRoller = new Innie(new CANEncoder(Port.Sensors.intakeEncoder), new CANTalon(CAN.intakeRoller));
 		Component.intakeRoller.disablePID(); // TODO add encoders
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.rockNRoller));
 		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.defenseManipulatorEncoder), new CANTalon(CAN.defenseManipulator));

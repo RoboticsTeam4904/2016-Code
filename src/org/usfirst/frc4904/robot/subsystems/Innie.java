@@ -8,7 +8,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.Acceleration
 import edu.wpi.first.wpilibj.CANTalon;
 
 public class Innie extends VelocityEncodedMotor {
-	public Innie(CANTalon motor, CustomEncoder encoder) {
+	public Innie(CustomEncoder encoder, CANTalon motor) {
 		super("Innie", new AccelerationCap(RobotMap.Component.pdp), encoder, motor);
 	}
 }
