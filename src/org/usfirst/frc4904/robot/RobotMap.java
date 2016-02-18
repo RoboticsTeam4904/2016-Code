@@ -65,34 +65,43 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
+		
 		public static class RobotMetrics {
 			public static final double WIDTH = 22.15;
 			public static final double HEIGHT = 25.81;
 			public static final double WHEEL_ENCODER_PPR = 256;
 			public static final double WHEEL_DIAMETER = 8;
-		}
-	}
-	
-	public static class Component {
-		public static EncodedMotor leftWheel;
-		public static EncodedMotor rightWheel;
-		public static EncodedMotor flywheel;
-		public static AccelMotor bottomIntakeRoller;
-		public static AccelMotor topIntakeRoller;
-		public static EncodedMotor defenseManipulator; // His name is Tim.
-		public static Servo rocker;
-		public static TankDrive chassis;
-		public static PDP pdp;
-	}
-	
-	public static class HumanInput {
-		public static class Driver {
-			public static CustomXbox xbox;
+			public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 		}
 		
-		public static class Operator {
-			public static CustomJoystick stick;
+		public static class Autonomous {
+			public static final double DRIVE_SPEED = 0.5;
+			public static final double DISTANCE_TO_LOW_BAR = 130;
 		}
+	}
+}
+
+public static class Component {
+	public static EncodedMotor leftWheel;
+	public static EncodedMotor rightWheel;
+	public static EncodedMotor flywheel;
+	public static AccelMotor bottomIntakeRoller;
+	public static AccelMotor topIntakeRoller;
+	public static EncodedMotor defenseManipulator; // His name is Tim.
+	public static Servo rocker;
+	public static TankDrive chassis;
+	public static PDP pdp;
+}
+
+public static class HumanInput {
+	public static class Driver {
+		public static CustomXbox xbox;
+	}
+	
+	public static class Operator {
+		public static CustomJoystick stick;
+	}
+	
 	}
 	
 	public RobotMap() {
