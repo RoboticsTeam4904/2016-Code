@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.autonomous.commands.ChassisSetDistance;
+import org.usfirst.frc4904.autonomous.commands.CrossLowbar;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
@@ -36,8 +36,8 @@ public class Robot extends CommandRobotBase {
 		super.robotInit(new PressureValveClosedTest(new Compressor(0), 5, 2));
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
-		//autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
-		autonomousCommand = new ChassisSetDistance(RobotMap.Component.chassis, 50, 50, true);
+		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addObject(new CrossLowbar(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addObject(new Nathan());
 		// Display choosers on SmartDashboard
@@ -52,6 +52,7 @@ public class Robot extends CommandRobotBase {
 	
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
+		autonomousCommand = autoChooser.getSelected();
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
@@ -97,5 +98,4 @@ public class Robot extends CommandRobotBase {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-
 }
