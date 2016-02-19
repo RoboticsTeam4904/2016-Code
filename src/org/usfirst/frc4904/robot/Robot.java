@@ -5,7 +5,6 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -20,8 +19,6 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
-		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
-		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_WARN);
 	}
 	
 	@Override
