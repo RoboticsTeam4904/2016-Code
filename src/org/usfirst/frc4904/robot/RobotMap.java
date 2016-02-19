@@ -1,8 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.RobotMap.Port.Motors.CAN;
-import org.usfirst.frc4904.robot.RobotMap.Port.Motors.PWM;
+import org.usfirst.frc4904.robot.RobotMap.Port.CAN;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
@@ -10,8 +9,10 @@ import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
+import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
@@ -30,41 +31,39 @@ import edu.wpi.first.wpilibj.VictorSP;
  */
 public class RobotMap {
 	public static class Port {
-		public static class Motors {
-			public static class PWM {
-				public static final int leftDriveA = 0;
-				public static final int leftDriveB = 1;
-				public static final int rightDriveA = 2;
-				public static final int rightDriveB = 3;
-				public static final int flywheelA = 4;
-				public static final int flywheelB = 5;
-				public static final int rockNRollerMotor = 6;
-			}
-			
-			public static class CAN {
-				public static final int intakeRoller = 3;
-				public static final int rockNRoller = 1;
-				public static final int defenseManipulator = 2;
-			}
-			
-			public static class PCM {
-				public static final int hoodSolenoidDown = 0;
-				public static final int hoodSolenoidUp = 1;
-			}
-		}
-		
-		public static class Sensors {
-			public static final int leftEncoder = 602;
-			public static final int rightEncoder = 603;
-			public static final int flywheelEncoder = 604;
-			public static final int defenseManipulatorEncoder = 605;
-			public static final int intakeEncoder = 606;
-			public static final int ultrasonic = 610;
-		}
-		
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
+		}
+		
+		public static class PWM {
+			public static final int leftDriveAMotor = 0;
+			public static final int leftDriveBMotor = 1;
+			public static final int rightDriveAMotor = 2;
+			public static final int rightDriveBMotor = 3;
+			public static final int flywheelAMotor = 4;
+			public static final int flywheelBMotor = 5;
+			public static final int rockNRollerMotor = 6;
+		}
+		
+		public static class CAN {
+			public static final int leftEncoder = 0x602;
+			public static final int rightEncoder = 0x603;
+			public static final int flywheelEncoder = 0x604;
+			public static final int defenseManipulatorEncoder = 0x605;
+			public static final int intakeEncoder = 0x606;
+			public static final int ultrasonic = 0x610;
+		}
+		
+		public static class CANMotor {
+			public static final int intakeRoller = 3;
+			public static final int rockNRoller = 1;
+			public static final int defenseManipulator = 2;
+		}
+		
+		public static class PCM {
+			public static final int hoodSolenoidDown = 0;
+			public static final int hoodSolenoidUp = 1;
 		}
 	}
 	
@@ -113,22 +112,23 @@ public class RobotMap {
 	public RobotMap() {
 		Component.pdp = new PDP();
 		// Chassis
-		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.leftEncoder), new VictorSP(PWM.leftDriveA), new VictorSP(PWM.leftDriveB));
+		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(CAN.leftEncoder)), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
-		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.rightEncoder), new VictorSP(PWM.rightDriveA), new VictorSP(PWM.rightDriveB));
+		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(CAN.rightEncoder)), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
-		Component.intakeRoller = new Innie(new CANEncoder(Port.Sensors.intakeEncoder), new CANTalon(CAN.intakeRoller));
+		CANTalon intakeTalon = new CANTalon(Port.CANMotor.intakeRoller);
+		Component.intakeRoller = new Innie(new CustomPIDController(new CANTalonEncoder(intakeTalon)), intakeTalon);
 		Component.intakeRoller.disablePID(); // TODO add encoders
-		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(CAN.rockNRoller));
-		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.defenseManipulatorEncoder), new CANTalon(CAN.defenseManipulator));
+		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
+		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(CAN.defenseManipulatorEncoder)), new CANTalon(Port.CANMotor.defenseManipulator));
 		Component.defenseManipulator.disablePID(); // TODO add encoders
 		// Flywheel
-		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CANEncoder(Port.Sensors.flywheelEncoder), new VictorSP(PWM.flywheelA), new VictorSP(PWM.flywheelB));
+		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(CAN.flywheelEncoder)), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
-		Component.hood = new Hood(new DoubleSolenoid(Port.Motors.PCM.hoodSolenoidDown, Port.Motors.PCM.hoodSolenoidUp));
-		Component.ultrasonicSensor = new CANSensor("Ultrasonic", Port.Sensors.ultrasonic);
+		Component.hood = new Hood(new DoubleSolenoid(Port.PCM.hoodSolenoidDown, Port.PCM.hoodSolenoidUp));
+		Component.ultrasonicSensor = new CANSensor("Ultrasonic", CAN.ultrasonic);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
