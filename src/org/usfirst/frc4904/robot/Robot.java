@@ -7,7 +7,6 @@ import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Robot extends CommandRobotBase {
 	@Override
@@ -24,7 +23,6 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
-		teleopCommand.start();
 	}
 	
 	/**
@@ -48,11 +46,9 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void disabledExecute() {}
 	
-	/**
-	 * This function is called periodically during test mode
-	 */
 	@Override
-	public void testPeriodic() {
-		LiveWindow.run();
-	}
+	public void testInitialize() {}
+	
+	@Override
+	public void testExecute() {}
 }
