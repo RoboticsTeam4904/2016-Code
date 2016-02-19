@@ -77,20 +77,23 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
-
-		public static class RobotMetrics {
+		
+		public static class RobotMetric {
 			public static final double WIDTH = 22.15;
 			public static final double HEIGHT = 25.81;
 			public static final double WHEEL_ENCODER_PPR = 256;
 			public static final double WHEEL_DIAMETER = 8;
-			public static final double WHEEL_CIRCUMFERENCE = RobotMetrics.WHEEL_DIAMETER * Math.PI;
+			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
 		}
 		
-		public static class Autonomous {
+		public static class AutonomousMetric {
 			public static final double DRIVE_SPEED = 0.5;
+		}
+		
+		public static class FieldMetric {
 			public static final double DISTANCE_TO_LOW_BAR = 130;
 		}
-
+		
 		public static class Component {
 			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
@@ -118,7 +121,7 @@ public class RobotMap {
 		public static class Driver {
 			public static CustomXbox xbox;
 		}
-
+		
 		public static class Operator {
 			public static CustomJoystick stick;
 		}

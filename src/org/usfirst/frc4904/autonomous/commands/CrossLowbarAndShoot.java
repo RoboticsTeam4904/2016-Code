@@ -17,9 +17,9 @@ public class CrossLowbarAndShoot extends CommandGroup {
 		encoders = new CustomEncoder[2];
 		encoders[0] = new CANEncoder(RobotMap.Port.CAN.leftEncoder);
 		encoders[1] = new CANEncoder(RobotMap.Port.CAN.rightEncoder);
-		double tickDistance = (RobotMap.Constant.Autonomous.DISTANCE_TO_LOW_BAR / RobotMap.Constant.RobotMetrics.WHEEL_CIRCUMFERENCE) * RobotMap.Constant.RobotMetrics.WHEEL_ENCODER_PPR;
+		double tickDistance = (RobotMap.Constant.FieldMetric.DISTANCE_TO_LOW_BAR / RobotMap.Constant.RobotMetric.WHEEL_CIRCUMFERENCE) * RobotMap.Constant.RobotMetric.WHEEL_ENCODER_PPR;
 		addSequential(new HoodDown(RobotMap.Component.hood));
-		addSequential(new ChassisSetDistance(chassis, tickDistance, RobotMap.Constant.Autonomous.DRIVE_SPEED, usePID, encoders));
+		addSequential(new ChassisSetDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, encoders));
 		addSequential(new HoodUp(RobotMap.Component.hood));
 		// TODO: Align with goal
 		addSequential(new Shoot(RobotMap.Component.shooter));
