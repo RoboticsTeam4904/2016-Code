@@ -108,7 +108,7 @@ public class RobotMap {
 		}
 	}
 	
-	static {
+	public RobotMap() {
 		Component.pdp = new PDP();
 		// Chassis
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(Port.CAN.leftEncoder)), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));

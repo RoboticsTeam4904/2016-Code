@@ -9,6 +9,8 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 
 public class Robot extends CommandRobotBase {
+	RobotMap map = new RobotMap();
+	
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
