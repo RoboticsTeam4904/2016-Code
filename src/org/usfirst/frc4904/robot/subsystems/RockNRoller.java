@@ -18,8 +18,8 @@ public class RockNRoller extends Motor {
 	}
 	protected RockerState currentState;
 	
-	public RockNRoller(String name, SpeedModifier slopeController, SpeedController... motors) {
-		super(name, slopeController, motors);
+	public RockNRoller(String name, SpeedModifier speedModifier, SpeedController... motors) {
+		super(name, speedModifier, motors);
 		set(RockerState.IDLE);
 	}
 	
