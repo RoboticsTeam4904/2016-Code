@@ -1,9 +1,9 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class Flywheel extends VelocityEncodedMotor {
@@ -13,9 +13,9 @@ public class Flywheel extends VelocityEncodedMotor {
 	protected FlywheelStatus currentStatus;
 	protected double targetSpeed = 0.0;
 	
-	public Flywheel(SpeedModifier slopeController, PIDSource sensor, SpeedController... motors) {
-		super("Flywheel", slopeController, sensor, motors);
-		this.currentStatus = FlywheelStatus.IDLE;
+	public Flywheel(SpeedModifier speedModifier, MotionController motionController, SpeedController... motors) {
+		super("Flywheel", speedModifier, motionController, motors);
+		currentStatus = FlywheelStatus.IDLE;
 	}
 	
 	public FlywheelStatus getStatus() {
@@ -39,7 +39,7 @@ public class Flywheel extends VelocityEncodedMotor {
 		if (currentStatus == FlywheelStatus.IDLE) {
 			return false;
 		}
-		if (super.pid.onTarget()) {
+		if (motionController.onTarget()) {
 			currentStatus = FlywheelStatus.AT_SPEED;
 			return true;
 		}
