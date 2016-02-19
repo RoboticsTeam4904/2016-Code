@@ -34,7 +34,7 @@ public class RobotMap {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
 		}
-
+		
 		public static class PWM {
 			public static final int leftDriveAMotor = 0;
 			public static final int leftDriveBMotor = 1;
@@ -44,7 +44,7 @@ public class RobotMap {
 			public static final int flywheelBMotor = 5;
 			public static final int rockNRollerMotor = 6;
 		}
-
+		
 		public static class CAN {
 			public static final int leftEncoder = 0x602;
 			public static final int rightEncoder = 0x603;
@@ -53,19 +53,19 @@ public class RobotMap {
 			public static final int intakeEncoder = 0x606;
 			public static final int ultrasonic = 0x610;
 		}
-
+		
 		public static class CANMotor {
 			public static final int intakeRoller = 3;
 			public static final int rockNRoller = 1;
 			public static final int defenseManipulator = 2;
 		}
-
+		
 		public static class PCM {
 			public static final int hoodSolenoidDown = 0;
 			public static final int hoodSolenoidUp = 1;
 		}
 	}
-
+	
 	public static class Constant {
 		public static class HumanInput {
 			public static final double X_SPEED_SCALE = -1;
@@ -81,7 +81,7 @@ public class RobotMap {
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 	}
-
+	
 	public static class Component {
 		public static PDP pdp;
 		public static PositionEncodedMotor leftWheel;
@@ -97,17 +97,17 @@ public class RobotMap {
 		public static Flywheel flywheel;
 		public static Shooter shooter;
 	}
-
+	
 	public static class HumanInput {
 		public static class Driver {
 			public static CustomXbox xbox;
 		}
-
+		
 		public static class Operator {
 			public static CustomJoystick stick;
 		}
 	}
-
+	
 	static {
 		Component.pdp = new PDP();
 		// Chassis
