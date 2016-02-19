@@ -17,6 +17,8 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -121,7 +123,8 @@ public class RobotMap {
 		Component.intakeRoller = new Innie(new CustomPIDController(new CANTalonEncoder(intakeTalon)), intakeTalon);
 		Component.intakeRoller.disablePID(); // TODO add encoders
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
-		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(Port.CAN.defenseManipulatorEncoder)), new CANTalon(Port.CANMotor.defenseManipulator));
+		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new SpeedModifierGroup(new LinearModifier(0.25), new AccelerationCap(Component.pdp)), new CustomPIDController(new CANEncoder(Port.CAN.defenseManipulatorEncoder)), new CANTalon(Port.CANMotor.defenseManipulator));
+		Component.defenseManipulator.setInverted(true);
 		Component.defenseManipulator.disablePID(); // TODO add encoders
 		// Flywheel
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(Port.CAN.flywheelEncoder)), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
