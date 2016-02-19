@@ -4,6 +4,8 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
+import org.usfirst.frc4904.standard.commands.motor.MotorControl;
+import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 
 public class Nathan extends Driver {
@@ -14,6 +16,7 @@ public class Nathan extends Driver {
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
+		(new MotorControl(RobotMap.Component.defenseManipulator, RobotMap.HumanInput.Driver.xbox, CustomXbox.RIGHT_Y_AXIS, false)).start();
 	}
 	
 	@Override
