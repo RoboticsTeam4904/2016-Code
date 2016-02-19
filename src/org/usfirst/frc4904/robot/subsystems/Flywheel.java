@@ -1,44 +1,45 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.standard.subsystems.motor.EncodedMotor;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
+import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
+import edu.wpi.first.wpilibj.SpeedController;
 
-public class Flywheel extends Subsystem {
+public class Flywheel extends VelocityEncodedMotor {
 	public enum FlywheelStatus {
 		IDLE, SPINNING_UP, AT_SPEED
 	}
-	FlywheelStatus currentStatus;
-	protected EncodedMotor wheelMotors;
-	protected PIDController pid;
-	double targetSpeed = 0.0;
-	double SPEED_ERROR_TOLERANCE = 5; // 5% error
+	protected FlywheelStatus currentStatus;
+	protected double targetSpeed = 0.0;
 	
-	public Flywheel(EncodedMotor wheelMotors) {
-		super();
-		this.wheelMotors = wheelMotors;
-		this.currentStatus = FlywheelStatus.IDLE;
-		pid = new PIDController(wheelMotors.getP(), wheelMotors.getI(), wheelMotors.getD(), wheelMotors.getEncoder(), wheelMotors);
-		pid.setPercentTolerance(SPEED_ERROR_TOLERANCE);
+	public Flywheel(SpeedModifier speedModifier, MotionController motionController, SpeedController... motors) {
+		super("Flywheel", speedModifier, motionController, motors);
+		currentStatus = FlywheelStatus.IDLE;
+	}
+	
+	public FlywheelStatus getStatus() {
+		return currentStatus;
 	}
 	
 	public void setTargetSpeedForDistance(double distance) {
 		targetSpeed = 0.7; // temporary magic number
 		if (currentStatus != FlywheelStatus.IDLE) {
-			wheelMotors.set(targetSpeed);
+			super.set(targetSpeed);
 		}
 	}
 	
 	public void spinUp() {
-		pid.enable();
-		wheelMotors.set(targetSpeed);
+		super.enablePID();
+		super.set(targetSpeed);
 		currentStatus = FlywheelStatus.SPINNING_UP;
 	}
 	
 	public boolean isSpunUp() {
-		if (currentStatus == FlywheelStatus.IDLE) return false;
-		if (pid.onTarget()) {
+		if (currentStatus == FlywheelStatus.IDLE) {
+			return false;
+		}
+		if (motionController.onTarget()) {
 			currentStatus = FlywheelStatus.AT_SPEED;
 			return true;
 		}
@@ -47,14 +48,9 @@ public class Flywheel extends Subsystem {
 	}
 	
 	public void spinDown() {
-		pid.disable();
-		wheelMotors.set(0.0);
+		super.disablePID();
+		super.set(0.0);
 		targetSpeed = 0.0;
 		currentStatus = FlywheelStatus.IDLE;
-	}
-	
-	@Override
-	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
 	}
 }

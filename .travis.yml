@@ -12,7 +12,7 @@ before_install:
 - git submodule update --init --recursive
 
 install:
-- git clone https://github.com/chopshop-166/wpilib-mirror.git ~/wpilib
+- git clone https://github.com/RoboticsTeam4904/wpilib-mirror.git ~/wpilib
 
 notifications:
   email: none
