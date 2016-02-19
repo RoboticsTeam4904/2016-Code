@@ -30,7 +30,7 @@ public class HoodSet extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return hood.isUp() == position;
+		return false;
 	}
 	
 	@Override
