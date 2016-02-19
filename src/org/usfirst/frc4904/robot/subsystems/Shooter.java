@@ -13,7 +13,7 @@ public class Shooter extends Subsystem {
 	public final Hood hood;
 	public final Flywheel flywheel;
 	public final CANSensor distanceSensor;
-	private final HashMap<Double, Double> measuredSpeeds;
+	protected final HashMap<Double, Double> measuredSpeeds;
 	
 	public Shooter(RockNRoller rockNRoller, Hood hood, Flywheel flywheel, CANSensor distanceSensor) {
 		super("Shooter");

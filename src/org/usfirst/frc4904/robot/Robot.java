@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
-		super.robotInit();
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
@@ -24,13 +23,13 @@ public class Robot extends CommandRobotBase {
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
 		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_WARN);
 	}
-
+	
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 	}
-
+	
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -39,19 +38,19 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void autonomousInitialize() {}
-
+	
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousExecute() {}
-
+	
 	@Override
 	public void disabledInitialize() {}
 	
 	@Override
 	public void disabledExecute() {}
-
+	
 	/**
 	 * This function is called periodically during test mode
 	 */

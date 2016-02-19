@@ -17,7 +17,7 @@ public class Hood extends Subsystem {
 	/**
 	 * Gets whether the hood is currently set to up.
 	 * Does not read the actual position - this is just the last requested position.
-	 * 
+	 *
 	 * @return position
 	 *         true if the the current desired hood position is up.
 	 */
@@ -28,7 +28,7 @@ public class Hood extends Subsystem {
 	/**
 	 * Gets whether the hood is currently set to down.
 	 * Does not read the actual position - this is just the last requested position.
-	 * 
+	 *
 	 * @return position
 	 *         true if the the current desired hood position is down.
 	 */
@@ -39,7 +39,7 @@ public class Hood extends Subsystem {
 	/**
 	 * Sets the desired hood position.
 	 * True means up.
-	 * 
+	 *
 	 * @param position
 	 *        True means up
 	 */
