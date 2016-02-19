@@ -1,6 +1,7 @@
-package org.usfirst.frc4904.autonomous.commands;
+package org.usfirst.frc4904.autonomous.strategies;
 
 
+import org.usfirst.frc4904.autonomous.commands.ChassisSetDistance;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.shooter.HoodDown;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
