@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CrossLowbar extends CommandGroup {
 	public CrossLowbar(Chassis chassis, boolean usePID) {
 		double tickDistance = (RobotMap.Constant.FieldMetric.DISTANCE_TO_LOW_BAR / RobotMap.Constant.RobotMetric.WHEEL_CIRCUMFERENCE) * RobotMap.Constant.RobotMetric.WHEEL_ENCODER_PPR;
-		addSequential(new HoodDown(RobotMap.Component.hood));
-		addParallel(new ChassisSetDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftEncoder, RobotMap.Component.rightEncoder}));
+		addParallel(new HoodDown(RobotMap.Component.hood));
+		addSequential(new ChassisSetDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftEncoder, RobotMap.Component.rightEncoder}));
 	}
 }
