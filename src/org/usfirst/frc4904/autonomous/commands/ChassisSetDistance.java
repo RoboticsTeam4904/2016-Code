@@ -20,7 +20,7 @@ public class ChassisSetDistance extends ChassisConstant {
 		double distanceSum = 0;
 		for (int i = 0; i < motorEncoders.length; i++) {
 			distanceSum += motorEncoders[i].getDistance();
-			LogKitten.wtf("Encoder " + i + " reads " + motorEncoders[i].getDistance() + "out of " + distance);
+			LogKitten.v("Encoder " + i + " reads " + motorEncoders[i].getDistance() + "out of " + distance);
 		}
 		double distanceAvg = distanceSum / motorEncoders.length;
 		return distanceAvg > distance;
