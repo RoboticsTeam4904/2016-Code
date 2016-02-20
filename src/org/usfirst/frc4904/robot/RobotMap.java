@@ -68,8 +68,8 @@ public class RobotMap {
 	
 	public static class Constant {
 		public static class HumanInput {
-			public static final double X_SPEED_SCALE = -1;
-			public static final double Y_SPEED_SCALE = -1;
+			public static final double X_SPEED_SCALE = 1;
+			public static final double Y_SPEED_SCALE = 1;
 			public static final double TURN_SPEED_SCALE = -1;
 			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
 			public static final double SPEED_GAIN = 1;
@@ -91,7 +91,7 @@ public class RobotMap {
 		}
 		
 		public static class FieldMetric {
-			public static final double DISTANCE_TO_LOW_BAR = 130;
+			public static final double DISTANCE_TO_LOW_BAR = 42;
 		}
 		
 		public static class Component {
@@ -136,8 +136,10 @@ public class RobotMap {
 		Component.rightEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
-		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
+		Component.leftWheel.setInverted(true);
+		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(new CANEncoder(Port.CAN.rightEncoder)), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
+		Component.rightWheel.setInverted(true);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
 		CANTalon intakeTalon = new CANTalon(Port.CANMotor.intakeRoller);
