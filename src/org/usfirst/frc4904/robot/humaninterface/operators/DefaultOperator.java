@@ -22,9 +22,9 @@ public class DefaultOperator extends Operator {
 		RobotMap.HumanInput.Operator.stick.button1.onlyWhileHeld(new Shoot());
 		RobotMap.HumanInput.Operator.stick.button2.onlyWhileHeld(new SpinUpFlywheel());
 		RobotMap.HumanInput.Operator.stick.button4.onlyWhileHeld(new MotorConstant(RobotMap.Component.intakeRoller, -1));
-		RobotMap.HumanInput.Operator.stick.button4.onlyWhileHeld(new RockNRollerOuttake(RobotMap.Component.rockNRoller));
 		RobotMap.HumanInput.Operator.stick.button3.whenPressed(new HoodDown(RobotMap.Component.hood));
 		RobotMap.HumanInput.Operator.stick.button5.whenPressed(new HoodUp(RobotMap.Component.hood));
+		RobotMap.HumanInput.Operator.stick.button4.onlyWhileHeld(new RockNRollerOuttake());
 		RobotMap.HumanInput.Operator.stick.button4.onlyWhileReleased(new MotorControl(RobotMap.Component.intakeRoller, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, false));
 	}
 }
