@@ -5,7 +5,6 @@ import org.usfirst.frc4904.autonomous.commands.ChassisSetDistance;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.shooter.HoodDown;
 import org.usfirst.frc4904.robot.commands.shooter.HoodUp;
-import org.usfirst.frc4904.robot.commands.shooter.Shoot;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
@@ -23,6 +22,6 @@ public class CrossLowbarAndShoot extends CommandGroup {
 		addSequential(new ChassisSetDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, encoders));
 		addSequential(new HoodUp(RobotMap.Component.hood));
 		// TODO: Align with goal
-		addSequential(new Shoot(RobotMap.Component.shooter));
+		// TODO: Shoot
 	}
 }
