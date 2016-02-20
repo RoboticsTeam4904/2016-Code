@@ -49,6 +49,7 @@ public class Hood extends Subsystem {
 		} else {
 			solenoid.set(DoubleSolenoid.Value.kReverse);
 		}
+		isUp = goUp;
 	}
 	
 	@Override
