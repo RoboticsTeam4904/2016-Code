@@ -17,4 +17,5 @@ install:
 notifications:
   email: none
 
-script: ant jar
+# must overide ant java version, as ant does not recognize travis' JDK switcher
+script: ant compile

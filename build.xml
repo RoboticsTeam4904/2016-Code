@@ -21,6 +21,10 @@
 
   <!-- Any other property in build.properties can also be overridden. -->
   
+ <script language="javascript">
+    project.setProperty("ant.java.version", "1.8");
+  </script>
+
   <property file="${user.home}/wpilib/wpilib.properties"/>
   <property file="build.properties"/>
   <property file="${user.home}/wpilib/java/${version}/ant/build.properties"/>
