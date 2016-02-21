@@ -10,19 +10,21 @@ public class ChassisSetDistance extends ChassisConstant {
 	protected CustomEncoder[] motorEncoders;
 	protected double distance;
 	
-	public ChassisSetDistance(Chassis chassis, double distance, double speed, boolean usePID, CustomEncoder... customEncoders) {
+	public ChassisSetDistance(Chassis chassis, double distance, double speed, boolean usePID, CustomEncoder... motorEncoders) {
 		super(chassis, 0.0, speed, 0.0, Double.MAX_VALUE);
-		requires(chassis);
+		this.motorEncoders = motorEncoders;
+		this.distance = distance;
 	}
 	
 	@Override
-	public boolean isFinished() {
+	protected boolean isFinished() {
 		double distanceSum = 0;
 		for (int i = 0; i < motorEncoders.length; i++) {
 			distanceSum += motorEncoders[i].getDistance();
 			LogKitten.v("Encoder " + i + " reads " + motorEncoders[i].getDistance() + "out of " + distance);
 		}
 		double distanceAvg = distanceSum / motorEncoders.length;
+		LogKitten.v((distanceAvg > distance) + "");
 		return distanceAvg > distance;
 	}
 }
