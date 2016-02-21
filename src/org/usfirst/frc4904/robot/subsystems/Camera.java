@@ -30,7 +30,11 @@ public class Camera extends Subsystem {
 	
 	public String getCameraData(boolean shouldGiveLast) {
 		if (shouldGiveLast) {
-			return cameraDataPrevious;
+			if (cameraDataCurrent.equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
+				return cameraDataPrevious;
+			} else {
+				return cameraDataCurrent;
+			}
 		} else {
 			return cameraDataCurrent;
 		}

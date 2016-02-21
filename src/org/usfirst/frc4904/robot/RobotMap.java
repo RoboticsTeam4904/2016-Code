@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
@@ -114,6 +115,11 @@ public class RobotMap {
 			 */
 			public static final double TIME_LOWBAR = 3;
 			public static final double LOWBAR_DRIVE_SPEED = 0.3;
+			/**
+			 * The speed the robot turns when searching
+			 * for the goal
+			 */
+			public static final double SEARCH_SPEED = 0.2;
 		}
 		
 		public static class FieldMetric {
@@ -183,6 +189,7 @@ public class RobotMap {
 		public static CANTalonEncoder intakeEncoder;
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
+		public static Camera cameraIR;
 	}
 	
 	public static class HumanInput {
@@ -230,5 +237,7 @@ public class RobotMap {
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
+		// IR Camera
+		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH);
 	}
 }
