@@ -11,6 +11,8 @@ public class TimDefault extends Command {
 	
 	public TimDefault() {
 		super("TimDefault");
+		requires(RobotMap.Component.tim);
+		setInterruptible(true);
 		isCalibrated = false;
 		hasStartedSweep = false;
 	}
