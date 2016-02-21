@@ -6,8 +6,8 @@ import org.usfirst.frc4904.standard.Util;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TimDefault extends Command {
-	protected boolean isCalibrated;
 	protected boolean hasStartedSweep;
+	protected boolean isCalibrated;
 	
 	public TimDefault() {
 		super("TimDefault");
@@ -22,12 +22,10 @@ public class TimDefault extends Command {
 	
 	@Override
 	protected void execute() {
-		// If the encoder isn't reading zero, Tim's started moving, and so we've started sweeping
-		if (!Util.isZero(RobotMap.Component.timEncoder.getDistance())) {
-			hasStartedSweep = true;
-		}
 		// If the sweep hasn't started, wait for it to start
 		if (!hasStartedSweep) {
+			RobotMap.Component.tim.set(-0.05);
+			hasStartedSweep = true;
 			return;
 		}
 		// If we're calibrated (meaning the sweep has ended), stop
@@ -36,7 +34,7 @@ public class TimDefault extends Command {
 			return;
 		}
 		// If the encoder reads zero but we've already started sweeping (because the earlier if didn't return) then it auto-calibrated, so stop
-		if (Util.isZero(RobotMap.Component.timEncoder.getDistance())) {
+		if (Util.isZero(RobotMap.Component.timEncoder.get())) {
 			RobotMap.Component.tim.set(0);
 			isCalibrated = true;
 		}
