@@ -3,6 +3,7 @@ package org.usfirst.frc4904.robot.commands.shooter;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HoodSet extends Command {
 	protected final boolean position;
@@ -16,6 +17,7 @@ public class HoodSet extends Command {
 	
 	public HoodSet(boolean position) {
 		this("HoodSet", position);
+		SmartDashboard.putBoolean("Hood State", position);
 	}
 	
 	@Override
