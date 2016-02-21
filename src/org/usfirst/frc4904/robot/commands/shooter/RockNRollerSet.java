@@ -12,7 +12,7 @@ public class RockNRollerSet extends Command {
 		super(name);
 		requires(RobotMap.Component.rockNRoller);
 		this.state = state;
-		setInterruptible(false);
+		setInterruptible(true);
 	}
 	
 	public RockNRollerSet(RockNRoller.RockerState state) {
