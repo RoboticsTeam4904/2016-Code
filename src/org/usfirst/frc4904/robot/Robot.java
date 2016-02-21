@@ -9,7 +9,6 @@ import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
@@ -37,10 +36,7 @@ public class Robot extends CommandRobotBase {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {
-		LogKitten.wtf("Tim Encoder: " + RobotMap.Component.timEncoder.getDistance(), true);
-		SmartDashboard.putNumber("Tim Encoder", RobotMap.Component.timEncoder.getDistance());
-	}
+	public void teleopExecute() {}
 	
 	@Override
 	public void autonomousInitialize() {}
