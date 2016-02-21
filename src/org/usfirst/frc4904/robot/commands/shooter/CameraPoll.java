@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.URL;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.standard.LogKitten;
@@ -17,7 +16,7 @@ public class CameraPoll extends Command {
 	protected Integer cameraPort;
 	protected String cameraIP;
 	protected Long lastTime;
-	protected URI cameraURI;
+	protected URL cameraURL;
 	protected Camera camera;
 	
 	public CameraPoll(String name, Camera camera) {
@@ -27,9 +26,9 @@ public class CameraPoll extends Command {
 		cameraIP = camera.getCameraIP();
 		cameraPort = camera.getCameraPort();
 		try {
-			cameraURI = new URI(cameraIP + String.valueOf(cameraPort) + camera.getCameraPath());
+			cameraURL = new URL(camera.getCameraProtocol(), cameraIP, cameraPort, camera.getCameraPath());
 		}
-		catch (URISyntaxException e) {
+		catch (MalformedURLException e) {
 			LogKitten.e(e.getStackTrace().toString());
 		}
 	}
@@ -46,11 +45,11 @@ public class CameraPoll extends Command {
 	@Override
 	protected void execute() {
 		try {
-			HttpURLConnection connection = (HttpURLConnection) cameraURI.toURL().openConnection();
+			HttpURLConnection connection = (HttpURLConnection) cameraURL.openConnection();
 			connection.setRequestMethod(RobotMap.Constant.Network.CONNECTION_METHOD_GET);
 			connection.setRequestProperty("UserAgent", "CAMERA-SUBSYSTEM");
 			int responseCode = connection.getResponseCode();
-			LogKitten.v("Camera poll request: " + cameraURI.toURL());
+			LogKitten.v("Camera poll request: " + cameraURL);
 			LogKitten.v("Camera poll response (code): " + responseCode);
 			if (responseCode == 200) {
 				camera.setCameraStatus(Camera.CameraStatus.CONNECTED);
@@ -67,7 +66,7 @@ public class CameraPoll extends Command {
 			} else {
 				camera.setCameraStatus(Camera.CameraStatus.DISCONNECTED);
 				camera.setCameraData(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE);
-				LogKitten.e("Could not establish connection to camera using request '" + cameraURI.toURL().toString() + "'");
+				LogKitten.e("Could not establish connection to camera using request '" + cameraURL.toString() + "'");
 			}
 		}
 		catch (MalformedURLException e) {

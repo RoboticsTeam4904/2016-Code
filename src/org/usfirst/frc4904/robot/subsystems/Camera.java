@@ -15,12 +15,14 @@ public class Camera extends Subsystem {
 	protected String cameraPath;
 	protected String cameraDataPrevious = "";
 	protected String cameraDataCurrent = "";
+	protected String cameraProtocol;
 	
-	public Camera(String cameraIP, int cameraPort, String cameraPath) {
+	public Camera(String cameraIP, int cameraPort, String cameraPath, String cameraProtocol) {
 		cameraStatus = CameraStatus.DISCONNECTED;
 		this.cameraIP = cameraIP;
 		this.cameraPort = cameraPort;
 		this.cameraPath = cameraPath;
+		this.cameraProtocol = cameraProtocol;
 	}
 	
 	@Override
@@ -46,6 +48,10 @@ public class Camera extends Subsystem {
 	
 	public int getCameraPort() {
 		return cameraPort;
+	}
+	
+	public String getCameraProtocol() {
+		return cameraProtocol;
 	}
 	
 	public String getCameraPath() {

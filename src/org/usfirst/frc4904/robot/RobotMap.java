@@ -155,6 +155,14 @@ public class RobotMap {
 			 */
 			public static final String CONNECTION_METHOD_POST = "POST";
 			/**
+			 * The URL connection protocol string for HTTP
+			 */
+			public static final String CONNECTION_PROTOCOL_HTTP = "http";
+			/**
+			 * The URL connection protocol string for HTTPS
+			 */
+			public static final String CONNECTION_PROTOCOL_HTTPS = "https";
+			/**
 			 * Autonomous URL destination for the PI IR camera
 			 */
 			public static final String PI_IR_AUTO_PATH = "/autonomous";
@@ -238,6 +246,6 @@ public class RobotMap {
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		// IR Camera
-		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH);
+		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
 	}
 }
