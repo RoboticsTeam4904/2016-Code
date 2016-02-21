@@ -5,14 +5,14 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.Util;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TimDefault extends Command {
+public class TimAutoCalibrate extends Command {
 	protected boolean hasStartedSweep;
 	protected boolean isCalibrated;
 	
-	public TimDefault() {
+	public TimAutoCalibrate() {
 		super("TimDefault");
 		requires(RobotMap.Component.tim);
-		setInterruptible(true);
+		setInterruptible(false);
 		isCalibrated = false;
 		hasStartedSweep = false;
 	}
@@ -49,7 +49,7 @@ public class TimDefault extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return isCalibrated;
 	}
 	
 	@Override
