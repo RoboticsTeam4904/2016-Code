@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot.commands.shooter;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.SmartDashboardKey;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,16 +18,18 @@ public class HoodSet extends Command {
 	
 	public HoodSet(boolean position) {
 		this("HoodSet", position);
-		SmartDashboard.putBoolean("Hood State", position);
 	}
 	
 	@Override
 	protected void initialize() {
 		RobotMap.Component.hood.setPosition(position);
+		SmartDashboard.putBoolean(SmartDashboardKey.HOOD_STATE.key, position);
 	}
 	
 	@Override
-	protected void execute() {}
+	protected void execute() {
+		SmartDashboard.putBoolean(SmartDashboardKey.HOOD_STATE.key, position);
+	}
 	
 	@Override
 	protected boolean isFinished() {

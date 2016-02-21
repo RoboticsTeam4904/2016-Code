@@ -21,6 +21,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		SmartDashboard.putBoolean("FlyWheel Spun up", RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
+		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 	}
 	
 	@Override
