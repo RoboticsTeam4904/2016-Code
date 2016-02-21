@@ -26,7 +26,7 @@ public class TimDefault extends Command {
 	protected void execute() {
 		// If the sweep hasn't started, wait for it to start
 		if (!hasStartedSweep) {
-			RobotMap.Component.tim.set(-0.05);
+			RobotMap.Component.tim.setOverride(-0.05, true);
 			hasStartedSweep = true;
 			return;
 		}
@@ -39,6 +39,11 @@ public class TimDefault extends Command {
 		if (Util.isZero(RobotMap.Component.timEncoder.get())) {
 			RobotMap.Component.tim.set(0);
 			isCalibrated = true;
+			return;
+		}
+		// If we are sweeping, sweep
+		if (hasStartedSweep && !isCalibrated) {
+			RobotMap.Component.tim.setOverride(-0.05, true);
 		}
 	}
 	
