@@ -83,6 +83,7 @@ public class RobotMap {
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
+		public static final int FLYWHEEL_SPIN_UP_SPEED = 50000;
 	}
 	
 	public static class Component {
