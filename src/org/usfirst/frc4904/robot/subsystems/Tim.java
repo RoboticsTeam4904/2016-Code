@@ -1,0 +1,32 @@
+package org.usfirst.frc4904.robot.subsystems;
+
+
+import org.usfirst.frc4904.robot.RobotMap.Component;
+import org.usfirst.frc4904.robot.RobotMap.Constant;
+import org.usfirst.frc4904.robot.commands.shooter.TimDefault;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
+import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
+import edu.wpi.first.wpilibj.SpeedController;
+
+public class Tim extends PositionEncodedMotor {
+	public static final double TIM_FULL_UP = 50;
+	public static final double TIM_FULL_DOWN = 2150;
+	
+	public Tim(MotionController motionController, SpeedController... motors) {
+		super("Tim", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), motionController, motors);
+	}
+	
+	@Override
+	public void setPosition(double position) {
+		double safePosition = Math.max(Math.min(position, Tim.TIM_FULL_DOWN), Tim.TIM_FULL_UP);
+		super.setPosition(safePosition);
+	}
+	
+	@Override
+	protected void initDefaultCommand() {
+		setDefaultCommand(new TimDefault());
+	}
+}

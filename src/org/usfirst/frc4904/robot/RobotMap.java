@@ -17,8 +17,6 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -59,7 +57,7 @@ public class RobotMap {
 		public static class CANMotor {
 			public static final int intakeRoller = 3;
 			public static final int rockNRoller = 1;
-			public static final int defenseManipulator = 2;
+			public static final int tim = 2;
 		}
 		
 		public static class PCM {
@@ -110,6 +108,10 @@ public class RobotMap {
 			public static final int PI_IR_PORT = 9999;
 			public static final int PI_VISUAL_PORT = Integer.MAX_VALUE;
 		}
+		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
+		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
+		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
+		public static final double TIM_CALIBRATION_SWEEP_SPEED = -0.1;
 	}
 	
 	public static class Component {
@@ -117,7 +119,7 @@ public class RobotMap {
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
 		public static Innie intakeRoller;
-		public static PositionEncodedMotor defenseManipulator; // His name is Tim.
+		public static PositionEncodedMotor tim; // His name is Tim.
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
@@ -130,7 +132,7 @@ public class RobotMap {
 		public static CANEncoder rightWheelEncoder;
 		public static CANTalon intakeTalon;
 		public static CANTalonEncoder intakeEncoder;
-		public static CANEncoder defenseManipulatorEncoder;
+		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
 	}
 	
@@ -163,10 +165,11 @@ public class RobotMap {
 		Component.intakeRoller = new Innie(new CustomPIDController(Component.intakeEncoder), Component.intakeTalon);
 		Component.intakeRoller.disablePID(); // TODO add encoders
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
-		Component.defenseManipulatorEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
-		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), new CustomPIDController(Component.defenseManipulatorEncoder), new CANTalon(Port.CANMotor.defenseManipulator));
-		Component.defenseManipulator.setInverted(true);
-		Component.defenseManipulator.disablePID(); // TODO add encoders
+		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
+		Component.timEncoder.setReverseDirection(true);
+		Component.tim = new PositionEncodedMotor(new CustomPIDController(Component.timEncoder), new CANTalon(Port.CANMotor.tim));
+		Component.tim.setInverted(true);
+		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
