@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class Tim extends PositionEncodedMotor {
 	public static final double TIM_FULL_UP = 50;
 	public static final double TIM_FULL_DOWN = 2150;
-	private final CustomEncoder encoder;
+	protected final CustomEncoder encoder;
 	
 	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController... motors) {
 		super("Tim", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), motionController, motors);
