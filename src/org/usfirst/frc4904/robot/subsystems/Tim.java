@@ -39,6 +39,12 @@ public class Tim extends PositionEncodedMotor {
 		super.set(speed);
 	}
 	
+	public void setOverride(double speed, boolean confirm) {
+		if (confirm) {
+			super.set(speed);
+		}
+	}
+	
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TimDefault());
