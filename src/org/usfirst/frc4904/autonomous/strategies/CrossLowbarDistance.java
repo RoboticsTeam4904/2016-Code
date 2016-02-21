@@ -8,8 +8,8 @@ import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CrossLowbar extends CommandGroup {
-	public CrossLowbar(Chassis chassis, boolean usePID) {
+public class CrossLowbarDistance extends CommandGroup {
+	public CrossLowbarDistance(Chassis chassis, boolean usePID) {
 		double tickDistance = (RobotMap.Constant.FieldMetric.DISTANCE_TO_LOW_BAR / RobotMap.Constant.RobotMetric.WHEEL_CIRCUMFERENCE) * RobotMap.Constant.RobotMetric.WHEEL_ENCODER_PPR;
 		addParallel(new HoodDown());
 		RobotMap.Component.leftWheelEncoder.reset();

@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.autonomous.strategies.CrossLowbar;
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarDistance;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
@@ -18,7 +18,7 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addObject(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addDefault(new CrossLowbar(RobotMap.Component.chassis, false));
+		autoChooser.addDefault(new CrossLowbarDistance(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());

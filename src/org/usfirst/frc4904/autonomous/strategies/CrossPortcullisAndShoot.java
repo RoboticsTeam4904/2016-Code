@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CrossPortcullisAndShoot extends CommandGroup {
 	public CrossPortcullisAndShoot(Chassis chassis, boolean usePID) {
-		addSequential(new CrossPortcullis(chassis, usePID));
+		addSequential(new CrossPortcullisDistance(chassis, usePID));
 		addSequential(new AutonomousAlignWithGoal(chassis, RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, usePID));
 		addSequential(new Shoot());
 	}

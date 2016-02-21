@@ -89,6 +89,27 @@ public class RobotMap {
 		
 		public static class AutonomousMetric {
 			public static final double DRIVE_SPEED = 0.3;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the moat.
+			 */
+			public static final double TIME_MOAT = 10;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the rough terrain.
+			 */
+			public static final double TIME_ROUGH_TERRAIN = 10;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the rock wall.
+			 */
+			@Deprecated
+			public static final double TIME_ROCK_WALL = 10;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the low bar.
+			 */
+			public static final double TIME_LOWBAR = 10;
 		}
 		
 		public static class FieldMetric {

@@ -10,8 +10,8 @@ import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CrossPortcullis extends CommandGroup {
-	public CrossPortcullis(Chassis chassis, boolean usePID) {
+public class CrossPortcullisDistance extends CommandGroup {
+	public CrossPortcullisDistance(Chassis chassis, boolean usePID) {
 		addSequential(new RunFor(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_DOWN), 4));
 		addSequential(new AutonomousMoveDistance(chassis, 10, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
 		addSequential(new RunFor(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_UP), 4));

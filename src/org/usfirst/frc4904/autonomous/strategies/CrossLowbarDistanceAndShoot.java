@@ -6,9 +6,9 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CrossLowbarAndShoot extends CommandGroup {
-	public CrossLowbarAndShoot(Chassis chassis, boolean usePID) {
-		addSequential(new CrossLowbar(chassis, usePID));
+public class CrossLowbarDistanceAndShoot extends CommandGroup {
+	public CrossLowbarDistanceAndShoot(Chassis chassis, boolean usePID) {
+		addSequential(new CrossLowbarDistance(chassis, usePID));
 		addSequential(new AutonomousAlignWithGoal(chassis, RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, usePID));
 		addSequential(new Shoot());
 		// addParallel(new HoodUp());
