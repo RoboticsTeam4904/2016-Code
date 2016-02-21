@@ -21,11 +21,11 @@ public class CrossDefenseIMU extends ChassisConstant {
 	@Override
 	protected void execute() {
 		super.execute();
-		if (imu.getPitch() > RobotMap.Constant.AutonomousMetric.DEFENSE_TILT) {
+		if (imu.getPitch() > RobotMap.Constant.FieldMetric.DEFENSE_TILT) {
 			hasBegunCross = true;
 			return;
 		}
-		if (hasBegunCross && imu.getPitch() < -1.0 * RobotMap.Constant.AutonomousMetric.DEFENSE_TILT) {
+		if (hasBegunCross && imu.getPitch() < -1.0 * RobotMap.Constant.FieldMetric.DEFENSE_TILT) {
 			hasFinishedCross = true;
 			return;
 		}
@@ -33,6 +33,6 @@ public class CrossDefenseIMU extends ChassisConstant {
 	
 	@Override
 	protected boolean isFinished() {
-		return Math.abs(imu.getPitch()) < RobotMap.Constant.AutonomousMetric.DEFENSE_TILT && hasBegunCross && hasFinishedCross;
+		return Math.abs(imu.getPitch()) < RobotMap.Constant.FieldMetric.DEFENSE_TILT && hasBegunCross && hasFinishedCross;
 	}
 }

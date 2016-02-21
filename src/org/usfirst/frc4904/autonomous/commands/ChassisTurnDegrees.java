@@ -6,7 +6,7 @@ import org.usfirst.frc4904.standard.commands.motor.MotorSet;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 
-public class ChassisTurnDegrees extends ChassisConstant {
+public strictfp class ChassisTurnDegrees extends ChassisConstant {
 	protected double robotLength;
 	protected double robotWidth;
 	protected double encoderPPR;

@@ -88,33 +88,43 @@ public class RobotMap {
 		}
 		
 		public static class AutonomousMetric {
+			/**
+			 * The standard autonomous drive speed
+			 */
 			public static final double DRIVE_SPEED = 0.3;
 			/**
 			 * The amount of time that autonomous runs
 			 * in order to cross the moat.
 			 */
-			public static final double TIME_MOAT = 10;
+			public static final double TIME_MOAT = 3;
 			/**
 			 * The amount of time that autonomous runs
 			 * in order to cross the rough terrain.
 			 */
-			public static final double TIME_ROUGH_TERRAIN = 10;
+			public static final double TIME_ROUGH_TERRAIN = 3;
 			/**
 			 * The amount of time that autonomous runs
 			 * in order to cross the rock wall.
 			 */
 			@Deprecated
-			public static final double TIME_ROCK_WALL = 10;
+			public static final double TIME_ROCK_WALL = 3;
 			/**
 			 * The amount of time that autonomous runs
 			 * in order to cross the low bar.
 			 */
-			public static final double TIME_LOWBAR = 10;
-			public static final double DEFENSE_TILT = 25.0; // in degrees
+			public static final double TIME_LOWBAR = 3;
 		}
 		
 		public static class FieldMetric {
+			/**
+			 * The distance that the robot needs to travel
+			 * to cross and pass the low bar.
+			 */
 			public static final double DISTANCE_TO_LOW_BAR = 224;
+			/**
+			 * The tilt of the defenses, if any.
+			 */
+			public static final double DEFENSE_TILT = 25.0; // in degrees
 		}
 		
 		public static class Component {
@@ -129,6 +139,22 @@ public class RobotMap {
 			public static final String PI_VISUAL_IP = Network.IP_PREFACE + "80";
 			public static final int PI_IR_PORT = 9999;
 			public static final int PI_VISUAL_PORT = Integer.MAX_VALUE;
+			/**
+			 * The HTTP 'GET' request method constant.
+			 */
+			public static final String CONNECTION_METHOD_GET = "GET";
+			/**
+			 * The HTTP 'POST' request method constant.
+			 */
+			public static final String CONNECTION_METHOD_POST = "POST";
+			/**
+			 * Autonomous URL destination for the PI IR camera
+			 */
+			public static final String PI_IR_AUTO_PATH = "/autonomous";
+			/**
+			 * Return this when connnection cannot be established to anything"
+			 */
+			public static final String CONNECTION_ERROR_MESSAGE = "CONNECTION COULD NOT BE ESTABLISHED";
 		}
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
