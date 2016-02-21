@@ -110,6 +110,7 @@ public class RobotMap {
 			 * in order to cross the low bar.
 			 */
 			public static final double TIME_LOWBAR = 10;
+			public static final double DEFENSE_TILT = 25.0; // in degrees
 		}
 		
 		public static class FieldMetric {

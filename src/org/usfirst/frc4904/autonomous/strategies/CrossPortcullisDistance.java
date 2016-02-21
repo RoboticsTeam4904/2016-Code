@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CrossPortcullisDistance extends CommandGroup {
 	public CrossPortcullisDistance(Chassis chassis, boolean usePID) {
-		addSequential(new RunFor(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_DOWN), 4));
+		addSequential(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_DOWN, true));
+		addParallel(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_DOWN, false));
 		addSequential(new AutonomousMoveDistance(chassis, 10, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
+		addSequential(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_UP, true));
+		addParallel(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_UP, false));
 		addSequential(new RunFor(new MotorPositionConstant(RobotMap.Component.tim, Tim.TIM_FULL_UP), 4));
 		addSequential(new AutonomousMoveDistance(chassis, 60, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
 	}
