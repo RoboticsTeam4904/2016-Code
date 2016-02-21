@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CrossLowbarDistanceAndShoot extends CommandGroup {
 	public CrossLowbarDistanceAndShoot(Chassis chassis, boolean usePID) {
 		addSequential(new CrossLowbarDistance(chassis, usePID));
-		addSequential(new AutonomousAlignWithGoal(chassis, RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, usePID));
+		addSequential(new AutonomousAlignWithGoal(chassis, RobotMap.Component.cameraIR, usePID));
 		addSequential(new Shoot());
 		// addParallel(new HoodUp());
 		// TODO: Align with goal
