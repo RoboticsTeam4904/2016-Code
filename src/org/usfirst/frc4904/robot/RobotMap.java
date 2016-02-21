@@ -83,6 +83,13 @@ public class RobotMap {
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
+		public static final int FLYWHEEL_SPIN_UP_SPEED = 750000;
+		public static final double HORIZONTAL_BATTER_LENGTH = 43.5;
+		public static final double CAMERA_DISTANCE_FROM_FRONT_BUMPER = 13;
+		public static final double SHOOTING_RANGE_LENGTH = 36;
+		public static final double DISTANCE_FROM_BATTER = 0;
+		public static final double SHOOTING_RANGE_MAX = Constant.SHOOTING_RANGE_LENGTH + Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
+		public static final double SHOOTING_RANGE_MIN = Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 	}
 	
 	public static class Component {
