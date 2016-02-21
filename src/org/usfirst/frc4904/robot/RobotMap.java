@@ -88,7 +88,7 @@ public class RobotMap {
 		}
 		
 		public static class AutonomousMetric {
-			public static final double DRIVE_SPEED = 0.3;
+			public static final double DRIVE_SPEED = 0.5;
 			/**
 			 * The amount of time that autonomous runs
 			 * in order to cross the moat.
@@ -110,6 +110,7 @@ public class RobotMap {
 			 * in order to cross the low bar.
 			 */
 			public static final double TIME_LOWBAR = 10;
+			public static final double LOWBAR_DRIVE_SPEED = 0.3;
 			public static final double DEFENSE_TILT = 25.0; // in degrees
 		}
 		
