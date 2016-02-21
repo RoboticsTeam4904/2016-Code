@@ -89,6 +89,7 @@ public class RobotMap {
 		
 		public static class AutonomousMetric {
 			public static final double DRIVE_SPEED = 0.3;
+			public static final double DEFENSE_TILT = 25.0; // in degrees
 		}
 		
 		public static class FieldMetric {
