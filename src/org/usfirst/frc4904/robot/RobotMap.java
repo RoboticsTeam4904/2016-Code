@@ -6,6 +6,7 @@ import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
+import org.usfirst.frc4904.robot.subsystems.Tim;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -89,7 +90,7 @@ public class RobotMap {
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
 		public static Innie intakeRoller;
-		public static PositionEncodedMotor tim; // His name is Tim.
+		public static Tim tim; // His name is Tim.
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
@@ -136,7 +137,7 @@ public class RobotMap {
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
-		Component.tim = new PositionEncodedMotor(new CustomPIDController(Component.timEncoder), new CANTalon(Port.CANMotor.tim));
+		Component.tim = new Tim(new CustomPIDController(Component.timEncoder), Component.timEncoder, new CANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
 		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
