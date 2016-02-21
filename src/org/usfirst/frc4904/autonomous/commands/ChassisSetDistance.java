@@ -25,6 +25,6 @@ public class ChassisSetDistance extends ChassisConstant {
 		}
 		double distanceAvg = distanceSum / motorEncoders.length;
 		LogKitten.v((distanceAvg > distance) + "");
-		return distanceAvg > distance;
+		return distanceAvg >= distance;
 	}
 }

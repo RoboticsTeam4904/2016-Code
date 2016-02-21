@@ -83,7 +83,7 @@ public class RobotMap {
 		
 		public static class RobotMetric {
 			public static final double WIDTH = 22.15;
-			public static final double HEIGHT = 25.81;
+			public static final double LENGTH = 25.81;
 			public static final double WHEEL_ENCODER_PPR = 256;
 			public static final double WHEEL_DIAMETER = 8;
 			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
@@ -101,6 +101,14 @@ public class RobotMap {
 			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 			public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
+		}
+		
+		public static class Network {
+			public static final String IP_PREFACE = "10.49.4.";
+			public static final String PI_IR_IP = Network.IP_PREFACE + "44";
+			public static final String PI_VISUAL_IP = Network.IP_PREFACE + "80";
+			public static final int PI_IR_PORT = 9999;
+			public static final int PI_VISUAL_PORT = Integer.MAX_VALUE;
 		}
 	}
 	
