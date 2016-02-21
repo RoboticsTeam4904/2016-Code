@@ -82,17 +82,17 @@ public class RobotMap {
 		public static class RobotMetric {
 			public static final double WIDTH = 22.15;
 			public static final double LENGTH = 25.81;
-			public static final double WHEEL_ENCODER_PPR = 256;
+			public static final double WHEEL_ENCODER_PPR = 1024;
 			public static final double WHEEL_DIAMETER = 8;
 			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
 		}
 		
 		public static class AutonomousMetric {
-			public static final double DRIVE_SPEED = 0.5;
+			public static final double DRIVE_SPEED = 0.3;
 		}
 		
 		public static class FieldMetric {
-			public static final double DISTANCE_TO_LOW_BAR = 42;
+			public static final double DISTANCE_TO_LOW_BAR = 224;
 		}
 		
 		public static class Component {
