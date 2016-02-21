@@ -12,6 +12,8 @@ public class CrossLowbar extends CommandGroup {
 	public CrossLowbar(Chassis chassis, boolean usePID) {
 		double tickDistance = (RobotMap.Constant.FieldMetric.DISTANCE_TO_LOW_BAR / RobotMap.Constant.RobotMetric.WHEEL_CIRCUMFERENCE) * RobotMap.Constant.RobotMetric.WHEEL_ENCODER_PPR;
 		addParallel(new HoodDown());
+		RobotMap.Component.leftWheelEncoder.reset();
+		RobotMap.Component.rightWheelEncoder.reset();
 		addSequential(new ChassisSetDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
 	}
 }
