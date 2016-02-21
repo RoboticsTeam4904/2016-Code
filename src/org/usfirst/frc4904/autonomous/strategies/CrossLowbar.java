@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.autonomous.strategies;
 
 
-import org.usfirst.frc4904.autonomous.commands.ChassisSetDistance;
+import org.usfirst.frc4904.autonomous.commands.AutonomousMoveDistance;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.shooter.HoodDown;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
@@ -14,6 +14,6 @@ public class CrossLowbar extends CommandGroup {
 		addParallel(new HoodDown());
 		RobotMap.Component.leftWheelEncoder.reset();
 		RobotMap.Component.rightWheelEncoder.reset();
-		addSequential(new ChassisSetDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
+		addSequential(new AutonomousMoveDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
 	}
 }
