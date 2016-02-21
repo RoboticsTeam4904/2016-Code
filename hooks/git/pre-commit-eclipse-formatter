@@ -1,0 +1,5 @@
+#!/bin/sh
+
+CURR_GIT_DIR=$(git rev-parse --show-toplevel)
+/Applications/Eclipse.app/Contents/MacOS/eclipse -nosplash -application org.eclipse.jdt.core.JavaCodeFormatter -verbose -config $CURR_GIT_DIR/.settings/org.eclipse.jdt.core.prefs $CURR_GIT_DIR/src
+
