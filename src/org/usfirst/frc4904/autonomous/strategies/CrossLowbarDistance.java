@@ -14,6 +14,6 @@ public class CrossLowbarDistance extends CommandGroup {
 		addParallel(new HoodDown());
 		RobotMap.Component.leftWheelEncoder.reset();
 		RobotMap.Component.rightWheelEncoder.reset();
-		addSequential(new AutonomousMoveDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.LOWBAR_DRIVE_SPEED, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
+		addSequential(new AutonomousMoveDistance(chassis, tickDistance, RobotMap.Constant.AutonomousMetric.SPEED_LOWBAR, usePID, new CustomEncoder[] {RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder}));
 	}
 }

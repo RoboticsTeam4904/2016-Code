@@ -99,7 +99,8 @@ public class RobotMap {
 			 * The amount of time that autonomous runs
 			 * in order to cross the moat.
 			 */
-			public static final double TIME_MOAT = 3;
+			public static final double TIME_MOAT = 4;
+			public static final double SPEED_MOAT = 0.5;
 			/**
 			 * The amount of time that autonomous runs
 			 * in order to cross the rough terrain.
@@ -116,7 +117,7 @@ public class RobotMap {
 			 * in order to cross the low bar.
 			 */
 			public static final double TIME_LOWBAR = 3;
-			public static final double LOWBAR_DRIVE_SPEED = 0.3;
+			public static final double SPEED_LOWBAR = 0.3;
 			/**
 			 * The speed the robot turns when searching
 			 * for the goal

@@ -13,6 +13,6 @@ public class CrossLowbarIMU extends CommandGroup {
 		addParallel(new HoodDown());
 		RobotMap.Component.leftWheelEncoder.reset();
 		RobotMap.Component.rightWheelEncoder.reset();
-		addSequential(new CrossDefenseIMU(chassis, RobotMap.Constant.AutonomousMetric.LOWBAR_DRIVE_SPEED, imu));
+		addSequential(new CrossDefenseIMU(chassis, RobotMap.Constant.AutonomousMetric.SPEED_LOWBAR, imu));
 	}
 }

@@ -8,6 +8,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CrossLowbarTime extends CommandGroup {
 	public CrossLowbarTime(Chassis chassis, boolean usePID) {
-		addSequential(new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.TIME_LOWBAR, usePID));
+		addSequential(new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.SPEED_LOWBAR, RobotMap.Constant.AutonomousMetric.TIME_LOWBAR, usePID));
 	}
 }
