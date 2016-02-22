@@ -17,7 +17,7 @@ public strictfp class ChassisTurnDegrees extends ChassisConstant {
 	protected MotorSet[] motorSetCommands;
 	protected Chassis chassis;
 	
-	public ChassisTurnDegrees(Chassis chassis, double robotLength, double robotWidth, double encoderPPR, double wheelSize, int degrees, double speed, boolean usePID, CustomEncoder... customEncoders) {
+	public ChassisTurnDegrees(Chassis chassis, double robotLength, double robotWidth, double encoderPPR, double wheelSize, double degrees, double speed, boolean usePID, CustomEncoder... customEncoders) {
 		super(chassis, 0.0, 0.0, speed, Double.MAX_VALUE);
 		this.chassis = chassis;
 		this.robotLength = robotLength;

@@ -39,7 +39,7 @@ public class CameraPoll extends Command {
 	
 	@Override
 	protected void initialize() {
-		LogKitten.i("Camera is starting to poll ");
+		LogKitten.v("Camera is starting to poll ");
 	}
 	
 	@Override
@@ -63,6 +63,22 @@ public class CameraPoll extends Command {
 				String response = responseBuffer.toString().trim();
 				LogKitten.v("Camera poll response (total): " + response);
 				camera.setCameraData(response);
+				String[] cameraVariables = response.split("::");
+				if (cameraVariables.length == 3) {
+					boolean canSeeGoal = cameraVariables[0].equals(RobotMap.Constant.Network.PI_IR_STATUS_GOOD) ? true : false;
+					LogKitten.v("Got camera vision status of " + canSeeGoal);
+					Double degreesToTurn = Math.toDegrees(Double.parseDouble(cameraVariables[1]));
+					LogKitten.v("Got radians to turn of " + cameraVariables[1] + " and degrees to turn of " + degreesToTurn);
+					Double distanceToMove = Double.parseDouble(cameraVariables[2]);
+					LogKitten.v("Got distance to move of " + cameraVariables[2] + " and rounded of " + distanceToMove);
+					camera.setCameraCanSeeGoal(canSeeGoal);
+					camera.setGoalOffAngle(degreesToTurn);
+					camera.setGoalOffDistance(distanceToMove);
+				} else {
+					LogKitten.wtf("Got " + cameraVariables.length + " parameters from IR Camera, expected 3");
+					LogKitten.wtf("Camera Data: " + response);
+					LogKitten.wtf("Camera Variables: " + cameraVariables);
+				}
 			} else {
 				camera.setCameraStatus(Camera.CameraStatus.DISCONNECTED);
 				camera.setCameraData(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE);
