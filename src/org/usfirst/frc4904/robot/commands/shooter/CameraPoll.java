@@ -13,21 +13,17 @@ import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CameraPoll extends Command {
-	protected Integer cameraPort;
-	protected String cameraIP;
-	protected Long lastTime = null;
 	public static final double MINIMUM_POLL_BREAK = 30;
+	protected Long lastTime;
 	protected URL cameraURL;
-	protected Camera camera;
+	protected final Camera camera;
 	
 	public CameraPoll(String name, Camera camera) {
 		super(name);
 		requires(camera);
 		this.camera = camera;
-		cameraIP = camera.getCameraIP();
-		cameraPort = camera.getCameraPort();
 		try {
-			cameraURL = new URL(camera.getCameraProtocol(), cameraIP, cameraPort, camera.getCameraPath());
+			cameraURL = new URL(camera.getCameraProtocol(), camera.getCameraIP(), camera.getCameraPort(), camera.getCameraPath());
 		}
 		catch (MalformedURLException e) {
 			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
@@ -40,13 +36,13 @@ public class CameraPoll extends Command {
 	
 	@Override
 	protected void initialize() {
-		LogKitten.v("Camera is starting to poll ");
+		LogKitten.v("Camera is starting to poll...");
+		lastTime = System.currentTimeMillis();
 	}
 	
 	@Override
 	protected void execute() {
-		Long currTime = System.currentTimeMillis();
-		if (lastTime != null && Math.abs(lastTime - currTime) >= CameraPoll.MINIMUM_POLL_BREAK) {
+		if (System.currentTimeMillis() - lastTime < CameraPoll.MINIMUM_POLL_BREAK) {
 			return;
 		}
 		try {
@@ -96,9 +92,7 @@ public class CameraPoll extends Command {
 		catch (IOException e) {
 			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
 		}
-		if (lastTime == null) {
-			lastTime = System.currentTimeMillis();
-		}
+		lastTime = System.currentTimeMillis();
 	}
 	
 	@Override
