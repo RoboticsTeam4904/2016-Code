@@ -1,28 +1,27 @@
 package org.usfirst.frc4904.robot.commands.shooter;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RockNRollerSet extends Command {
-	protected final RockNRoller rocker;
 	protected final RockNRoller.RockerState state;
 	
-	public RockNRollerSet(String name, RockNRoller rocker, RockNRoller.RockerState state) {
+	public RockNRollerSet(String name, RockNRoller.RockerState state) {
 		super(name);
-		requires(rocker);
-		this.rocker = rocker;
+		requires(RobotMap.Component.rockNRoller);
 		this.state = state;
-		setInterruptible(false);
+		setInterruptible(true);
 	}
 	
-	public RockNRollerSet(RockNRoller rocker, RockNRoller.RockerState state) {
-		this("RockNRollerSet", rocker, state);
+	public RockNRollerSet(RockNRoller.RockerState state) {
+		this("RockNRollerSet", state);
 	}
 	
 	@Override
 	protected void initialize() {
-		rocker.set(state);
+		RobotMap.Component.rockNRoller.set(state);
 	}
 	
 	@Override

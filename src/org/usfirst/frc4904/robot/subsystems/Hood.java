@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.commands.shooter.HoodUp;
+import org.usfirst.frc4904.robot.commands.shooter.HoodDown;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -54,6 +54,6 @@ public class Hood extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new HoodUp(this));
+		setDefaultCommand(new HoodDown());
 	}
 }
