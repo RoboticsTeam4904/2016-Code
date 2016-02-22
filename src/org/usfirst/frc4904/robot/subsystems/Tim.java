@@ -30,10 +30,10 @@ public class Tim extends PositionEncodedMotor {
 	
 	@Override
 	public void set(double speed) {
-		if (encoder.get() < Tim.TIM_FULL_UP && speed < 0) {
+		if (encoder.getDistance() < Tim.TIM_FULL_UP && speed < 0) {
 			return;
 		}
-		if (encoder.get() > Tim.TIM_FULL_DOWN && speed > 0) {
+		if (encoder.getDistance() > Tim.TIM_FULL_DOWN && speed > 0) {
 			return;
 		}
 		super.set(speed);

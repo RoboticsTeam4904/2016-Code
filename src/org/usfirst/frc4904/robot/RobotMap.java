@@ -84,7 +84,7 @@ public class RobotMap {
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
-		public static final double TIM_CALIBRATION_SWEEP_SPEED = -0.1;
+		public static final double TIM_CALIBRATION_SWEEP_SPEED = -0.5;
 		public static final int FLYWHEEL_SPIN_UP_SPEED = 750000;
 		public static final double HORIZONTAL_BATTER_LENGTH = 43.5;
 		public static final double CAMERA_DISTANCE_FROM_FRONT_BUMPER = 13;

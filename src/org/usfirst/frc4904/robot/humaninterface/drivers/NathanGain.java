@@ -20,7 +20,7 @@ public class NathanGain extends Driver {
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
-		(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, CustomXbox.RIGHT_Y_AXIS, false)).start();
+		RobotMap.HumanInput.Driver.xbox.x.whenPressed(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, CustomXbox.RIGHT_Y_AXIS, false));
 	}
 	
 	@Override
