@@ -118,7 +118,7 @@ public class RobotMap {
 			 * in order to cross the low bar.
 			 */
 			public static final double TIME_LOWBAR = 4;
-			public static final double SPEED_LOWBAR = 0.4;
+			public static final double SPEED_LOWBAR = 0.8;
 			/**
 			 * The speed the robot turns when searching
 			 * for the goal

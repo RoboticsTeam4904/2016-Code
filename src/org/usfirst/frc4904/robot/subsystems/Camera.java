@@ -2,7 +2,7 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.standard.commands.Idle;
+import org.usfirst.frc4904.robot.commands.shooter.CameraPoll;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Camera extends Subsystem {
@@ -33,7 +33,7 @@ public class Camera extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new Idle(this));
+		setDefaultCommand(new CameraPoll(this));
 	}
 	
 	public String getCameraIP() {
