@@ -5,11 +5,11 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.Util;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TimAutoCalibrate extends Command {
+public class TimDefault extends Command {
 	protected boolean hasStartedSweep;
 	protected boolean isCalibrated;
 	
-	public TimAutoCalibrate() {
+	public TimDefault() {
 		super("TimDefault");
 		requires(RobotMap.Component.tim);
 		setInterruptible(false);
@@ -26,7 +26,7 @@ public class TimAutoCalibrate extends Command {
 	protected void execute() {
 		// If the sweep hasn't started, wait for it to start
 		if (!hasStartedSweep) {
-			RobotMap.Component.tim.setOverride(-0.05, true);
+			RobotMap.Component.tim.setOverride(RobotMap.Constant.TIM_CALIBRATION_SWEEP_SPEED, true);
 			hasStartedSweep = true;
 			return;
 		}
@@ -43,7 +43,7 @@ public class TimAutoCalibrate extends Command {
 		}
 		// If we are sweeping, sweep
 		if (hasStartedSweep && !isCalibrated) {
-			RobotMap.Component.tim.setOverride(-0.05, true);
+			RobotMap.Component.tim.setOverride(RobotMap.Constant.TIM_CALIBRATION_SWEEP_SPEED, true);
 		}
 	}
 	

@@ -30,7 +30,6 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
-		RobotMap.Component.timEncoder.reset();
 	}
 	
 	/**
@@ -39,7 +38,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopExecute() {
 		LogKitten.v("Tim Encoder: " + RobotMap.Component.timEncoder.getDistance(), true);
-		SmartDashboard.putNumber("Tim Encoder", RobotMap.Component.timEncoder.getDistance());
+		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 	}
 	

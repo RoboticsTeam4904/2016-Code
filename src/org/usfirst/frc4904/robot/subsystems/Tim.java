@@ -1,10 +1,9 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.RobotMap.Component;
 import org.usfirst.frc4904.robot.RobotMap.Constant;
-import org.usfirst.frc4904.standard.commands.motor.MotorIdle;
+import org.usfirst.frc4904.robot.commands.shooter.TimDefault;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
@@ -48,6 +47,6 @@ public class Tim extends PositionEncodedMotor {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new MotorIdle(RobotMap.Component.tim));
+		setDefaultCommand(new TimDefault());
 	}
 }
