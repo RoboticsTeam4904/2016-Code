@@ -22,6 +22,8 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_VERBOSE);
 		LogKitten.setPrintMute(true);
 	}
 	
@@ -36,8 +38,9 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		LogKitten.wtf("Tim Encoder: " + RobotMap.Component.timEncoder.getDistance(), true);
+		LogKitten.v("Tim Encoder: " + RobotMap.Component.timEncoder.getDistance(), true);
 		SmartDashboard.putNumber("Tim Encoder", RobotMap.Component.timEncoder.getDistance());
+		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 	}
 	
 	@Override

@@ -11,8 +11,9 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
 import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CANUltrasonicDistanceSensor;
+import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
@@ -56,7 +57,7 @@ public class RobotMap {
 		}
 		
 		public static class CANMotor {
-			public static final int intakeRoller = 3;
+			public static final int innie = 3;
 			public static final int rockNRoller = 1;
 			public static final int tim = 2;
 		}
@@ -78,23 +79,32 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 			public static final double DEFENSE_MANIPULATOR_SPEED_SCALE = 0.25;
+			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
 		}
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 		public static final double TIM_CALIBRATION_SWEEP_SPEED = -0.1;
+		public static final int FLYWHEEL_SPIN_UP_SPEED = 750000;
+		public static final double HORIZONTAL_BATTER_LENGTH = 43.5;
+		public static final double CAMERA_DISTANCE_FROM_FRONT_BUMPER = 13;
+		public static final double SHOOTING_RANGE_LENGTH = 36;
+		public static final double DISTANCE_FROM_BATTER = 0;
+		public static final double SHOOTING_RANGE_MAX = Constant.SHOOTING_RANGE_LENGTH + Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
+		public static final double SHOOTING_RANGE_MIN = Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
+		public static final double OUTTAKE_MOTOR_SPEED = -1;
 	}
 	
 	public static class Component {
 		public static PDP pdp;
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
-		public static Innie intakeRoller;
 		public static Tim tim; // His name is Tim.
+		public static Innie innie;
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
-		public static CANSensor ultrasonicSensor;
+		public static DistanceSensor ultrasonicSensor;
 		public static RockNRoller rockNRoller;
 		public static Hood hood;
 		public static Flywheel flywheel;
@@ -130,10 +140,10 @@ public class RobotMap {
 		Component.rightWheel.setInverted(true);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
-		Component.intakeTalon = new CANTalon(Port.CANMotor.intakeRoller);
+		Component.intakeTalon = new CANTalon(Port.CANMotor.innie);
 		Component.intakeEncoder = new CANTalonEncoder(Component.intakeTalon);
-		Component.intakeRoller = new Innie(new CustomPIDController(Component.intakeEncoder), Component.intakeTalon);
-		Component.intakeRoller.disablePID(); // TODO add encoders
+		Component.innie = new Innie(new CustomPIDController(Component.intakeEncoder), Component.intakeTalon);
+		Component.innie.disablePID(); // TODO add encoders
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
@@ -145,10 +155,11 @@ public class RobotMap {
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
 		Component.hood = new Hood(new DoubleSolenoid(Port.PCM.hoodSolenoidDown, Port.PCM.hoodSolenoidUp));
-		Component.ultrasonicSensor = new CANSensor("Ultrasonic", Port.CAN.ultrasonic);
+		Component.ultrasonicSensor = new CANUltrasonicDistanceSensor("Ultrasonic", Port.CAN.ultrasonic);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
+		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 	}
