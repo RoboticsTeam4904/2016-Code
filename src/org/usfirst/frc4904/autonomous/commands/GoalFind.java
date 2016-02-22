@@ -22,11 +22,12 @@ public class GoalFind extends CommandGroup {
 	
 	@Override
 	public boolean isFinished() {
-		String cameraData = camera.getCameraData(GoalFind.GET_REAL_DATA);
-		if (!cameraData.isEmpty() && cameraData.startsWith(statusGood)) {
+		boolean cameraData = camera.getCameraCanSeeGoal();
+		if (cameraData) {
+			LogKitten.v("It was good. It got: " + cameraData);
 			return true;
 		} else {
-			LogKitten.e("Camera Data was bad. Is it empty? " + cameraData.isEmpty() + ". Does it see a goal? " + cameraData.charAt(statusIndex));
+			LogKitten.w("Does it see a goal? " + cameraData);
 			return false;
 		}
 	}
