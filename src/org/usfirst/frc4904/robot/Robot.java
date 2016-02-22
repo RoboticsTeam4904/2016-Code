@@ -7,6 +7,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,8 +42,9 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, RobotMap.Component.cameraIR.getGoalOffDistance(true));
 		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, RobotMap.Component.cameraIR.getGoalOffAngle(true));
-		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN >= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) > RobotMap.Constant.SHOOTING_RANGE_MAX));
+		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN <= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) < RobotMap.Constant.SHOOTING_RANGE_MAX));
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
+		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, (RobotMap.Component.cameraIR.getGoalOffAngle(true) < 5) && (RobotMap.Component.cameraIR.getGoalOffAngle(true) > -5));
 	}
 	
 	@Override

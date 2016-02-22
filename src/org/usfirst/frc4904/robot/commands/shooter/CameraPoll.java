@@ -42,7 +42,9 @@ public class CameraPoll extends Command {
 	
 	@Override
 	protected void execute() {
-		if (System.currentTimeMillis() - lastTime < CameraPoll.MINIMUM_POLL_BREAK) {
+		double total = System.currentTimeMillis() - lastTime;
+		LogKitten.v("System time diff for rate limiting is: " + total);
+		if (total < CameraPoll.MINIMUM_POLL_BREAK) {
 			return;
 		}
 		try {
@@ -90,6 +92,7 @@ public class CameraPoll extends Command {
 			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
 		}
 		catch (IOException e) {
+			LogKitten.e("URL is " + cameraURL.toString());
 			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
 		}
 		lastTime = System.currentTimeMillis();
