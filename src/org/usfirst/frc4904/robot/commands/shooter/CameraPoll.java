@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CameraPoll extends Command {
 	protected Integer cameraPort;
 	protected String cameraIP;
-	protected Long lastTime;
+	protected Long lastTime = null;
+	public static final double MINIMUM_POLL_BREAK = 30;
 	protected URL cameraURL;
 	protected Camera camera;
 	
@@ -44,6 +45,10 @@ public class CameraPoll extends Command {
 	
 	@Override
 	protected void execute() {
+		Long currTime = System.currentTimeMillis();
+		if (lastTime != null && Math.abs(lastTime - currTime) >= CameraPoll.MINIMUM_POLL_BREAK) {
+			return;
+		}
 		try {
 			HttpURLConnection connection = (HttpURLConnection) cameraURL.openConnection();
 			connection.setRequestMethod(RobotMap.Constant.Network.CONNECTION_METHOD_GET);
@@ -90,6 +95,9 @@ public class CameraPoll extends Command {
 		}
 		catch (IOException e) {
 			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
+		}
+		if (lastTime == null) {
+			lastTime = System.currentTimeMillis();
 		}
 	}
 	
