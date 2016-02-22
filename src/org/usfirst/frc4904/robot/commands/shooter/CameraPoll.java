@@ -26,8 +26,7 @@ public class CameraPoll extends Command {
 			cameraURL = new URL(camera.getCameraProtocol(), camera.getCameraIP(), camera.getCameraPort(), camera.getCameraPath());
 		}
 		catch (MalformedURLException e) {
-			LogKitten.wtf(e.getMessage() + "\n" + e.getStackTrace().toString());
-			e.printStackTrace();
+			LogKitten.ex(e);
 		}
 		setRunWhenDisabled(true);
 		setInterruptible(false);
@@ -39,14 +38,13 @@ public class CameraPoll extends Command {
 	
 	@Override
 	protected void initialize() {
-		LogKitten.wtf("Camera is starting to poll...");
+		LogKitten.v("Camera is starting to poll...");
 		lastTime = System.currentTimeMillis();
 	}
 	
 	@Override
 	protected void execute() {
 		double total = System.currentTimeMillis() - lastTime;
-		LogKitten.wtf("System time diff for rate limiting is: " + total);
 		if (total < CameraPoll.MINIMUM_POLL_BREAK) {
 			return;
 		}
@@ -55,8 +53,8 @@ public class CameraPoll extends Command {
 			connection.setRequestMethod(RobotMap.Constant.Network.CONNECTION_METHOD_GET);
 			connection.setRequestProperty("UserAgent", "CAMERA-SUBSYSTEM");
 			int responseCode = connection.getResponseCode();
-			LogKitten.wtf("Camera poll request: " + cameraURL);
-			LogKitten.wtf("Camera poll response (code): " + responseCode);
+			LogKitten.v("Camera poll request: " + cameraURL);
+			LogKitten.v("Camera poll response (code): " + responseCode);
 			if (responseCode == 200) {
 				camera.setCameraStatus(Camera.CameraStatus.CONNECTED);
 				BufferedReader connectionReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -67,36 +65,36 @@ public class CameraPoll extends Command {
 				}
 				connectionReader.close();
 				String response = responseBuffer.toString().trim();
-				LogKitten.wtf("Camera poll response (total): " + response);
+				LogKitten.v("Camera poll response (total): " + response);
 				camera.setCameraData(response);
 				String[] cameraVariables = response.split("::");
 				if (cameraVariables.length == 3) {
 					boolean canSeeGoal = cameraVariables[0].equals(RobotMap.Constant.Network.PI_IR_STATUS_GOOD) ? true : false;
-					LogKitten.wtf("Got camera vision status of " + canSeeGoal);
+					LogKitten.v("Got camera vision status of " + canSeeGoal);
 					Double degreesToTurn = Math.toDegrees(Double.parseDouble(cameraVariables[1]));
-					LogKitten.wtf("Got radians to turn of " + cameraVariables[1] + " and degrees to turn of " + degreesToTurn);
+					LogKitten.v("Got radians to turn of " + cameraVariables[1] + " and degrees to turn of " + degreesToTurn);
 					Double distanceToMove = Double.parseDouble(cameraVariables[2]);
-					LogKitten.wtf("Got distance to move of " + cameraVariables[2] + " and rounded of " + distanceToMove);
+					LogKitten.v("Got distance to move of " + cameraVariables[2] + " and rounded of " + distanceToMove);
 					camera.setCameraCanSeeGoal(canSeeGoal);
 					camera.setGoalOffAngle(degreesToTurn);
 					camera.setGoalOffDistance(distanceToMove);
 				} else {
-					LogKitten.wtf("Got " + cameraVariables.length + " parameters from IR Camera, expected 3");
-					LogKitten.wtf("Camera Data: " + response);
-					LogKitten.wtf("Camera Variables: " + cameraVariables);
+					LogKitten.e("Got " + cameraVariables.length + " parameters from IR Camera, expected 3");
+					LogKitten.e("Camera Data: " + response);
+					LogKitten.e("Camera Variables: " + cameraVariables);
 				}
 			} else {
 				camera.setCameraStatus(Camera.CameraStatus.DISCONNECTED);
 				camera.setCameraData(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE);
-				LogKitten.wtf("Could not establish connection to camera using request '" + cameraURL.toString() + "'");
+				LogKitten.e("Could not establish connection to camera using request '" + cameraURL.toString() + "'");
 			}
 		}
 		catch (MalformedURLException e) {
-			LogKitten.wtf(e.getMessage() + "\n" + e.getStackTrace().toString());
+			LogKitten.ex(e);
 		}
 		catch (IOException e) {
-			LogKitten.wtf("URL is " + cameraURL.toString());
-			LogKitten.wtf(e.getMessage() + "\n" + e.getStackTrace().toString());
+			LogKitten.e("URL is " + cameraURL.toString());
+			LogKitten.ex(e);
 		}
 		lastTime = System.currentTimeMillis();
 	}
