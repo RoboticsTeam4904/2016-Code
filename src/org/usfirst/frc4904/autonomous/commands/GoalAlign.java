@@ -8,8 +8,8 @@ import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AlignWithGoal extends CommandGroup {
-	public AlignWithGoal(Chassis chassis, Camera camera, boolean usePID) {
+public class GoalAlign extends CommandGroup {
+	public GoalAlign(Chassis chassis, Camera camera, boolean usePID) {
 		String irCameraData = camera.getCameraData(true);
 		// STRING FORMAT = <Sees a goal?>::<Radians to turn to goal>::<Distance to travel to goal>
 		String[] amountsToChange = irCameraData.split("::");
