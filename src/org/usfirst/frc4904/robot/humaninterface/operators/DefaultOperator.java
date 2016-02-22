@@ -9,6 +9,7 @@ import org.usfirst.frc4904.robot.commands.shooter.Outtake;
 import org.usfirst.frc4904.robot.commands.shooter.RockNRollerShoot;
 import org.usfirst.frc4904.robot.commands.shooter.SpinUpFlywheel;
 import org.usfirst.frc4904.standard.commands.RunAllSequential;
+import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.humaninput.Operator;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -26,5 +27,11 @@ public class DefaultOperator extends Operator {
 		RobotMap.HumanInput.Operator.stick.button4.onlyWhileReleased(new InnieControl());
 		RobotMap.HumanInput.Operator.stick.button5.whenPressed(new HoodUp());
 		RobotMap.HumanInput.Operator.stick.button3.whenPressed(new HoodDown());
+		RobotMap.HumanInput.Operator.stick.button6.whenPressed(new SingleOp() {
+			@Override
+			protected void runOp() {
+				RobotMap.Component.shooter.ballLoadOverride = !RobotMap.Component.shooter.ballLoadOverride; // toggle
+			}
+		});
 	}
 }
