@@ -8,6 +8,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CrossRoughTerrainTime extends CommandGroup {
 	public CrossRoughTerrainTime(Chassis chassis, boolean usePID) {
-		addSequential(new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.TIME_ROUGH_TERRAIN, usePID));
+		addSequential(new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.SPEED_ROUGH_TERRAIN, RobotMap.Constant.AutonomousMetric.TIME_ROUGH_TERRAIN, usePID));
 	}
 }
