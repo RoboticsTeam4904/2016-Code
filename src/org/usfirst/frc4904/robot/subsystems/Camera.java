@@ -30,8 +30,8 @@ public class Camera extends Subsystem {
 		setDefaultCommand(new CameraPoll(this));
 	}
 	
-	public String getCameraData(boolean shouldGiveLast) {
-		if (shouldGiveLast) {
+	public String getCameraData(boolean shouldIgnoreError) {
+		if (shouldIgnoreError) {
 			if (cameraDataCurrent.equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
 				return cameraDataPrevious;
 			} else {
@@ -69,5 +69,9 @@ public class Camera extends Subsystem {
 	
 	public void setCameraStatus(CameraStatus status) {
 		cameraStatus = status;
+	}
+	
+	public CameraStatus getCameraStatus() {
+		return cameraStatus;
 	}
 }

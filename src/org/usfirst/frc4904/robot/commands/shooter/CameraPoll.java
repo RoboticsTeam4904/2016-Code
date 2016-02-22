@@ -29,7 +29,7 @@ public class CameraPoll extends Command {
 			cameraURL = new URL(camera.getCameraProtocol(), cameraIP, cameraPort, camera.getCameraPath());
 		}
 		catch (MalformedURLException e) {
-			LogKitten.e(e.getStackTrace().toString());
+			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
 		}
 	}
 	
@@ -70,10 +70,10 @@ public class CameraPoll extends Command {
 			}
 		}
 		catch (MalformedURLException e) {
-			LogKitten.e(e.getStackTrace().toString());
+			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
 		}
 		catch (IOException e) {
-			LogKitten.e(e.getStackTrace().toString());
+			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
 		}
 	}
 	
