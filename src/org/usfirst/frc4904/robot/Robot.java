@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
@@ -17,7 +18,8 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addObject(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addDefault(new CrossLowbarTime(RobotMap.Component.chassis, false));
+		autoChooser.addDefault(new CrossLowbarTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.cameraIR, false));
+		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
