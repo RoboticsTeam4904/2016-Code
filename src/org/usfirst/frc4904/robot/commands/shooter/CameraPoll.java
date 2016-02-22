@@ -27,7 +27,10 @@ public class CameraPoll extends Command {
 		}
 		catch (MalformedURLException e) {
 			LogKitten.e(e.getMessage() + "\n" + e.getStackTrace().toString());
+			e.printStackTrace();
 		}
+		setRunWhenDisabled(true);
+		setInterruptible(false);
 	}
 	
 	public CameraPoll(Camera camera) {

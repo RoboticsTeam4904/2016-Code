@@ -123,7 +123,7 @@ public class RobotMap {
 			 * The speed the robot turns when searching
 			 * for the goal
 			 */
-			public static final double SEARCH_SPEED = 0.2;
+			public static final double SEARCH_SPEED = 0.1;
 			/**
 			 * Used as the time to run a command when
 			 * reversing direction to prevent drift.
