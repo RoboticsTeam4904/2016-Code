@@ -117,13 +117,13 @@ public class RobotMap {
 			 * The amount of time that autonomous runs
 			 * in order to cross the low bar.
 			 */
-			public static final double TIME_LOWBAR = 3.5;
+			public static final double TIME_LOWBAR = 4;
 			public static final double SPEED_LOWBAR = 0.4;
 			/**
 			 * The speed the robot turns when searching
 			 * for the goal
 			 */
-			public static final double SEARCH_SPEED = 0.4;
+			public static final double SEARCH_SPEED = 0.2;
 			/**
 			 * Used as the time to run a command when
 			 * reversing direction to prevent drift.
