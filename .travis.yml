@@ -8,12 +8,14 @@ git:
 
 # Use sed to replace the SSH URL with the public URL, then initialize submodules
 before_install:
-- sudo apt-get update
-- sudo apt-cache policy ant
-- echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty main" | sudo tee -a /etc/apt/sources.list
-- echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty main" | sudo tee -a /etc/apt/sources.list
-- cat /etc/apt/sources.list
-- sudo apt-get -t trusty install ant=1.9.3-2build1
+- wget http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.3-bin.tar.bz2 
+- tar xvf apache-ant-1.9.3-bin.tar.bz2
+- test -f /usr/share/ant || sudo mv /usr/share/ant /usr/share/apache-ant-stock
+- sudo mv apache-ant-1.9.3 /usr/share/
+- sudo update-alternatives --install /usr/share/ant ant-bins /usr/share/apache-ant-1.9.3 1
+- sudo update-alternatives --install /usr/bin/ant ant /usr/share/apache-ant-1.9.3/bin/ant 1
+- sudo update-alternatives --config ant-bins
+- sudo update-alternatives --config ant
 - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
 - git submodule update --init --recursive
 
