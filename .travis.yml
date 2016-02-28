@@ -6,8 +6,8 @@ jdk:
 git:
     submodules: false
 
-# Use sed to replace the SSH URL with the public URL, then initialize submodules
 before_install:
+# Manually install the ant 1.9.3 for Java 1.8 support
 - wget http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.3-bin.tar.bz2 
 - tar xvf apache-ant-1.9.3-bin.tar.bz2
 - test -f /usr/share/ant || sudo mv /usr/share/ant /usr/share/apache-ant-stock
@@ -16,6 +16,7 @@ before_install:
 - sudo update-alternatives --install /usr/bin/ant ant /usr/share/apache-ant-1.9.3/bin/ant 1
 - sudo update-alternatives --config ant-bins
 - sudo update-alternatives --config ant
+# Use sed to replace the SSH URL with the public URL, then initialize submodules
 - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
 - git submodule update --init --recursive
 
@@ -25,5 +26,4 @@ install:
 notifications:
   email: none
 
-# must overide ant java version, as ant does not recognize travis' JDK switcher
-script: ant compile
+script: ant jar
