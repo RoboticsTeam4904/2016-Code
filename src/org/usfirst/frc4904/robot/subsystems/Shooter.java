@@ -5,27 +5,39 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import org.usfirst.frc4904.standard.commands.Idle;
-import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
+import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem {
 	public final RockNRoller rockNRoller;
 	public final Hood hood;
 	public final Flywheel flywheel;
-	public final CANSensor distanceSensor;
+	public final DistanceSensor towerDistanceSensor;
 	protected final HashMap<Double, Double> measuredSpeeds;
 	
-	public Shooter(RockNRoller rockNRoller, Hood hood, Flywheel flywheel, CANSensor distanceSensor) {
+	/**
+	 * Construct a Shooter subsystem with each individual component.
+	 * 
+	 * @param rockNRoller
+	 *        the RockNRoller unit
+	 * @param hood
+	 *        the Hood unit
+	 * @param flywheel
+	 *        the Flywheel unit
+	 * @param towerDistanceSensor
+	 *        the distance sensor for the tower
+	 */
+	public Shooter(RockNRoller rockNRoller, Hood hood, Flywheel flywheel, DistanceSensor towerDistanceSensor) {
 		super("Shooter");
 		this.rockNRoller = rockNRoller;
 		this.hood = hood;
 		this.flywheel = flywheel;
-		this.distanceSensor = distanceSensor;
+		this.towerDistanceSensor = towerDistanceSensor;
 		measuredSpeeds = new HashMap<Double, Double>();
 	}
 	
 	public double getDesiredFlywheelSpeed() {
-		double distance = distanceSensor.read(0);
+		double distance = towerDistanceSensor.getDistance();
 		double nearestDistance = nearestKey(distance, measuredSpeeds);
 		return measuredSpeeds.get(nearestDistance);
 	}
