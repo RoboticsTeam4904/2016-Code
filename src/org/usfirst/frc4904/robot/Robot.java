@@ -10,6 +10,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +39,8 @@ public class Robot extends CommandRobotBase {
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		RobotMap.Component.timEncoder.reset();
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_VERBOSE);
+		LogKitten.setPrintMute(true);
 	}
 	
 	/**
@@ -50,6 +53,7 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN <= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) < RobotMap.Constant.SHOOTING_RANGE_MAX));
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, (RobotMap.Component.cameraIR.getGoalOffAngle(true) < 5) && (RobotMap.Component.cameraIR.getGoalOffAngle(true) > -5));
+		LogKitten.v("Raw Data: " + RobotMap.Component.cameraIR.getCameraData(false) + " Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false) + " Distance:" + RobotMap.Component.cameraIR.getGoalOffDistance(false) + " In Range: " + ((RobotMap.Constant.SHOOTING_RANGE_MIN >= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) > RobotMap.Constant.SHOOTING_RANGE_MAX)), true);
 	}
 	
 	@Override
