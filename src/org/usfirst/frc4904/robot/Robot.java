@@ -85,7 +85,9 @@ public class Robot extends CommandRobotBase {
 	public void disabledInitialize() {}
 	
 	@Override
-	public void disabledExecute() {}
+	public void disabledExecute() {
+		RobotMap.Component.ballLoadSensor.calibrate();
+	}
 	
 	@Override
 	public void testInitialize() {}
