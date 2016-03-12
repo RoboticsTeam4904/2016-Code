@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class PIDOffAngleChassisController implements ChassisController {
 	protected ChassisController controller;
-	protected double maxDegreesPerSecond;
 	protected double targetAngle;
 	protected double lastUpdate;
 	protected CameraPIDSource camera;
@@ -16,12 +15,11 @@ public class PIDOffAngleChassisController implements ChassisController {
 	protected boolean finished;
 	protected double tolerance;
 	
-	public PIDOffAngleChassisController(ChassisController controller, CameraPIDSource camera, MotionController motionController, double maxDegreesPerSecond, double tolerance) {
+	public PIDOffAngleChassisController(ChassisController controller, CameraPIDSource camera, MotionController motionController, double tolerance) {
 		this.controller = controller;
-		this.maxDegreesPerSecond = maxDegreesPerSecond;
 		this.tolerance = tolerance;
 		this.camera = camera;
-		this.camera.setPIDSourceType(PIDSourceType.kDisplacement);
+		this.camera.setPIDSourceType(PIDSourceType.kRate);
 		this.motionController = motionController;
 		motionController.setInputRange(-180.0f, 180.0f);
 		motionController.setOutputRange(-1.0f, 1.0f);
@@ -43,12 +41,12 @@ public class PIDOffAngleChassisController implements ChassisController {
 	
 	@Override
 	public double getX() {
-		return controller.getX();
+		return 0;
 	}
 	
 	@Override
 	public double getY() {
-		return controller.getY();
+		return 0;
 	}
 	
 	@Override
@@ -61,7 +59,8 @@ public class PIDOffAngleChassisController implements ChassisController {
 		return motionController.get();
 	}
 	
-	public boolean isFinished() {
+	@Override
+	public boolean finished() {
 		return finished;
 	}
 }

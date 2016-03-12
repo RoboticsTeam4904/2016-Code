@@ -33,4 +33,9 @@ public class Nathan extends Driver {
 	public double getTurnSpeed() {
 		return RobotMap.HumanInput.Driver.xbox.leftStick.getX();
 	}
+	
+	@Override
+	public boolean finished() {
+		return false;
+	}
 }

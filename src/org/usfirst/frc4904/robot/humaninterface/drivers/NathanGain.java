@@ -41,4 +41,9 @@ public class NathanGain extends Driver {
 		double turnSpeed = scaleGain(rawTurnSpeed, RobotMap.Constant.HumanInput.TURN_GAIN, RobotMap.Constant.HumanInput.TURN_EXP);
 		return turnSpeed;
 	}
+	
+	@Override
+	public boolean finished() {
+		return false;
+	}
 }

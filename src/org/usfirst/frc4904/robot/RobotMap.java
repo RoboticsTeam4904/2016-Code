@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.subsystems.Camera;
+import org.usfirst.frc4904.robot.subsystems.CameraPIDSource;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
@@ -21,6 +22,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -152,6 +154,10 @@ public class RobotMap {
 			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 			public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
+			public static double AlignAngle_P = 0;
+			public static double AlignAngle_I = 0;
+			public static double AlignAngle_D = 0;
+			public static double AlignAngleTolerance = 5;
 		}
 		
 		public static class Network {
@@ -234,6 +240,7 @@ public class RobotMap {
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
 		public static Camera cameraIR;
+		public static CameraPIDSource cameraPIDSource;
 	}
 	
 	public static class HumanInput {
@@ -284,5 +291,6 @@ public class RobotMap {
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		// IR Camera
 		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
+		Component.cameraPIDSource = new CameraPIDSource(Component.cameraIR, PIDSourceType.kRate);
 	}
 }

@@ -6,6 +6,7 @@ import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
+import org.usfirst.frc4904.robot.custom.PIDOffAngleChassisController;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
@@ -13,10 +14,13 @@ import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	private ChassisMove teleopNormal;
+	private ChassisMove teleopAlign;
 	
 	@Override
 	public void initialize() {
@@ -37,7 +41,9 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void teleopInitialize() {
-		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+		teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+		teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+		teleopCommand = teleopNormal;
 		RobotMap.Component.timEncoder.reset();
 		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_VERBOSE);
 		LogKitten.setPrintMute(true);
@@ -48,6 +54,16 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
+		if (RobotMap.HumanInput.Driver.xbox.y.get() && (teleopCommand != teleopAlign)) {
+			teleopCommand.cancel();
+			teleopCommand = teleopAlign;
+			teleopCommand.start();
+		}
+		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) && (teleopCommand != teleopNormal)) || teleopAlign.getController().finished()) {
+			teleopCommand.cancel();
+			teleopCommand = teleopNormal;
+			teleopCommand.start();
+		}
 		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, RobotMap.Component.cameraIR.getGoalOffDistance(true));
 		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, RobotMap.Component.cameraIR.getGoalOffAngle(true));
 		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN <= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) < RobotMap.Constant.SHOOTING_RANGE_MAX));

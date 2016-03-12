@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class CameraPIDSource extends Camera implements PIDSource {
 	private PIDSourceType sourceType;
 	
-	public CameraPIDSource(String cameraIP, int cameraPort, String cameraPath, String cameraProtocol, PIDSourceType sourceType) {
-		super(cameraIP, cameraPort, cameraPath, cameraProtocol);
+	public CameraPIDSource(Camera camera, PIDSourceType sourceType) {
+		super(camera.cameraIP, camera.cameraPort, camera.cameraPath, camera.cameraProtocol);
 		this.sourceType = sourceType;
 	}
 	
