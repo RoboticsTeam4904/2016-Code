@@ -59,11 +59,11 @@ public class Robot extends CommandRobotBase {
 			teleopCommand = teleopAlign;
 			teleopCommand.start();
 		}
-		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) && (teleopCommand != teleopNormal)) || teleopAlign.getController().finished()) {
+		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) && (teleopCommand != teleopNormal)) || (teleopAlign.getController().finished() && (teleopCommand != teleopNormal))) {
 			teleopCommand.cancel();
 			teleopCommand = teleopNormal;
 			teleopCommand.start();
-		}
+		} // totaly sketch, Idealy we would not need to change the teleop command and just run a command, but we need a need to change the chassis controller
 		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, RobotMap.Component.cameraIR.getGoalOffDistance(true));
 		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, RobotMap.Component.cameraIR.getGoalOffAngle(true));
 		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN <= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) < RobotMap.Constant.SHOOTING_RANGE_MAX));
