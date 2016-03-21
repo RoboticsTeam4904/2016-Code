@@ -21,8 +21,9 @@ public class DefaultOperator extends Operator {
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Operator.stick.button1.onlyWhileHeld(new RockNRollerShoot());
+		RobotMap.HumanInput.Operator.stick.button1.whenReleased(new RunAllSequential(new WaitCommand(RobotMap.Constant.HumanInput.HOODDOWN_AFTER_TRIGGERRELEASE_DELAY), new HoodDown()));
 		RobotMap.HumanInput.Operator.stick.button2.whenPressed(new HoodUp());
-		RobotMap.HumanInput.Operator.stick.button2.onlyWhileHeld(new RunAllSequential(new WaitCommand(0.25), new SpinUpFlywheel()));
+		RobotMap.HumanInput.Operator.stick.button2.onlyWhileHeld(new RunAllSequential(new WaitCommand(RobotMap.Constant.HumanInput.FLYWHEEL_SPINUP_AFTER_HOODUP_DELAY), new SpinUpFlywheel()));
 		RobotMap.HumanInput.Operator.stick.button4.onlyWhileHeld(new Outtake());
 		RobotMap.HumanInput.Operator.stick.button4.onlyWhileReleased(new InnieControl());
 		RobotMap.HumanInput.Operator.stick.button5.whenPressed(new HoodUp());

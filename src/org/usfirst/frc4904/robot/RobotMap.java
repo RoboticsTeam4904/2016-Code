@@ -82,6 +82,8 @@ public class RobotMap {
 			public static final double TURN_EXP = 2;
 			public static final double DEFENSE_MANIPULATOR_SPEED_SCALE = 0.25;
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
+			public static final double FLYWHEEL_SPINUP_AFTER_HOODUP_DELAY = 0.25;
+			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY = 1;
 		}
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
