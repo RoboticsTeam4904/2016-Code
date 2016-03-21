@@ -73,7 +73,6 @@ public class RobotMap {
 	
 	public static class Constant {
 		public static class HumanInput {
-			public static final double X_SPEED_SCALE = 1;
 			public static final double Y_SPEED_SCALE = 1;
 			public static final double TURN_SPEED_SCALE = 1;
 			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
