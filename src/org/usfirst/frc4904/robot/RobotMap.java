@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
@@ -55,6 +56,7 @@ public class RobotMap {
 			public static final int defenseManipulatorEncoder = 0x605;
 			public static final int intakeEncoder = 0x606;
 			public static final int ultrasonic = 0x610;
+			public static final int ballLoadSensor = 0x611;
 		}
 		
 		public static class CANMotor {
@@ -71,7 +73,6 @@ public class RobotMap {
 	
 	public static class Constant {
 		public static class HumanInput {
-			public static final double X_SPEED_SCALE = 1;
 			public static final double Y_SPEED_SCALE = 1;
 			public static final double TURN_SPEED_SCALE = 1;
 			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
@@ -93,6 +94,9 @@ public class RobotMap {
 		public static final double SHOOTING_RANGE_MAX = Constant.SHOOTING_RANGE_LENGTH + Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double SHOOTING_RANGE_MIN = Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double OUTTAKE_MOTOR_SPEED = -1;
+		public static final double INNIE_BALL_HOLD_SPEED = 0.1;
+		public static final int BALL_LOAD_SENSOR_CALIBRATION_TICK_COUNT = 40;
+		public static final double BALL_LOAD_EMPTY_STATE_ABSOLUTE_ERROR = 20;
 	}
 	
 	public static class Component {
@@ -105,6 +109,7 @@ public class RobotMap {
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
 		public static DistanceSensor ultrasonicSensor;
+		public static BallLoadSensor ballLoadSensor;
 		public static RockNRoller rockNRoller;
 		public static Hood hood;
 		public static Flywheel flywheel;
@@ -149,13 +154,14 @@ public class RobotMap {
 		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), new CustomPIDController(Component.defenseManipulatorEncoder), new CANTalon(Port.CANMotor.defenseManipulator));
 		Component.defenseManipulator.setInverted(true);
 		Component.defenseManipulator.disablePID(); // TODO add encoders
+		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
 		// Flywheel
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
 		Component.hood = new Hood(new DoubleSolenoid(Port.PCM.hoodSolenoidDown, Port.PCM.hoodSolenoidUp));
 		Component.ultrasonicSensor = new CANUltrasonicDistanceSensor("Ultrasonic", Port.CAN.ultrasonic);
-		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor);
+		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor, Component.ballLoadSensor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(0.1);

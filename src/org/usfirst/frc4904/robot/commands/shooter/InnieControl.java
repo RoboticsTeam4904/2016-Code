@@ -20,23 +20,26 @@ public class InnieControl extends MotorControl {
 	@Override
 	protected void execute() {
 		double speed = controller.getAxis(axis);
-		boolean isDirectionIntake = (speed > 0) && !invert;
+		boolean isDirectionIntake = (speed >= 0) && !invert;
 		if (isDirectionIntake) {
-			super.execute();
-			return;
+			if (RobotMap.Component.shooter.isBallLoaded() && !RobotMap.Component.shooter.ballLoadOverride) {
+				motor.set(RobotMap.Constant.INNIE_BALL_HOLD_SPEED);
+			} else {
+				super.execute(); // run Innie from joystick (a la MotorControl)
+			}
+		} else { // outtaking
+			if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD) { // if not past threshold
+				stopMotors();
+				return;
+			}
+			// do outtake:
+			RobotMap.Component.rockNRoller.set(RockerState.OUTTAKE);
+			if (!invert) {
+				RobotMap.Component.innie.set(RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
+			} else {
+				RobotMap.Component.innie.set(-1.0f * RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
+			}
 		}
-		if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD) { // if not past threshold
-			stopMotors();
-			return;
-		}
-		// do outtake:
-		RobotMap.Component.rockNRoller.set(RockerState.OUTTAKE);
-		if (!invert) {
-			RobotMap.Component.innie.set(RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
-		} else {
-			RobotMap.Component.innie.set(-1.0f * RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
-		}
-		return;
 	}
 	
 	private void stopMotors() {
