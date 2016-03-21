@@ -31,14 +31,14 @@ public class NathanGain extends Driver {
 	@Override
 	public double getY() {
 		double rawSpeed = RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX();
-		double speed = scaleGain(rawSpeed, RobotMap.Constant.HumanInput.SPEED_GAIN, RobotMap.Constant.HumanInput.SPEED_EXP);
+		double speed = scaleGain(rawSpeed, RobotMap.Constant.HumanInput.SPEED_GAIN, RobotMap.Constant.HumanInput.SPEED_EXP) * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
 		return speed;
 	}
 	
 	@Override
 	public double getTurnSpeed() {
 		double rawTurnSpeed = RobotMap.HumanInput.Driver.xbox.leftStick.getX();
-		double turnSpeed = scaleGain(rawTurnSpeed, RobotMap.Constant.HumanInput.TURN_GAIN, RobotMap.Constant.HumanInput.TURN_EXP);
+		double turnSpeed = scaleGain(rawTurnSpeed, RobotMap.Constant.HumanInput.TURN_GAIN, RobotMap.Constant.HumanInput.TURN_EXP) * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
 		return turnSpeed;
 	}
 }
