@@ -26,14 +26,15 @@ public class Tim extends PositionEncodedMotor {
 	public void setPosition(double position) {
 		double safePosition = Math.max(Math.min(position, Tim.TIM_FULL_DOWN), Tim.TIM_FULL_UP);
 		super.setPosition(safePosition);
+		if ((encoder.getDistance() < Tim.TIM_FULL_UP && get() < 0) || (encoder.getDistance() > Tim.TIM_FULL_DOWN && get() > 0)) {
+			super.set(0); // TODO This is bad. No.
+		}
 	}
 	
 	@Override
 	public void set(double speed) {
-		if (encoder.getDistance() < Tim.TIM_FULL_UP && speed < 0) {
-			return;
-		}
-		if (encoder.getDistance() > Tim.TIM_FULL_DOWN && speed > 0) {
+		if ((encoder.getDistance() < Tim.TIM_FULL_UP && speed < 0) || (encoder.getDistance() > Tim.TIM_FULL_DOWN && speed > 0)) {
+			super.set(0); // TODO This is bad. No.
 			return;
 		}
 		super.set(speed);
