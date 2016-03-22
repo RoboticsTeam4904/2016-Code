@@ -5,7 +5,6 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,8 +22,6 @@ public class Robot extends CommandRobotBase {
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
-		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_VERBOSE);
-		LogKitten.setPrintMute(true);
 	}
 	
 	@Override
