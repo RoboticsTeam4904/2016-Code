@@ -1,5 +1,6 @@
 package org.usfirst.frc4904.robot;
 
+
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
@@ -17,9 +18,6 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addObject(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.IDLE));
-		autoChooser.addDefault(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.TIMED_LOWBAR));
-		autoChooser.addObject(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.TIMED_ROUGH_TERRAIN));
-		autoChooser.addObject(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.TIMED_MOAT));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
@@ -62,8 +60,8 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void autonomousInitialize() {
-		SmartDashboard.getNumber(SmartDashboardKey.AUTON_POSITION.key);
-		SmartDashboard.getNumber(SmartDashboardKey.AUTON_ROUTINE.key);
+		// SmartDashboard.getNumber(SmartDashboardKey.AUTON_POSITION.key);
+		autoChooser.addDefault(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(new Double(SmartDashboard.getNumber(SmartDashboardKey.AUTON_ROUTINE.key)).intValue()));
 	}
 	
 	/**
