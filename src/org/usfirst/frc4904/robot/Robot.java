@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	private SendableChooser autonChooser;
+	private SendableChooser positionChooser;
 	
 	@Override
 	public void initialize() {
@@ -34,6 +35,13 @@ public class Robot extends CommandRobotBase {
 		autonChooser.addDefault("Lowbar: 0", 0);
 		autonChooser.addObject("Rough Terrain: 1", 1);
 		autonChooser.addObject("Moat: 2", 2);
+		// Configure position Chooser
+		positionChooser = new SendableChooser();
+		positionChooser.addDefault("Left: 0", 0);
+		positionChooser.addObject("Right: 1", 1);
+		// The Input numbers for the choosers
+		SmartDashboard.putNumber(SmartDashboardKey.AUTON_POSITION.key, 0);
+		SmartDashboard.putNumber(SmartDashboardKey.AUTON_ROUTINE.key, 0);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 	}
 	
@@ -56,7 +64,10 @@ public class Robot extends CommandRobotBase {
 	}
 	
 	@Override
-	public void autonomousInitialize() {}
+	public void autonomousInitialize() {
+		SmartDashboard.getNumber(SmartDashboardKey.AUTON_POSITION.key);
+		SmartDashboard.getNumber(SmartDashboardKey.AUTON_ROUTINE.key);
+	}
 	
 	/**
 	 * This function is called periodically during autonomous
