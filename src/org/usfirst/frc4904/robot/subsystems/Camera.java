@@ -2,7 +2,7 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.commands.shooter.CameraPoll;
+import org.usfirst.frc4904.robot.commands.camera.CameraPoll;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Camera extends Subsystem {
