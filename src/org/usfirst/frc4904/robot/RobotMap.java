@@ -1,6 +1,10 @@
 package org.usfirst.frc4904.robot;
 
 
+import java.util.HashMap;
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
@@ -8,6 +12,7 @@ import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.subsystems.Tim;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -24,6 +29,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -160,6 +166,7 @@ public class RobotMap {
 			 * group.
 			 */
 			public static final int TIMED_MOAT = 2;
+			public static final HashMap<Integer, Command> StrategyMap = new HashMap<Integer, Command>();
 		}
 		
 		public static class FieldMetric {
@@ -265,5 +272,10 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
+		// Autonomous Strategies
+		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.IDLE, new ChassisIdle(RobotMap.Component.chassis));
+		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.TIMED_LOWBAR, new CrossLowbarTime(RobotMap.Component.chassis, false));
+		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.TIMED_MOAT, new CrossMoatTime(RobotMap.Component.chassis, false));
+		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.TIMED_ROUGH_TERRAIN, new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
 	}
 }
