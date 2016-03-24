@@ -1,9 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.autonomous.commands.GoalFind;
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
@@ -21,11 +19,9 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addObject(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addObject(new CrossLowbarTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.cameraIR, false));
-		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
+		autoChooser.addDefault(new CrossLowbarTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
-		autoChooser.addDefault(new GoalFind(RobotMap.Component.chassis, RobotMap.Component.cameraIR, RobotMap.Constant.AutonomousMetric.SEARCH_SPEED, RobotMap.Constant.Network.PI_IR_STATUS_INDEX_POSITION, RobotMap.Constant.Network.PI_IR_STATUS_GOOD, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
