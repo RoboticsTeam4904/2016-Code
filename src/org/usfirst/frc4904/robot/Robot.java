@@ -1,40 +1,40 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	private SendableChooser autonChooser;
 	private SendableChooser positionChooser;
 	
 	@Override
 	public void initialize() {
-		// Configure autonomous command chooser
-		autoChooser.addObject(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.IDLE));
+		// Configure autonomous commands
+		super.addAutonomousCommand(RobotMap.Constant.AutonomousStrategies.IDLE, new ChassisIdle(RobotMap.Component.chassis));
+		super.addAutonomousCommand(RobotMap.Constant.AutonomousStrategies.TIMED_LOWBAR, new CrossLowbarTime(RobotMap.Component.chassis, false));
+		super.addAutonomousCommand(RobotMap.Constant.AutonomousStrategies.TIMED_MOAT, new CrossMoatTime(RobotMap.Component.chassis, false));
+		super.addAutonomousCommand(RobotMap.Constant.AutonomousStrategies.TIMED_ROUGH_TERRAIN, new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
-		// Configure auton routine Chooser
-		autonChooser = new SendableChooser();
-		autonChooser.addDefault("Lowbar: 0", 0);
-		autonChooser.addObject("Rough Terrain: 1", 1);
-		autonChooser.addObject("Moat: 2", 2);
 		// Configure position Chooser
 		positionChooser = new SendableChooser();
 		positionChooser.addDefault("Left: 0", 0);
 		positionChooser.addObject("Right: 1", 1);
 		// The Input numbers for the choosers
 		SmartDashboard.putNumber(SmartDashboardKey.AUTON_POSITION.key, 0);
-		SmartDashboard.putNumber(SmartDashboardKey.AUTON_ROUTINE.key, RobotMap.Constant.AutonomousStrategies.IDLE);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 	}
 	
@@ -56,9 +56,7 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void autonomousInitialize() {
-		// SmartDashboard.getNumber(SmartDashboardKey.AUTON_POSITION.key);
-		int autonIndex = (new Double(SmartDashboard.getNumber(SmartDashboardKey.AUTON_ROUTINE.key)).intValue());
-		autoChooser.addDefault(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(autonIndex));
+		SmartDashboard.getNumber(SmartDashboardKey.AUTON_POSITION.key);
 	}
 	
 	/**
