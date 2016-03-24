@@ -6,7 +6,6 @@ import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
-import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
@@ -273,7 +272,6 @@ public class RobotMap {
 		public static CANTalonEncoder intakeEncoder;
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
-		public static Camera cameraIR;
 	}
 	
 	public static class HumanInput {
@@ -323,8 +321,6 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		// IR Camera
-		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
 		// Autonomous Strategies
 		Constant.AutonomousStrategies.StrategyMap.put(-1, new ChassisIdle(RobotMap.Component.chassis));
 		Constant.AutonomousStrategies.StrategyMap.put(0, new CrossLowbarTime(RobotMap.Component.chassis, false));
