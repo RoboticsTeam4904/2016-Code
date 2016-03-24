@@ -34,7 +34,7 @@ public class Robot extends CommandRobotBase {
 		positionChooser.addObject("Right: 1", 1);
 		// The Input numbers for the choosers
 		SmartDashboard.putNumber(SmartDashboardKey.AUTON_POSITION.key, 0);
-		SmartDashboard.putNumber(SmartDashboardKey.AUTON_ROUTINE.key, 0);
+		SmartDashboard.putNumber(SmartDashboardKey.AUTON_ROUTINE.key, RobotMap.Constant.AutonomousStrategies.IDLE);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 	}
 	
