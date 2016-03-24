@@ -1,6 +1,5 @@
 package org.usfirst.frc4904.robot;
 
-
 import java.util.HashMap;
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
@@ -12,6 +11,7 @@ import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
+import org.usfirst.frc4904.robot.subsystems.Tim;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -245,7 +245,6 @@ public class RobotMap {
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
-		public static final double TIM_CALIBRATION_SWEEP_SPEED = -0.1;
 		public static final int FLYWHEEL_SPIN_UP_SPEED = 750000;
 		public static final double HORIZONTAL_BATTER_LENGTH = 43.5;
 		public static final double CAMERA_DISTANCE_FROM_FRONT_BUMPER = 13;
@@ -263,8 +262,8 @@ public class RobotMap {
 		public static PDP pdp;
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
+		public static Tim tim; // His name is Tim.
 		public static Innie innie;
-		public static PositionEncodedMotor tim; // His name is Tim.
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
@@ -314,7 +313,7 @@ public class RobotMap {
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
-		Component.tim = new PositionEncodedMotor(new CustomPIDController(Component.timEncoder), new CANTalon(Port.CANMotor.tim));
+		Component.tim = new Tim(new CustomPIDController(Component.timEncoder), Component.timEncoder, new CANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
 		Component.tim.disablePID(); // TODO add encoders
 		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
