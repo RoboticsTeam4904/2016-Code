@@ -1,14 +1,10 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,10 +14,10 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addObject(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addDefault(new CrossLowbarTime(RobotMap.Component.chassis, false));
-		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
-		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.IDLE));
+		autoChooser.addDefault(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.TIMED_LOWBAR));
+		autoChooser.addObject(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.TIMED_ROUGH_TERRAIN));
+		autoChooser.addObject(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(RobotMap.Constant.AutonomousStrategies.TIMED_MOAT));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());

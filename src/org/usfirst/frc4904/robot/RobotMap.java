@@ -1,6 +1,10 @@
 package org.usfirst.frc4904.robot;
 
 
+import java.util.HashMap;
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
 import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
@@ -8,6 +12,7 @@ import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -24,6 +29,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -137,6 +143,40 @@ public class RobotMap {
 			 * reversing direction to prevent drift.
 			 */
 			public static final double BURST_SPEED = -0.25;
+		}
+		
+		public static class AutonomousStrategies {
+			/**
+			 * Number for the ChassisIdle command
+			 * group.
+			 */
+			public static final int IDLE = -1;
+			/**
+			 * Number for the CrossLowbarTime command
+			 * group.
+			 */
+			public static final int TIMED_LOWBAR = 0;
+			/**
+			 * Number for the CrossRoughTerrainTime
+			 * command group.
+			 */
+			public static final int TIMED_ROUGH_TERRAIN = 1;
+			/**
+			 * Number for the CrossMoatTime command
+			 * group.
+			 */
+			public static final int TIMED_MOAT = 2;
+			/**
+			 * Mapping of integers to Autonomous Strategies
+			 */
+			public static final HashMap<Integer, CommandGroup> StrategyMap = new HashMap<Integer, CommandGroup>();
+			
+			static {
+				AutonomousStrategies.StrategyMap.put(-1, new ChassisIdle(RobotMap.Component.chassis));
+				AutonomousStrategies.StrategyMap.put(0, new CrossLowbarTime(RobotMap.Component.chassis, false));
+				AutonomousStrategies.StrategyMap.put(1, new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
+				AutonomousStrategies.StrategyMap.put(2, new CrossMoatTime(RobotMap.Component.chassis, false));
+			}
 		}
 		
 		public static class FieldMetric {
