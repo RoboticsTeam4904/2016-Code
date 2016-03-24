@@ -1,10 +1,6 @@
 package org.usfirst.frc4904.robot;
 
 
-import java.util.HashMap;
-import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
@@ -12,7 +8,6 @@ import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.subsystems.Tim;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -29,7 +24,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -166,10 +160,6 @@ public class RobotMap {
 			 * group.
 			 */
 			public static final int TIMED_MOAT = 2;
-			/**
-			 * Mapping of integers to Autonomous Strategies
-			 */
-			public static final HashMap<Integer, CommandGroup> StrategyMap = new HashMap<Integer, CommandGroup>();
 		}
 		
 		public static class FieldMetric {
@@ -188,52 +178,6 @@ public class RobotMap {
 			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 			public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
-		}
-		
-		public static class Network {
-			public static final String IP_PREFACE = "10.49.4.";
-			public static final String PI_IR_IP = Network.IP_PREFACE + "44";
-			@Deprecated
-			public static final String PI_VISUAL_IP = Network.IP_PREFACE + "80";
-			public static final int PI_IR_PORT = 9999;
-			@Deprecated
-			public static final int PI_VISUAL_PORT = Integer.MAX_VALUE;
-			/**
-			 * The HTTP 'GET' request method constant.
-			 */
-			public static final String CONNECTION_METHOD_GET = "GET";
-			/**
-			 * The HTTP 'POST' request method constant.
-			 */
-			public static final String CONNECTION_METHOD_POST = "POST";
-			/**
-			 * The URL connection protocol string for HTTP
-			 */
-			public static final String CONNECTION_PROTOCOL_HTTP = "http";
-			/**
-			 * The URL connection protocol string for HTTPS
-			 */
-			public static final String CONNECTION_PROTOCOL_HTTPS = "https";
-			/**
-			 * Autonomous URL destination for the PI IR camera
-			 */
-			public static final String PI_IR_AUTO_PATH = "/autonomous";
-			/**
-			 * Return this when connnection cannot be established to anything"
-			 */
-			public static final String CONNECTION_ERROR_MESSAGE = "CONNECTION COULD NOT BE ESTABLISHED";
-			/**
-			 * This is value of the IR Camera status if it's good.
-			 */
-			public static final String PI_IR_STATUS_GOOD = "1";
-			/**
-			 * This is value of the IR Camera status if it's bad.
-			 */
-			public static final String PI_IR_STATUS_BAD = "0";
-			/**
-			 * The position of the IR Camera status in the IR Camerowa data
-			 */
-			public static final int PI_IR_STATUS_INDEX_POSITION = 0;
 		}
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
@@ -321,10 +265,5 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		// Autonomous Strategies
-		Constant.AutonomousStrategies.StrategyMap.put(-1, new ChassisIdle(RobotMap.Component.chassis));
-		Constant.AutonomousStrategies.StrategyMap.put(0, new CrossLowbarTime(RobotMap.Component.chassis, false));
-		Constant.AutonomousStrategies.StrategyMap.put(1, new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
-		Constant.AutonomousStrategies.StrategyMap.put(2, new CrossMoatTime(RobotMap.Component.chassis, false));
 	}
 }
