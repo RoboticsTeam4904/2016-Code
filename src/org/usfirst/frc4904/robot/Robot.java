@@ -61,7 +61,8 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void autonomousInitialize() {
 		// SmartDashboard.getNumber(SmartDashboardKey.AUTON_POSITION.key);
-		autoChooser.addDefault(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(new Double(SmartDashboard.getNumber(SmartDashboardKey.AUTON_ROUTINE.key)).intValue()));
+		int autonIndex = (new Double(SmartDashboard.getNumber(SmartDashboardKey.AUTON_ROUTINE.key)).intValue());
+		autoChooser.addDefault(RobotMap.Constant.AutonomousStrategies.StrategyMap.get(autonIndex));
 	}
 	
 	/**
