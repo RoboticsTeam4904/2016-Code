@@ -1,5 +1,6 @@
 package org.usfirst.frc4904.robot;
 
+
 import java.util.HashMap;
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
@@ -170,13 +171,6 @@ public class RobotMap {
 			 * Mapping of integers to Autonomous Strategies
 			 */
 			public static final HashMap<Integer, CommandGroup> StrategyMap = new HashMap<Integer, CommandGroup>();
-			
-			static {
-				AutonomousStrategies.StrategyMap.put(-1, new ChassisIdle(RobotMap.Component.chassis));
-				AutonomousStrategies.StrategyMap.put(0, new CrossLowbarTime(RobotMap.Component.chassis, false));
-				AutonomousStrategies.StrategyMap.put(1, new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
-				AutonomousStrategies.StrategyMap.put(2, new CrossMoatTime(RobotMap.Component.chassis, false));
-			}
 		}
 		
 		public static class FieldMetric {
@@ -331,5 +325,10 @@ public class RobotMap {
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		// IR Camera
 		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
+		// Autonomous Strategies
+		Constant.AutonomousStrategies.StrategyMap.put(-1, new ChassisIdle(RobotMap.Component.chassis));
+		Constant.AutonomousStrategies.StrategyMap.put(0, new CrossLowbarTime(RobotMap.Component.chassis, false));
+		Constant.AutonomousStrategies.StrategyMap.put(1, new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
+		Constant.AutonomousStrategies.StrategyMap.put(2, new CrossMoatTime(RobotMap.Component.chassis, false));
 	}
 }
