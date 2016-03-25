@@ -10,10 +10,12 @@ import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	private SendableChooser positionChooser;
 	
 	@Override
 	public void initialize() {
@@ -27,6 +29,11 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		// Configure position Chooser
+		positionChooser = new SendableChooser();
+		positionChooser.addDefault("Left: 0", 0);
+		positionChooser.addObject("Right: 1", 1);
+		// The Input numbers for the choosers
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 	}
 	
