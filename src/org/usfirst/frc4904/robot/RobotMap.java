@@ -226,7 +226,6 @@ public class RobotMap {
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
-		// Component.tim = new Motor("Tim", new CANTalon(Port.CANMotor.tim));
 		Component.tim = new Tim(new CustomPIDController(Component.timEncoder), Component.timEncoder, new CANTalon(Port.CANMotor.tim));
 		Component.tim.disablePID(); // TODO add encoders
 		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
