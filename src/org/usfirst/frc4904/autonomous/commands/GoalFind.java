@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GoalFind extends CommandGroup {
 	protected Camera camera;
-	private static final boolean GET_REAL_DATA = true;
 	protected int statusIndex;
 	protected String statusGood;
 	
