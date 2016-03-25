@@ -83,6 +83,79 @@ public class RobotMap {
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
 			public static final double FLYWHEEL_SPINUP_AFTER_HOODUP_DELAY_SECONDS = 0.25;
 			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY_SECONDS = 1;
+			public static final int XBOX_360_RIGHT_STICK_Y = 5;
+		}
+		
+		public static class RobotMetric {
+			public static final double WIDTH = 22.15;
+			public static final double LENGTH = 25.81;
+			public static final double WHEEL_ENCODER_PPR = 1024;
+			public static final double WHEEL_DIAMETER = 8;
+			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
+		}
+		
+		public static class AutonomousMetric {
+			/**
+			 * The standard autonomous drive speed
+			 */
+			public static final double DRIVE_SPEED = 0.5;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the moat.
+			 */
+			public static final double TIME_MOAT = 3.5;
+			public static final double SPEED_MOAT = 0.5;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the rough terrain.
+			 */
+			public static final double TIME_ROUGH_TERRAIN = 3.5;
+			public static final double SPEED_ROUGH_TERRAIN = 0.5;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the rock wall.
+			 */
+			@Deprecated
+			public static final double TIME_ROCK_WALL = 3;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the low bar.
+			 */
+			public static final double TIME_LOWBAR = 4;
+			public static final double SPEED_LOWBAR = 0.4;
+			/**
+			 * The speed the robot turns when searching
+			 * for the goal
+			 */
+			public static final double SEARCH_SPEED = 0.2;
+			/**
+			 * Used as the time to run a command when
+			 * reversing direction to prevent drift.
+			 */
+			public static final double BURST_TIME = 0.15;
+			/**
+			 * Used as the speed to travel atx when
+			 * reversing direction to prevent drift.
+			 */
+			public static final double BURST_SPEED = -0.25;
+		}
+		
+		public static class FieldMetric {
+			/**
+			 * The distance that the robot needs to travel
+			 * to cross and pass the low bar.
+			 */
+			public static final double DISTANCE_TO_LOW_BAR = 224;
+			/**
+			 * The tilt of the defenses, if any.
+			 */
+			public static final double DEFENSE_TILT = 25.0; // in degrees
+		}
+		
+		public static class Component {
+			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
+			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
+			public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 		}
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
@@ -137,6 +210,7 @@ public class RobotMap {
 		Component.pdp = new PDP();
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
+		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
 		Component.leftWheel.setInverted(true);
@@ -154,7 +228,6 @@ public class RobotMap {
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
 		Component.tim = new Tim(new CustomPIDController(Component.timEncoder), Component.timEncoder, new CANTalon(Port.CANMotor.tim));
-		Component.tim.setInverted(true);
 		Component.tim.disablePID(); // TODO add encoders
 		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
 		// Flywheel
