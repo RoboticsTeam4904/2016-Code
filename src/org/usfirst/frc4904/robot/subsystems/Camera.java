@@ -13,8 +13,8 @@ public class Camera extends Subsystem {
 	protected String cameraIP;
 	protected int cameraPort;
 	protected String cameraPath;
-	protected CameraData cameraDataPrevious;
-	protected CameraData cameraDataCurrent;
+	protected CameraData cameraDataPrevious = new CameraData();
+	protected CameraData cameraDataCurrent = new CameraData();
 	protected Double cameraOffAngleCurrent = 0.0;
 	protected Double cameraOffAnglePrevious = 0.0;
 	protected Double cameraOffDistanceCurrent = 0.0;
