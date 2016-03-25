@@ -52,22 +52,6 @@ public class Camera extends Subsystem {
 		return cameraPath;
 	}
 	
-	public void setCameraStatus(CameraStatus status) {
-		cameraStatus = status;
-	}
-	
-	public CameraStatus getCameraStatus() {
-		return cameraStatus;
-	}
-	
-	public boolean getCameraCanSeeGoal() {
-		return cameraCanSeeGoal;
-	}
-	
-	public void setCameraCanSeeGoal(boolean canSee) {
-		cameraCanSeeGoal = canSee;
-	}
-	
 	public void setCameraData(CameraData data) {
 		if (data.getTotalData().equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
 			cameraDataCurrent = data;

@@ -22,7 +22,7 @@ public class GoalFind extends CommandGroup {
 	
 	@Override
 	public boolean isFinished() {
-		boolean cameraData = camera.getCameraCanSeeGoal();
+		boolean cameraData = camera.getCameraData(true).canSeeGoal();
 		if (cameraData) {
 			LogKitten.v("It was good. It got: " + cameraData);
 			return true;
