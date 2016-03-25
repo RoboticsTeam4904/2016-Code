@@ -1,18 +1,12 @@
 package org.usfirst.frc4904.robot;
 
 
-import java.util.HashMap;
-import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
-import org.usfirst.frc4904.robot.subsystems.Tim;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -29,7 +23,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -87,8 +80,6 @@ public class RobotMap {
 			public static final double TURN_EXP = 2;
 			public static final double DEFENSE_MANIPULATOR_SPEED_SCALE = 0.25;
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
-			public static final double FLYWHEEL_SPINUP_AFTER_HOODUP_DELAY_SECONDS = 0.25;
-			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY_SECONDS = 1;
 		}
 		
 		public static class RobotMetric {
@@ -145,30 +136,6 @@ public class RobotMap {
 			public static final double BURST_SPEED = -0.25;
 		}
 		
-		public static class AutonomousStrategies {
-			/**
-			 * Number for the ChassisIdle command
-			 * group.
-			 */
-			public static final int IDLE = -1;
-			/**
-			 * Number for the CrossLowbarTime command
-			 * group.
-			 */
-			public static final int TIMED_LOWBAR = 0;
-			/**
-			 * Number for the CrossRoughTerrainTime
-			 * command group.
-			 */
-			public static final int TIMED_ROUGH_TERRAIN = 1;
-			/**
-			 * Number for the CrossMoatTime command
-			 * group.
-			 */
-			public static final int TIMED_MOAT = 2;
-			public static final HashMap<Integer, Command> StrategyMap = new HashMap<Integer, Command>();
-		}
-		
 		public static class FieldMetric {
 			/**
 			 * The distance that the robot needs to travel
@@ -189,6 +156,7 @@ public class RobotMap {
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
+		public static final double TIM_CALIBRATION_SWEEP_SPEED = -0.1;
 		public static final int FLYWHEEL_SPIN_UP_SPEED = 750000;
 		public static final double HORIZONTAL_BATTER_LENGTH = 43.5;
 		public static final double CAMERA_DISTANCE_FROM_FRONT_BUMPER = 13;
@@ -206,8 +174,8 @@ public class RobotMap {
 		public static PDP pdp;
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
-		public static Tim tim; // His name is Tim.
 		public static Innie innie;
+		public static PositionEncodedMotor tim; // His name is Tim.
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
@@ -256,7 +224,7 @@ public class RobotMap {
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
-		Component.tim = new Tim(new CustomPIDController(Component.timEncoder), Component.timEncoder, new CANTalon(Port.CANMotor.tim));
+		Component.tim = new PositionEncodedMotor(new CustomPIDController(Component.timEncoder), new CANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
 		Component.tim.disablePID(); // TODO add encoders
 		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
@@ -272,10 +240,5 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		// Autonomous Strategies
-		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.IDLE, new ChassisIdle(RobotMap.Component.chassis));
-		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.TIMED_LOWBAR, new CrossLowbarTime(RobotMap.Component.chassis, false));
-		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.TIMED_MOAT, new CrossMoatTime(RobotMap.Component.chassis, false));
-		Constant.AutonomousStrategies.StrategyMap.put(RobotMap.Constant.AutonomousStrategies.TIMED_ROUGH_TERRAIN, new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
 	}
 }
