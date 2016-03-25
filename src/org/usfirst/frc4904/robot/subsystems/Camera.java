@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Camera extends Subsystem {
 	public enum CameraStatus {
-		CONNECTED, DISCONNECTED;
+		CONNECTED, DISCONNECTED, ERRDATA;
 	}
 	protected CameraStatus cameraStatus;
 	protected String cameraIP;
 	protected int cameraPort;
 	protected String cameraPath;
-	protected String cameraDataPrevious = "";
-	protected String cameraDataCurrent = "";
+	protected CameraData cameraDataPrevious;
+	protected CameraData cameraDataCurrent;
 	protected Double cameraOffAngleCurrent = 0.0;
 	protected Double cameraOffAnglePrevious = 0.0;
 	protected Double cameraOffDistanceCurrent = 0.0;
@@ -68,8 +68,8 @@ public class Camera extends Subsystem {
 		cameraCanSeeGoal = canSee;
 	}
 	
-	public void setCameraData(String data) {
-		if (data.equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
+	public void setCameraData(CameraData data) {
+		if (data.getTotalData().equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
 			cameraDataCurrent = data;
 		} else {
 			cameraDataPrevious = cameraDataCurrent;
@@ -77,9 +77,9 @@ public class Camera extends Subsystem {
 		}
 	}
 	
-	public String getCameraData(boolean shouldIgnoreError) {
+	public CameraData getCameraData(boolean shouldIgnoreError) {
 		if (shouldIgnoreError) {
-			if (cameraDataCurrent.equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
+			if (cameraDataCurrent.getTotalData().equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
 				return cameraDataPrevious;
 			} else {
 				return cameraDataCurrent;
@@ -89,45 +89,60 @@ public class Camera extends Subsystem {
 		}
 	}
 	
-	public double getGoalOffDistance(boolean shouldIgnoreError) {
-		if (shouldIgnoreError) {
-			if (cameraOffDistanceCurrent.equals(Camera.CAMERA_ERROR_VALUE)) {
-				return cameraOffDistancePrevious;
-			} else {
-				return cameraOffDistanceCurrent;
-			}
-		} else {
-			return cameraOffDistanceCurrent;
+	public static class CameraData {
+		private boolean canSeeGoal = false;
+		private Double degreesToTurn = 0D;
+		private Double distanceToMove = 0D;
+		private CameraStatus cameraStatus;
+		private String totalData = RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE;
+		
+		public CameraData() {
+			cameraStatus = CameraStatus.DISCONNECTED;
 		}
-	}
-	
-	public void setGoalOffDistance(Double offDistance) {
-		if (offDistance.equals(Camera.CAMERA_ERROR_VALUE)) {
-			cameraOffDistanceCurrent = offDistance;
-		} else {
-			cameraOffDistancePrevious = cameraOffDistanceCurrent;
-			cameraOffDistanceCurrent = offDistance;
+		
+		public void setCanSeeGoal(boolean canSeeGoal) {
+			this.canSeeGoal = canSeeGoal;
 		}
-	}
-	
-	public double getGoalOffAngle(boolean shouldIgnoreError) {
-		if (shouldIgnoreError) {
-			if (cameraOffAngleCurrent.equals(Camera.CAMERA_ERROR_VALUE)) {
-				return cameraOffAnglePrevious;
-			} else {
-				return cameraOffAngleCurrent;
-			}
-		} else {
-			return cameraOffAngleCurrent;
+		
+		public boolean canSeeGoal() {
+			return canSeeGoal;
 		}
-	}
-	
-	public void setGoalOffAngle(Double offAngle) {
-		if (offAngle.equals(Camera.CAMERA_ERROR_VALUE)) {
-			cameraOffAngleCurrent = offAngle;
-		} else {
-			cameraOffAnglePrevious = cameraOffAngleCurrent;
-			cameraOffAngleCurrent = offAngle;
+		
+		public void setDegreesToTurn(Double degreesToTurn) {
+			this.degreesToTurn = degreesToTurn;
+		}
+		
+		public Double getDegreesToTurn() {
+			return degreesToTurn;
+		}
+		
+		public void setDistanceToMove(Double distanceToMove) {
+			this.distanceToMove = distanceToMove;
+		}
+		
+		public Double getDistanceToMove() {
+			return distanceToMove;
+		}
+		
+		public void setCameraStatus(CameraStatus cameraStatus) {
+			this.cameraStatus = cameraStatus;
+		}
+		
+		public CameraStatus getCameraStatus() {
+			return cameraStatus;
+		}
+		
+		public void setTotalData(String totalData) {
+			this.totalData = totalData;
+		}
+		
+		public String getTotalData() {
+			return totalData;
+		}
+		
+		@Override
+		public String toString() {
+			return this.getClass().getName() + "#{" + "Distance: " + distanceToMove.toString() + ", " + "Turn: " + degreesToTurn.toString() + ", " + "Goal Visible: " + Boolean.toString(canSeeGoal) + ", " + "Total Data: " + totalData + ", " + "Camera Status: " + cameraStatus + "}";
 		}
 	}
 }
