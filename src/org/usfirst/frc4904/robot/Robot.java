@@ -6,22 +6,17 @@ import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndAlign;
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
-import org.usfirst.frc4904.robot.custom.PIDOffAngleChassisController;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	private ChassisMove teleopNormal;
-	private ChassisMove teleopAlign;
 	private SendableChooser positionChooser;
 	
 	@Override
@@ -50,8 +45,6 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
-		teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance));
-		teleopCommand = teleopNormal;
 		teleopCommand.start();
 		RobotMap.Component.timEncoder.reset();
 	}
@@ -61,24 +54,12 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		if (RobotMap.HumanInput.Driver.xbox.y.get() && (teleopCommand != teleopAlign)) {
-			teleopCommand.cancel();
-			teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance));
-			teleopCommand = teleopAlign;
-			teleopCommand.start();
-		}
-		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) || teleopAlign.getController().finished()) && (teleopCommand != teleopNormal)) {
-			teleopCommand.cancel();
-			teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
-			teleopCommand = teleopNormal;
-			teleopCommand.start();
-		} // totaly sketch, Idealy we would not need to change the teleop command and just run a command, but we need a need to change the chassis controller
-		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, RobotMap.Component.cameraIR.getGoalOffDistance(true));
-		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, RobotMap.Component.cameraIR.getGoalOffAngle(true));
-		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN <= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) < RobotMap.Constant.SHOOTING_RANGE_MAX));
+		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove());
+		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, RobotMap.Component.cameraIR.getCameraData(true).getDegreesToTurn());
+		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN <= RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove()) && (RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove()) < RobotMap.Constant.SHOOTING_RANGE_MAX);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
-		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, (RobotMap.Component.cameraIR.getGoalOffAngle(true) < 5) && (RobotMap.Component.cameraIR.getGoalOffAngle(true) > -5));
-		LogKitten.v("Raw Data: " + RobotMap.Component.cameraIR.getCameraData(false) + " Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false) + " Distance:" + RobotMap.Component.cameraIR.getGoalOffDistance(false) + " In Range: " + ((RobotMap.Constant.SHOOTING_RANGE_MIN >= RobotMap.Component.cameraIR.getGoalOffDistance(true)) && (RobotMap.Component.cameraIR.getGoalOffDistance(true) > RobotMap.Constant.SHOOTING_RANGE_MAX)), true);
+		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, (RobotMap.Component.cameraIR.getCameraData(true).getDegreesToTurn() < 5) && (RobotMap.Component.cameraIR.getCameraData(true).getDegreesToTurn() > -5));
+		// LogKitten.v("Raw Data: " + RobotMap.Component.cameraIR.getCameraData(false) + " Off Angle: " + RobotMap.Component.cameraIR.getCameraData(false).getDegreesToTurn() + " Distance:" + RobotMap.Component.cameraIR.getCameraData(false).getDistanceToMove()) + " In Range: " + ((RobotMap.Constant.SHOOTING_RANGE_MIN >= RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove())) && (RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove()) > RobotMap.Constant.SHOOTING_RANGE_MAX, true);
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 	}

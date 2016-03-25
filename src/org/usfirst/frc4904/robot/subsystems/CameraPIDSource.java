@@ -27,9 +27,9 @@ public class CameraPIDSource extends Camera implements PIDSource {
 	@Override
 	public double pidGet() {
 		if (sourceType == PIDSourceType.kRate) {
-			return super.getGoalOffAngle(false);
+			return super.getCameraData(false).getDegreesToTurn();
 		} else {
-			return super.getGoalOffDistance(false);
+			return super.getCameraData(false).getDistanceToMove();
 		}
 	}
 	
