@@ -153,6 +153,7 @@ public class RobotMap {
 		}
 		
 		public static class Network {
+			@Deprecated
 			public static final String IP_PREFACE = "10.49.4.";
 			public static final String PI_IR_ADDRESS = "ir.local";
 			@Deprecated
