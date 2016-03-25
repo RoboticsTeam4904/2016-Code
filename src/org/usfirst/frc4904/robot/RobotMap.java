@@ -198,7 +198,7 @@ public class RobotMap {
 	public static class HumanInput {
 		public static class Driver {
 			public static CustomXbox xbox;
-			public static int xbox360RightAxisY;
+			public static int xbox360RightAxisY = 5;
 		}
 		
 		public static class Operator {
