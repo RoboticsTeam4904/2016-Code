@@ -176,8 +176,8 @@ public class RobotMap {
 		public static PDP pdp;
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
-		public static Innie innie;
 		public static Tim tim; // His name is Tim.
+		public static Innie innie;
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
