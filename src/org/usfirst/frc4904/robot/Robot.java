@@ -20,8 +20,8 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addObject(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addDefault(new CrossLowbarTime(RobotMap.Component.chassis, false));
+		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
