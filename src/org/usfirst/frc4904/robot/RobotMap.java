@@ -109,7 +109,7 @@ public class RobotMap {
 			 * The amount of time that autonomous runs
 			 * in order to cross the rough terrain.
 			 */
-			public static final double TIME_ROUGH_TERRAIN = 4;
+			public static final double TIME_ROUGH_TERRAIN = 3.5;
 			public static final double SPEED_ROUGH_TERRAIN = 0.5;
 			/**
 			 * The amount of time that autonomous runs
