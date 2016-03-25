@@ -34,5 +34,11 @@ public class DefaultOperator extends Operator {
 				RobotMap.Component.shooter.ballLoadOverride = !RobotMap.Component.shooter.ballLoadOverride; // toggle
 			}
 		});
+		RobotMap.HumanInput.Operator.stick.button12.whenPressed(new SingleOp() {
+			@Override
+			protected void runOp() {
+				RobotMap.Component.ballLoadSensor.resetCalibration();
+			}
+		});
 	}
 }

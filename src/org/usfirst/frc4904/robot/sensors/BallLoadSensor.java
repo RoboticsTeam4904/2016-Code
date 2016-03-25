@@ -31,4 +31,13 @@ public class BallLoadSensor extends CANInfraredDistanceSensor {
 		calibrationRunningTotal += getDistance();
 		++calibrationTicksAccumulated;
 	}
+	
+	public void resetCalibration() {
+		BallLoadSensor.EMPTY_STATE_LOWER_BOUND = Double.NEGATIVE_INFINITY;
+		BallLoadSensor.EMPTY_STATE_UPPER_BOUND = Double.POSITIVE_INFINITY;
+		calibrationTicksAccumulated = 0;
+		calibrationRunningTotal = 0;
+		calibrationCompleted = false;
+		// calibrate will be re-run by Robot#TeleopPeriodic()
+	}
 }
