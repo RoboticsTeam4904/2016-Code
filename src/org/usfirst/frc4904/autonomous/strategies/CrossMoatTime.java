@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class CrossMoatTime extends CommandGroup {
 	public CrossMoatTime(Chassis chassis, boolean usePID) {
-		addSequential(new MotorPositionConstant(RobotMap.Component.tim, (Tim.TIM_FULL_DOWN - Tim.TIM_FULL_UP) / 2));
 		addParallel(new RunAllSequential(new WaitCommand(0.5), new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.SPEED_MOAT, RobotMap.Constant.AutonomousMetric.TIME_MOAT, usePID)));
+		addParallel(new MotorPositionConstant(RobotMap.Component.tim, (Tim.TIM_FULL_DOWN - Tim.TIM_FULL_UP) / 2));
 	}
 }

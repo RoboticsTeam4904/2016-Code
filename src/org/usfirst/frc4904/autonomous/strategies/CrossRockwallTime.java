@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 @Deprecated
 public class CrossRockwallTime extends CommandGroup {
 	public CrossRockwallTime(Chassis chassis, boolean usePID) {
-		addSequential(new MotorPositionConstant(RobotMap.Component.tim, (Tim.TIM_FULL_DOWN - Tim.TIM_FULL_UP) / 2));
 		addParallel(new RunAllSequential(new WaitCommand(0.5), new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.TIME_ROCK_WALL, usePID)));
+		addParallel(new MotorPositionConstant(RobotMap.Component.tim, (Tim.TIM_FULL_DOWN - Tim.TIM_FULL_UP) / 2));
 	}
 }
