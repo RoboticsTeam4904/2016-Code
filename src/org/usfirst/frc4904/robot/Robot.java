@@ -33,7 +33,8 @@ public class Robot extends CommandRobotBase {
 		positionChooser = new SendableChooser();
 		positionChooser.addDefault("Left: 0", 0);
 		positionChooser.addObject("Right: 1", 1);
-		// The Input numbers for the choosers
+		// Initialize SmartDashboard display values
+		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, 0);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 	}
 	
