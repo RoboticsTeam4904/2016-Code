@@ -32,6 +32,7 @@ public class CameraPoll extends Command {
 	
 	public CameraPoll(String name, Camera camera) {
 		super(name);
+		LogKitten.wtf("CameraPoll Constructed");
 		requires(camera);
 		this.camera = camera;
 		try {
