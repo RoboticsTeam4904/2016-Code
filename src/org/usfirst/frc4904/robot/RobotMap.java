@@ -139,6 +139,7 @@ public class RobotMap {
 			 * reversing direction to prevent drift.
 			 */
 			public static final double BURST_SPEED = -0.25;
+			public static final double INFRARED_ADJUSTMENT = -4.0;
 		}
 		
 		public static class FieldMetric {
