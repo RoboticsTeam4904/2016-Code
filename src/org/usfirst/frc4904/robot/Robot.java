@@ -47,7 +47,10 @@ public class Robot extends CommandRobotBase {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {}
+	public void teleopExecute() {
+		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
+		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
+	}
 	
 	@Override
 	public void autonomousInitialize() {}
