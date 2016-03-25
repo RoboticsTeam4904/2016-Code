@@ -293,6 +293,6 @@ public class RobotMap {
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		// IR Camera
-		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
+		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_ADDRESS, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
 	}
 }
