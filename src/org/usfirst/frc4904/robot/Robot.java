@@ -1,26 +1,40 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	private SendableChooser positionChooser;
 	
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		// Configure position Chooser
+		positionChooser = new SendableChooser();
+		positionChooser.addDefault("Left: 0", 0);
+		positionChooser.addObject("Right: 1", 1);
+		// Initialize SmartDashboard display values
+		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, 0);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 	}
 	
