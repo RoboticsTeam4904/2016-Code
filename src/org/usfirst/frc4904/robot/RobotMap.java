@@ -83,7 +83,7 @@ public class RobotMap {
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
 			public static final double FLYWHEEL_SPINUP_AFTER_HOODUP_DELAY_SECONDS = 0.25;
 			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY_SECONDS = 1;
-			public static int XBOX_360_RIGHT_STICK_Y = 5;
+			public static final int XBOX_360_RIGHT_STICK_Y = 5;
 		}
 		
 		public static class RobotMetric {
