@@ -10,6 +10,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -40,6 +41,7 @@ public class Robot extends CommandRobotBase {
 		// Initialize SmartDashboard display values
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, 0);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_VERBOSE);
 	}
 	
 	@Override
@@ -54,13 +56,13 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove());
-		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, RobotMap.Component.cameraIR.getCameraData(true).getDegreesToTurn());
-		SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, (RobotMap.Constant.SHOOTING_RANGE_MIN <= RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove()) && (RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove()) < RobotMap.Constant.SHOOTING_RANGE_MAX);
-		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
-		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, (RobotMap.Component.cameraIR.getCameraData(true).getDegreesToTurn() < 5) && (RobotMap.Component.cameraIR.getCameraData(true).getDegreesToTurn() > -5));
-		// LogKitten.v("Raw Data: " + RobotMap.Component.cameraIR.getCameraData(false) + " Off Angle: " + RobotMap.Component.cameraIR.getCameraData(false).getDegreesToTurn() + " Distance:" + RobotMap.Component.cameraIR.getCameraData(false).getDistanceToMove()) + " In Range: " + ((RobotMap.Constant.SHOOTING_RANGE_MIN >= RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove())) && (RobotMap.Component.cameraIR.getCameraData(true).getDistanceToMove()) > RobotMap.Constant.SHOOTING_RANGE_MAX, true);
+		final double offAngle = RobotMap.Component.cameraIR.getCameraData(false).getDegreesToTurn();
+		final double offDistance = RobotMap.Component.cameraIR.getCameraData(false).getDistanceToMove();
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
+		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, offAngle);
+		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, offDistance);
+		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, Math.abs(offAngle) < 5);
+		// SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, MIN < Math.abs(offDistance) < MAX);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 	}
 	

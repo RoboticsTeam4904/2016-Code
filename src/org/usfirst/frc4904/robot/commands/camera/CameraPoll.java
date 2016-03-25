@@ -32,6 +32,7 @@ public class CameraPoll extends Command {
 	
 	public CameraPoll(String name, Camera camera) {
 		super(name);
+		LogKitten.wtf("CameraPoll Constructed");
 		requires(camera);
 		this.camera = camera;
 		try {
@@ -122,7 +123,7 @@ public class CameraPoll extends Command {
 				if (cameraVariables.length == 3) {
 					boolean canSeeGoal = cameraVariables[0].equals(RobotMap.Constant.Network.PI_IR_STATUS_GOOD) ? true : false;
 					LogKitten.v("Got camera vision status of " + canSeeGoal);
-					Double degreesToTurn = Math.toDegrees(Double.parseDouble(cameraVariables[1]));
+					Double degreesToTurn = Math.toDegrees(Double.parseDouble(cameraVariables[1])) + RobotMap.Constant.AutonomousMetric.INFRARED_ADJUSTMENT;
 					LogKitten.v("Got radians to turn of " + cameraVariables[1] + " and degrees to turn of " + degreesToTurn);
 					Double distanceToMove = Double.parseDouble(cameraVariables[2]);
 					LogKitten.v("Got distance to move of " + cameraVariables[2] + " and rounded of " + distanceToMove);

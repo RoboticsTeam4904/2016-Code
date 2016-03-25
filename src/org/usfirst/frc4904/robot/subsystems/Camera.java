@@ -13,12 +13,12 @@ public class Camera extends Subsystem {
 	protected String cameraIP;
 	protected int cameraPort;
 	protected String cameraPath;
-	protected CameraData cameraDataPrevious;
-	protected CameraData cameraDataCurrent;
-	protected Double cameraOffAngleCurrent = 0.0;
-	protected Double cameraOffAnglePrevious = 0.0;
-	protected Double cameraOffDistanceCurrent = 0.0;
-	protected Double cameraOffDistancePrevious = 0.0;
+	protected CameraData cameraDataPrevious = new CameraData();
+	protected CameraData cameraDataCurrent = new CameraData();
+	protected double cameraOffAngleCurrent = 0.0;
+	protected double cameraOffAnglePrevious = 0.0;
+	protected double cameraOffDistanceCurrent = 0.0;
+	protected double cameraOffDistancePrevious = 0.0;
 	protected boolean cameraCanSeeGoal = false;
 	protected String cameraProtocol;
 	public static final double CAMERA_ERROR_VALUE = -0;
@@ -75,8 +75,8 @@ public class Camera extends Subsystem {
 	
 	public static class CameraData {
 		private boolean canSeeGoal = false;
-		private Double degreesToTurn = 0D;
-		private Double distanceToMove = 0D;
+		private double degreesToTurn = 0D;
+		private double distanceToMove = 0D;
 		private CameraStatus cameraStatus;
 		private String totalData = RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE;
 		
@@ -96,7 +96,7 @@ public class Camera extends Subsystem {
 			this.degreesToTurn = degreesToTurn;
 		}
 		
-		public Double getDegreesToTurn() {
+		public double getDegreesToTurn() {
 			return degreesToTurn;
 		}
 		
@@ -104,7 +104,7 @@ public class Camera extends Subsystem {
 			this.distanceToMove = distanceToMove;
 		}
 		
-		public Double getDistanceToMove() {
+		public double getDistanceToMove() {
 			return distanceToMove;
 		}
 		
@@ -126,7 +126,7 @@ public class Camera extends Subsystem {
 		
 		@Override
 		public String toString() {
-			return this.getClass().getName() + "#{" + "Distance: " + distanceToMove.toString() + ", " + "Turn: " + degreesToTurn.toString() + ", " + "Goal Visible: " + Boolean.toString(canSeeGoal) + ", " + "Total Data: " + totalData + ", " + "Camera Status: " + cameraStatus + "}";
+			return this.getClass().getName() + "#{" + "Distance: " + distanceToMove + ", " + "Turn: " + degreesToTurn + ", " + "Goal Visible: " + Boolean.toString(canSeeGoal) + ", " + "Total Data: " + totalData + ", " + "Camera Status: " + cameraStatus + "}";
 		}
 	}
 }
