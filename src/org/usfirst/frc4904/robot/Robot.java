@@ -2,6 +2,8 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndAlign;
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.custom.PIDOffAngleChassisController;
@@ -10,7 +12,10 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;<<<<<<<HEAD import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;=======import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;>>>>>>>master
+import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
@@ -26,6 +31,8 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossLowbarTimeAndAlign(RobotMap.Component.chassis, RobotMap.Component.cameraIR, false));
+		autoChooser.addObject(new CrossLowbarTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.cameraIR, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());

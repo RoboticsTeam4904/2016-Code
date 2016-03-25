@@ -1,8 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.sensors.BallLoadSensor;<<<<<<<HEAD
-import org.usfirst.frc4904.robot.subsystems.Camera;import org.usfirst.frc4904.robot.subsystems.CameraPIDSource;=======>>>>>>>master
+import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
+import org.usfirst.frc4904.robot.subsystems.Camera;
+import org.usfirst.frc4904.robot.subsystems.CameraPIDSource;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
@@ -106,7 +107,7 @@ public class RobotMap {
 			 * The amount of time that autonomous runs
 			 * in order to cross the moat.
 			 */
-			public static final double TIME_MOAT = 3.5;
+			public static final double TIME_MOAT = 4.0;
 			public static final double SPEED_MOAT = 0.5;
 			/**
 			 * The amount of time that autonomous runs
@@ -153,6 +154,50 @@ public class RobotMap {
 			 * The tilt of the defenses, if any.
 			 */
 			public static final double DEFENSE_TILT = 25.0; // in degrees
+		}
+		
+		public static class Network {
+			
+			public static final String PI_IR_ADDRESS = "ir.local";
+			public static final int PI_IR_PORT = 9999;
+			@Deprecated
+			public static final int PI_VISUAL_PORT = Integer.MAX_VALUE;
+			/**
+			 * The HTTP 'GET' request method constant.
+			 */
+			public static final String CONNECTION_METHOD_GET = "GET";
+			/**
+			 * The HTTP 'POST' request method constant.
+			 */
+			public static final String CONNECTION_METHOD_POST = "POST";
+			/**
+			 * The URL connection protocol string for HTTP
+			 */
+			public static final String CONNECTION_PROTOCOL_HTTP = "http";
+			/**
+			 * The URL connection protocol string for HTTPS
+			 */
+			public static final String CONNECTION_PROTOCOL_HTTPS = "https";
+			/**
+			 * Autonomous URL destination for the PI IR camera
+			 */
+			public static final String PI_IR_AUTO_PATH = "/autonomous";
+			/**
+			 * Return this when connnection cannot be established to anything"
+			 */
+			public static final String CONNECTION_ERROR_MESSAGE = "CONNECTION COULD NOT BE ESTABLISHED";
+			/**
+			 * This is value of the IR Camera status if it's good.
+			 */
+			public static final String PI_IR_STATUS_GOOD = "1";
+			/**
+			 * This is value of the IR Camera status if it's bad.
+			 */
+			public static final String PI_IR_STATUS_BAD = "0";
+			/**
+			 * The position of the IR Camera status in the IR Camerowa data
+			 */
+			public static final int PI_IR_STATUS_INDEX_POSITION = 0;
 		}
 		
 		public static class Component {
@@ -252,7 +297,7 @@ public class RobotMap {
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		// IR Camera
-		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_IP, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
 		Component.cameraPIDSource = new CameraPIDSource(Component.cameraIR, PIDSourceType.kRate);
+		Component.cameraIR = new Camera(RobotMap.Constant.Network.PI_IR_ADDRESS, RobotMap.Constant.Network.PI_IR_PORT, RobotMap.Constant.Network.PI_IR_AUTO_PATH, RobotMap.Constant.Network.CONNECTION_PROTOCOL_HTTP);
 	}
 }
