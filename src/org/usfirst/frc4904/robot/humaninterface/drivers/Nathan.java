@@ -15,8 +15,8 @@ public class Nathan extends Driver {
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
-		// TODO: SAME STUPID ISSUE. STUPID MICROSOFT.
-		(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, 5, false)).start();
+		// TODO: If we switch to Xbox Ones, change the port to the Xbox One port. The Xbox 360 has a slightly different mapping, so we have a special comment for that.
+		(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false)).start();
 	}
 	
 	@Override
