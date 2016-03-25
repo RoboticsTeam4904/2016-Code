@@ -30,8 +30,8 @@ public class Tim extends PositionEncodedMotor {
 	
 	@Override
 	public void set(double speed) {
-		if ((encoder.getDistance() < Tim.TIM_FULL_UP && speed < 0) || (encoder.getDistance() > Tim.TIM_FULL_DOWN && speed > 0)) {
-			super.set(0); // TODO This is bad. No.
+		if (encoder.getDistance() > Tim.TIM_FULL_DOWN && speed > 0) {
+			super.set(0);
 			return;
 		}
 		super.set(speed);
