@@ -151,6 +151,54 @@ public class RobotMap {
 			public static final double DEFENSE_TILT = 25.0; // in degrees
 		}
 		
+		public static class Network {
+			public static final String IP_PREFACE = "10.49.4.";
+			public static final String PI_IR_ADDRESS = "ir.local";
+			@Deprecated
+			public static final String PI_IR_IP = Network.IP_PREFACE + "44";
+			@Deprecated
+			public static final String PI_VISUAL_IP = Network.IP_PREFACE + "80";
+			public static final int PI_IR_PORT = 9999;
+			@Deprecated
+			public static final int PI_VISUAL_PORT = Integer.MAX_VALUE;
+			/**
+			 * The HTTP 'GET' request method constant.
+			 */
+			public static final String CONNECTION_METHOD_GET = "GET";
+			/**
+			 * The HTTP 'POST' request method constant.
+			 */
+			public static final String CONNECTION_METHOD_POST = "POST";
+			/**
+			 * The URL connection protocol string for HTTP
+			 */
+			public static final String CONNECTION_PROTOCOL_HTTP = "http";
+			/**
+			 * The URL connection protocol string for HTTPS
+			 */
+			public static final String CONNECTION_PROTOCOL_HTTPS = "https";
+			/**
+			 * Autonomous URL destination for the PI IR camera
+			 */
+			public static final String PI_IR_AUTO_PATH = "/autonomous";
+			/**
+			 * Return this when connnection cannot be established to anything"
+			 */
+			public static final String CONNECTION_ERROR_MESSAGE = "CONNECTION COULD NOT BE ESTABLISHED";
+			/**
+			 * This is value of the IR Camera status if it's good.
+			 */
+			public static final String PI_IR_STATUS_GOOD = "1";
+			/**
+			 * This is value of the IR Camera status if it's bad.
+			 */
+			public static final String PI_IR_STATUS_BAD = "0";
+			/**
+			 * The position of the IR Camera status in the IR Camerowa data
+			 */
+			public static final int PI_IR_STATUS_INDEX_POSITION = 0;
+		}
+		
 		public static class Component {
 			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
