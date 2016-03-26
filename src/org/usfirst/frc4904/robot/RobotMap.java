@@ -124,6 +124,11 @@ public class RobotMap {
 			public static final double TIME_LOWBAR = 4;
 			public static final double SPEED_LOWBAR = 0.4;
 			/**
+			 * RAMPARTS WHY
+			 */
+			public static final double TIME_RAMPARTS = 2.5;
+			public static final double SPEED_RAMPARTS = 8.75;
+			/**
 			 * The speed the robot turns when searching
 			 * for the goal
 			 */
