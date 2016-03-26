@@ -126,8 +126,8 @@ public class RobotMap {
 			/**
 			 * RAMPARTS WHY
 			 */
-			public static final double TIME_RAMPARTS = 2.5;
-			public static final double SPEED_RAMPARTS = 0.875;
+			public static final double TIME_RAMPARTS = 2;
+			public static final double SPEED_RAMPARTS = 0.9;
 			/**
 			 * The speed the robot turns when searching
 			 * for the goal
