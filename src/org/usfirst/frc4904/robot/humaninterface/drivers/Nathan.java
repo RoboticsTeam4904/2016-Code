@@ -1,6 +1,8 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
+import org.usfirst.frc4904.autonomous.commands.TimLowbar;
+import org.usfirst.frc4904.autonomous.commands.TimUp;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -15,6 +17,10 @@ public class Nathan extends Driver {
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
+		RobotMap.HumanInput.Driver.xbox.a.onlyWhileHeld(new TimLowbar(RobotMap.Component.tim, RobotMap.Component.timEncoder));
+		RobotMap.HumanInput.Driver.xbox.a.whenReleased(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false));
+		RobotMap.HumanInput.Driver.xbox.b.onlyWhileHeld(new TimUp(RobotMap.Component.tim, RobotMap.Component.timEncoder));
+		RobotMap.HumanInput.Driver.xbox.b.whenReleased(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false));
 		// TODO: If we switch to Xbox Ones, change the port to the Xbox One port. The Xbox 360 has a slightly different mapping, so we have a special comment for that.
 		(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false)).start();
 	}
