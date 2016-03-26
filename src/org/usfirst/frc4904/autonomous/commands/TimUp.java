@@ -6,11 +6,11 @@ import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TimLowbar extends Command {
+public class TimUp extends Command {
 	private final Tim tim;
 	private final CustomEncoder timEncoder;
 	
-	public TimLowbar(Tim tim, CustomEncoder timEncoder) {
+	public TimUp(Tim tim, CustomEncoder timEncoder) {
 		requires(tim);
 		this.tim = tim;
 		this.timEncoder = timEncoder;
@@ -21,12 +21,12 @@ public class TimLowbar extends Command {
 	
 	@Override
 	protected void execute() {
-		if (timEncoder.getDistance() > Tim.TIM_LOWBAR + 5) {
+		if (timEncoder.getDistance() > Tim.TIM_FULL_UP + 5) {
 			LogKitten.v("Tim too low");
-			tim.set((timEncoder.getDistance() - Tim.TIM_LOWBAR) / 1600);
-		} else if (timEncoder.getDistance() < Tim.TIM_LOWBAR - 5) {
+			tim.set((timEncoder.getDistance() - Tim.TIM_FULL_UP) / 1600);
+		} else if (timEncoder.getDistance() < Tim.TIM_FULL_UP - 5) {
 			LogKitten.v("Tim too high");
-			tim.set((timEncoder.getDistance() - Tim.TIM_LOWBAR) / 1600);
+			tim.set((timEncoder.getDistance() - Tim.TIM_FULL_UP) / 1600);
 		} else {
 			LogKitten.v("Tim is golilocks");
 			tim.set(0.0);
