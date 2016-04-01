@@ -2,12 +2,12 @@ package org.usfirst.frc4904.robot.humaninterface.operators;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.commands.shooter.HoodDown;
-import org.usfirst.frc4904.robot.commands.shooter.HoodUp;
-import org.usfirst.frc4904.robot.commands.shooter.InnieControl;
-import org.usfirst.frc4904.robot.commands.shooter.Outtake;
-import org.usfirst.frc4904.robot.commands.shooter.RockNRollerShoot;
-import org.usfirst.frc4904.robot.commands.shooter.SpinUpFlywheel;
+import org.usfirst.frc4904.robot.commands.HoodDown;
+import org.usfirst.frc4904.robot.commands.HoodUp;
+import org.usfirst.frc4904.robot.commands.InnieControl;
+import org.usfirst.frc4904.robot.commands.Outtake;
+import org.usfirst.frc4904.robot.commands.RockNRollerShoot;
+import org.usfirst.frc4904.robot.commands.SpinUpFlywheel;
 import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.humaninput.Operator;
