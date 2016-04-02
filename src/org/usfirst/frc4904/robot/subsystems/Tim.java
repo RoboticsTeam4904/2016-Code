@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class Tim extends PositionEncodedMotor {
 	public static final double TIM_FULL_UP = 50;
 	public static final double TIM_LOWBAR = 2000;
+	public static final double TIM_DRAWBRIDGE = 2000; // TODO determine value
+	public static final double TIM_DRAWBRIDGE_TAP = 2100; // TODO determine value
+	public static final double TIM_CDF = 2000; // TODO determine value
 	public static final double TIM_FULL_DOWN = 2150;
 	protected final CustomEncoder encoder;
 	
