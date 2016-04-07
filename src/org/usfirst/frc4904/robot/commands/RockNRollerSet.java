@@ -16,7 +16,7 @@ public class RockNRollerSet extends Command {
 	}
 	
 	public RockNRollerSet(RockNRoller.RockerState state) {
-		this("RockNRollerSet", state);
+		this("RockNRollerSet[" + state.name() + "]", state);
 	}
 	
 	@Override
