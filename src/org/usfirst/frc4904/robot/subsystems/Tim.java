@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class Tim extends PositionEncodedMotor {
 	public enum TimState {
-		// TODO determine actual value for DRAWBRIDGE, DRAWBRIDGE_TAP, CDF, and INTAKE
-		FULL_UP(50), DEFAULT(TimState.FULL_UP.position), INTAKE(2016), LOWBAR(2000), DRAWBRIDGE(2000), DRAWBRIDGE_TAP(1900), CDF(2000), FULL_DOWN(2150);
+		// TODO determine actual value for DRAWBRIDGE, DRAWBRIDGE_TAP, and CDF
+		FULL_UP(50), FULL_DOWN(1800), DEFAULT(TimState.FULL_UP.position), INTAKE(TimState.FULL_DOWN.position), LOWBAR(TimState.FULL_DOWN.position), DRAWBRIDGE(TimState.FULL_DOWN.position), DRAWBRIDGE_TAP(TimState.DRAWBRIDGE.position - 200), CDF(TimState.FULL_DOWN.position),;
 		public final double position;
 		
 		private TimState(double position) {
