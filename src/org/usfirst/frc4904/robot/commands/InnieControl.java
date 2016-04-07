@@ -14,11 +14,13 @@ import org.usfirst.frc4904.standard.custom.controllers.Controller;
  * 
  */
 public class InnieControl extends MotorControl {
-	protected final TimIntake timIntake;
+	protected final TimIntake timIntakeSpin;
+	protected final TimSet timIntakePosition;
 	
 	public InnieControl() {
 		super(RobotMap.Component.innie, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, false);
-		timIntake = new TimIntake();
+		timIntakeSpin = new TimIntake();
+		timIntakePosition = new TimSet(Tim.TimState.INTAKE);
 	}
 	
 	@Override
@@ -27,21 +29,21 @@ public class InnieControl extends MotorControl {
 		boolean isDirectionIntake = (speed >= 0) && !invert;
 		if (isDirectionIntake) {
 			if (RobotMap.Component.shooter.isBallLoaded() && !RobotMap.Component.shooter.ballLoadOverride) {
-				RobotMap.Component.tim.setPosition(Tim.TimState.DEFAULT);
-				timIntake.cancel();
+				timIntakePosition.cancel();
+				timIntakeSpin.cancel();
 				motor.set(RobotMap.Constant.INNIE_BALL_HOLD_SPEED);
 			} else {
 				super.execute(); // run Innie from joystick (a la MotorControl)
 				if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
-					timIntake.start();
-					RobotMap.Component.tim.setPosition(Tim.TimState.INTAKE); // not ideal, but difficult to run TimSet conditionally within this command
+					timIntakeSpin.start();
+					timIntakePosition.start();
 				} else {
-					timIntake.cancel();
-					RobotMap.Component.tim.setPosition(Tim.TimState.DEFAULT);
+					timIntakeSpin.cancel();
+					timIntakePosition.cancel();
 				}
 			}
 		} else { // outtaking
-			timIntake.cancel();
+			timIntakeSpin.cancel();
 			if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD) { // if not past threshold
 				stopMotors();
 				return;
