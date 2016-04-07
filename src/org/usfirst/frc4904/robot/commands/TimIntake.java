@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class TimIntake extends CommandGroup {
 	public TimIntake() {
-		super();
+		super("TimIntake");
 		addParallel(new MotorConstant(RobotMap.Component.tim.intakeMotor, RobotMap.Constant.TIM_INTAKE_SPEED));
 		addParallel(new TimSet(Tim.TimState.INTAKE, false));
 	}
