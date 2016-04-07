@@ -18,7 +18,6 @@ public class InnieControl extends MotorControl {
 	
 	public InnieControl() {
 		super(RobotMap.Component.innie, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, false);
-		requires(RobotMap.Component.tim);
 		timIntake = new TimIntake();
 	}
 	
