@@ -8,6 +8,7 @@ import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.Util;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
+import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
@@ -26,10 +27,12 @@ public class Tim extends PositionEncodedMotor {
 	}
 	protected final CustomEncoder encoder;
 	protected final Util.Range range;
+	public final Motor intakeMotor;
 	
-	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController... motors) {
+	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController intakeMotor, SpeedController... motors) {
 		super("Tim", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), motionController, motors);
 		this.encoder = encoder;
+		this.intakeMotor = new Motor(intakeMotor);
 		range = new Util.Range(TimState.FULL_DOWN.position, TimState.FULL_UP.position);
 	}
 	
