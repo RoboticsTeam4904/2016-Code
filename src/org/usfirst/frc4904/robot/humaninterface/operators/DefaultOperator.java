@@ -8,6 +8,7 @@ import org.usfirst.frc4904.robot.commands.InnieControl;
 import org.usfirst.frc4904.robot.commands.Outtake;
 import org.usfirst.frc4904.robot.commands.RockNRollerShoot;
 import org.usfirst.frc4904.robot.commands.SpinUpFlywheel;
+import org.usfirst.frc4904.robot.commands.TimTap;
 import org.usfirst.frc4904.standard.commands.RunAllParallel;
 import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import org.usfirst.frc4904.standard.commands.SingleOp;
@@ -36,6 +37,7 @@ public class DefaultOperator extends Operator {
 				RobotMap.Component.shooter.ballLoadOverride = !RobotMap.Component.shooter.ballLoadOverride; // toggle
 			}
 		});
+		RobotMap.HumanInput.Operator.stick.button11.whenPressed(new TimTap());
 		RobotMap.HumanInput.Operator.stick.button12.whenPressed(new SingleOp() {
 			@Override
 			protected void runOp() {
