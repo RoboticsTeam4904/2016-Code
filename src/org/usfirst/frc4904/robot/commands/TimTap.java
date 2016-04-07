@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class TimTap extends CommandGroup {
 	public TimTap() {
-		addSequential(new TimSet(Tim.TimState.DRAWBRIDGE, true));
-		addSequential(new RunFor(new TimSet(Tim.TimState.DRAWBRIDGE_TAP, true), RobotMap.Constant.TIMTAP_DURATION));
-		addSequential(new TimSet(Tim.TimState.DRAWBRIDGE, true));
+		addSequential(new TimSet(Tim.TimState.DRAWBRIDGE));
+		addSequential(new RunFor(new TimSet(Tim.TimState.DRAWBRIDGE_TAP), RobotMap.Constant.TIMTAP_DURATION));
+		addSequential(new TimSet(Tim.TimState.DRAWBRIDGE));
 	}
 }
