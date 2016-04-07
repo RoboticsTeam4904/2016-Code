@@ -25,16 +25,17 @@ public class Tim extends PositionEncodedMotor {
 		}
 	}
 	protected final CustomEncoder encoder;
-	public static Util.Range TIM_POSITION_RANGE = new Util.Range(TimState.FULL_DOWN.position, TimState.FULL_UP.position);
+	protected final Util.Range range;
 	
 	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController... motors) {
 		super("Tim", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), motionController, motors);
 		this.encoder = encoder;
+		range = new Util.Range(TimState.FULL_DOWN.position, TimState.FULL_UP.position);
 	}
 	
 	@Override
 	public void setPosition(double position) {
-		double safePosition = Math.max(Math.min(position, Tim.TimState.FULL_DOWN.position), Tim.TimState.FULL_UP.position);
+		double safePosition = range.limitValue(position);
 		super.setPosition(safePosition);
 	}
 	
