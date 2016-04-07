@@ -1,8 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap.Component;
-import org.usfirst.frc4904.robot.RobotMap.Constant;
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.TimSet;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.Util;
@@ -30,7 +29,7 @@ public class Tim extends PositionEncodedMotor {
 	public final Motor intakeMotor;
 	
 	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController intakeMotor, SpeedController... motors) {
-		super("Tim", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), motionController, motors);
+		super("Tim", new SpeedModifierGroup(new LinearModifier(RobotMap.Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(RobotMap.Component.pdp)), motionController, motors);
 		this.encoder = encoder;
 		this.intakeMotor = new Motor(intakeMotor);
 		range = new Util.Range(TimState.FULL_DOWN.position, TimState.FULL_UP.position);
