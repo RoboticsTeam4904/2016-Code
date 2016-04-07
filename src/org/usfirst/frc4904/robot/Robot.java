@@ -38,6 +38,7 @@ public class Robot extends CommandRobotBase {
 		// Initialize SmartDashboard display values
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, 0);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
+		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, false);
 	}
 	
 	@Override
@@ -52,6 +53,7 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
+		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, SmartDashboard.getBoolean(SmartDashboardKey.FLYWHEEL_STATE.key) && SmartDashboard.getBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key) && SmartDashboard.getBoolean(SmartDashboardKey.BALL_LOAD.key) && SmartDashboard.getBoolean(SmartDashboardKey.IN_RANGE.key) && SmartDashboard.getBoolean(SmartDashboardKey.HOOD_STATE.key));
 		RobotMap.Component.ballLoadSensor.calibrate();
 	}
 	
