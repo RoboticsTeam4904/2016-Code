@@ -13,22 +13,4 @@ public class TimSet extends MotorPositionConstant {
 	public TimSet(Tim.TimState state) {
 		super(RobotMap.Component.tim, state.position);
 	}
-	
-	@Override
-	protected void execute() {}
-	
-	@Override
-	protected boolean isFinished() {
-		return false;
-	}
-	
-	@Override
-	protected void end() {
-		RobotMap.Component.tim.set(Tim.TimState.FULL_UP.position);
-	}
-	
-	@Override
-	protected void interrupted() {
-		end();
-	}
 }
