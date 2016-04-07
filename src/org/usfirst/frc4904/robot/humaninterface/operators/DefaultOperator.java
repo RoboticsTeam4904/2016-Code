@@ -37,7 +37,7 @@ public class DefaultOperator extends Operator {
 				RobotMap.Component.shooter.ballLoadOverride = !RobotMap.Component.shooter.ballLoadOverride; // toggle
 			}
 		});
-		RobotMap.HumanInput.Operator.stick.button11.whenPressed(new TimTap());
+		RobotMap.HumanInput.Operator.stick.button11.onlyWhileHeld(new TimTap());
 		RobotMap.HumanInput.Operator.stick.button12.whenPressed(new SingleOp() {
 			@Override
 			protected void runOp() {
