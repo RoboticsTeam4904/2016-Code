@@ -181,6 +181,9 @@ public class RobotMap {
 		public static final double TIMTAP_DURATION = 1;
 		public static final double TIM_INTAKE_SPEED = 0.75;
 		public static final double INNIE_SHOOT_SPEED = 1;
+		public static final double TIM_P = -0.0006;
+		public static final double TIM_I = 0;
+		public static final double TIM_D = 0;
 	}
 	
 	public static class Component {
@@ -237,7 +240,7 @@ public class RobotMap {
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
-		Component.tim = new Tim(new CustomPIDController(Component.timEncoder), Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
+		Component.tim = new Tim(new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder), Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
 		Component.tim.disablePID(); // TODO add encoders
 		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
 		// Flywheel
