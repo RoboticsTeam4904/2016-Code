@@ -25,7 +25,7 @@ public class Tim extends PositionEncodedMotor {
 		}
 	}
 	protected final CustomEncoder encoder;
-	public static Util.Range TIM_POSITION_RANGE = new Util.Range(TimState.FULL_DOWN.position, TimState.FULL_UP.position, true);
+	public static Util.Range TIM_POSITION_RANGE = new Util.Range(TimState.FULL_DOWN.position, TimState.FULL_UP.position);
 	
 	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController... motors) {
 		super("Tim", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), motionController, motors);
