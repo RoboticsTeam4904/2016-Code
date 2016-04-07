@@ -10,6 +10,10 @@ public class TimSet extends MotorPositionConstant {
 		super(RobotMap.Component.tim, state.position, endOnArrival);
 	}
 	
+	/**
+	 * @see #TimSet
+	 *      endOnArrival defaults to false
+	 */
 	public TimSet(Tim.TimState state) {
 		super(RobotMap.Component.tim, state.position);
 	}
