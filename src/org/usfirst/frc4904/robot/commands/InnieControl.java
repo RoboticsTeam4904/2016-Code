@@ -28,8 +28,12 @@ public class InnieControl extends MotorControl {
 				RobotMap.Component.tim.setPosition(Tim.TimState.DEFAULT);
 				motor.set(RobotMap.Constant.INNIE_BALL_HOLD_SPEED);
 			} else {
-				RobotMap.Component.tim.setPosition(Tim.TimState.INTAKE); // not ideal, but difficult to run TimSet conditionally within this command
 				super.execute(); // run Innie from joystick (a la MotorControl)
+				if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
+					RobotMap.Component.tim.setPosition(Tim.TimState.INTAKE); // not ideal, but difficult to run TimSet conditionally within this command
+				} else {
+					RobotMap.Component.tim.setPosition(Tim.TimState.DEFAULT);
+				}
 			}
 		} else { // outtaking
 			if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD) { // if not past threshold
