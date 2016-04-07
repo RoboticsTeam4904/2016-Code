@@ -179,7 +179,7 @@ public class RobotMap {
 		public static final int BALL_LOAD_SENSOR_CALIBRATION_TICK_COUNT = 40;
 		public static final double BALL_LOAD_EMPTY_STATE_ABSOLUTE_ERROR = 20;
 		public static final double TIMTAP_DURATION = 1;
-		public static final double TIM_INTAKE_SPEED = 0.25;
+		public static final double TIM_INTAKE_SPEED = 0.75;
 		public static final double INNIE_SHOOT_SPEED = 1;
 	}
 	
