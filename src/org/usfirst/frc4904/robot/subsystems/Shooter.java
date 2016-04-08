@@ -50,7 +50,7 @@ public class Shooter extends Subsystem {
 		double measuredDistance = ballLoadSensor.getDistance();
 		boolean belowUpperLimit = (measuredDistance > BallLoadSensor.EMPTY_STATE_UPPER_BOUND);
 		boolean aboveLowerLimit = (measuredDistance < BallLoadSensor.EMPTY_STATE_LOWER_BOUND);
-		return belowUpperLimit || aboveLowerLimit;
+		return !(belowUpperLimit || aboveLowerLimit);
 	}
 	
 	public double getDesiredFlywheelSpeed() {

@@ -10,7 +10,7 @@ import org.usfirst.frc4904.standard.custom.controllers.Controller;
  * Continously control the intake roller with a controller,
  * 
  * @see MotorControl
- * 		
+ * 
  */
 public class InnieControl extends MotorControl {
 	protected final TimIntake timIntake;
@@ -25,16 +25,11 @@ public class InnieControl extends MotorControl {
 		double speed = controller.getAxis(axis);
 		boolean isDirectionIntake = (speed >= 0) && !invert;
 		if (isDirectionIntake) {
-			if (RobotMap.Component.shooter.isBallLoaded() && !RobotMap.Component.shooter.ballLoadOverride) {
-				timIntake.cancel();
-				motor.set(RobotMap.Constant.INNIE_BALL_HOLD_SPEED);
+			super.execute(); // run Innie from joystick (a la MotorControl)
+			if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
+				timIntake.start();
 			} else {
-				super.execute(); // run Innie from joystick (a la MotorControl)
-				if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
-					timIntake.start();
-				} else {
-					timIntake.cancel();
-				}
+				timIntake.cancel();
 			}
 		} else { // outtaking
 			timIntake.cancel();
