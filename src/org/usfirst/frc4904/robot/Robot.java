@@ -57,7 +57,6 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, DriverStation.getInstance().getMatchTime() <= RobotMap.Constant.BATTER_END_OF_MATCH_TURN_TIME);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, SmartDashboard.getBoolean(SmartDashboardKey.HOOD_STATE.key));
-		RobotMap.Component.ballLoadSensor.calibrate();
 	}
 	
 	@Override
@@ -73,9 +72,7 @@ public class Robot extends CommandRobotBase {
 	public void disabledInitialize() {}
 	
 	@Override
-	public void disabledExecute() {
-		RobotMap.Component.ballLoadSensor.calibrate();
-	}
+	public void disabledExecute() {}
 	
 	@Override
 	public void testInitialize() {}

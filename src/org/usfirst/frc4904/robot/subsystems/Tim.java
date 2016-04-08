@@ -1,12 +1,13 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap.Component;
-import org.usfirst.frc4904.robot.RobotMap.Constant;
+import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.TimSet;
 import org.usfirst.frc4904.standard.LogKitten;
-import org.usfirst.frc4904.standard.commands.Idle;
+import org.usfirst.frc4904.standard.Util;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
+import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
@@ -14,25 +15,38 @@ import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifie
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class Tim extends PositionEncodedMotor {
-	public static final double TIM_FULL_UP = 50;
-	public static final double TIM_LOWBAR = 2000;
-	public static final double TIM_FULL_DOWN = 2150;
+	public enum TimState {
+		FULL_UP(50), FULL_DOWN(1700);
+		public final double position;
+		
+		private TimState(double position) {
+			this.position = position;
+		}
+	}
 	protected final CustomEncoder encoder;
+	protected final Util.Range range;
+	public final Motor intakeMotor;
 	
-	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController... motors) {
-		super("Tim", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), motionController, motors);
+	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController intakeMotor, SpeedController... motors) {
+		super("Tim", new SpeedModifierGroup(new LinearModifier(RobotMap.Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(RobotMap.Component.pdp)), motionController, motors);
 		this.encoder = encoder;
+		this.intakeMotor = new Motor(intakeMotor);
+		range = new Util.Range(TimState.FULL_UP.position, TimState.FULL_DOWN.position);
 	}
 	
 	@Override
 	public void setPosition(double position) {
-		double safePosition = Math.max(Math.min(position, Tim.TIM_FULL_DOWN), Tim.TIM_FULL_UP);
+		double safePosition = range.limitValue(position);
 		super.setPosition(safePosition);
+	}
+	
+	public void setPosition(Tim.TimState state) {
+		setPosition(state.position);
 	}
 	
 	@Override
 	public void set(double speed) {
-		if (encoder.getDistance() > Tim.TIM_FULL_DOWN && speed < 0) {
+		if (encoder.getDistance() > Tim.TimState.FULL_DOWN.position && speed < 0) {
 			LogKitten.w("Tim overshoot");
 			super.set(0);
 			return;
@@ -46,6 +60,6 @@ public class Tim extends PositionEncodedMotor {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new Idle(this));
+		setDefaultCommand(new TimSet(Tim.TimState.FULL_UP));
 	}
 }
