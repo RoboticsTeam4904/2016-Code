@@ -4,7 +4,6 @@ package org.usfirst.frc4904.robot.subsystems;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
 import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,9 +13,7 @@ public class Shooter extends Subsystem {
 	public final Hood hood;
 	public final Flywheel flywheel;
 	public final DistanceSensor towerDistanceSensor;
-	protected final DistanceSensor ballLoadSensor;
 	protected final HashMap<Double, Double> measuredSpeeds;
-	public boolean ballLoadOverride = false;
 	
 	/**
 	 * Construct a Shooter subsystem with each individual component.
@@ -30,27 +27,13 @@ public class Shooter extends Subsystem {
 	 * @param towerDistanceSensor
 	 *        the distance sensor for the tower
 	 */
-	public Shooter(RockNRoller rockNRoller, Hood hood, Flywheel flywheel, DistanceSensor towerDistanceSensor, DistanceSensor ballLoadSensor) {
+	public Shooter(RockNRoller rockNRoller, Hood hood, Flywheel flywheel, DistanceSensor towerDistanceSensor) {
 		super("Shooter");
 		this.rockNRoller = rockNRoller;
 		this.hood = hood;
 		this.flywheel = flywheel;
 		this.towerDistanceSensor = towerDistanceSensor;
-		this.ballLoadSensor = ballLoadSensor;
 		measuredSpeeds = new HashMap<Double, Double>();
-	}
-	
-	/**
-	 * Determine if a ball has passed the intake roller by ballLoadSensor intake values.
-	 * 
-	 * @return boolean representing whether or not a ball is inside the robot
-	 * @see ballLoadSensor
-	 */
-	public boolean isBallLoaded() {
-		double measuredDistance = ballLoadSensor.getDistance();
-		boolean belowUpperLimit = (measuredDistance > BallLoadSensor.EMPTY_STATE_UPPER_BOUND);
-		boolean aboveLowerLimit = (measuredDistance < BallLoadSensor.EMPTY_STATE_LOWER_BOUND);
-		return !(belowUpperLimit || aboveLowerLimit);
 	}
 	
 	public double getDesiredFlywheelSpeed() {
