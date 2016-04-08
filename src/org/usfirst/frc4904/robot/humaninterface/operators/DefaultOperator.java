@@ -8,7 +8,9 @@ import org.usfirst.frc4904.robot.commands.InnieControl;
 import org.usfirst.frc4904.robot.commands.Outtake;
 import org.usfirst.frc4904.robot.commands.RockNRollerShoot;
 import org.usfirst.frc4904.robot.commands.SpinUpFlywheel;
+import org.usfirst.frc4904.standard.commands.RunAllParallel;
 import org.usfirst.frc4904.standard.commands.RunAllSequential;
+import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import org.usfirst.frc4904.standard.humaninput.Operator;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 

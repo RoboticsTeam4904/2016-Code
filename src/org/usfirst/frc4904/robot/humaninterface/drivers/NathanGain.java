@@ -22,7 +22,7 @@ public class NathanGain extends Driver {
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
 		RobotMap.HumanInput.Driver.xbox.a.onlyWhileHeld(new TimSet(Tim.TimState.FULL_DOWN, false));
-		RobotMap.HumanInput.Driver.xbox.x.onlyWhileHeld(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false));
+		RobotMap.HumanInput.Driver.xbox.lb.onlyWhileHeld(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false));
 	}
 	
 	@Override
