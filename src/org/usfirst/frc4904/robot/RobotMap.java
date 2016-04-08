@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -203,6 +204,7 @@ public class RobotMap {
 		public static CANTalonEncoder intakeEncoder;
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
+		public static Subsystem[] mainSubsystems;
 	}
 	
 	public static class HumanInput {
@@ -253,5 +255,7 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
+		// Main Subsystems
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel, Component.hood};
 	}
 }

@@ -12,6 +12,7 @@ import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -69,6 +70,14 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void autonomousExecute() {}
 	
+	/**
+	 * This function is called periodically in every robot mode
+	 */
+	@Override
+	public void alwaysExecute() {
+		putSDSubsystemSummary();
+	}
+	
 	@Override
 	public void disabledInitialize() {}
 	
@@ -80,4 +89,12 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void testExecute() {}
+	
+	void putSDSubsystemSummary() {
+		String summary = "";
+		for (Subsystem subsystem : RobotMap.Component.mainSubsystems) {
+			summary += "{" + subsystem.getName() + "} running command {" + subsystem.getCurrentCommand() + "}\n";
+		}
+		SmartDashboard.putString(SmartDashboardKey.SUBSYSTEM_SUMMARY.key, summary);
+	}
 }
