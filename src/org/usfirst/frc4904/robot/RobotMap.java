@@ -11,10 +11,13 @@ import org.usfirst.frc4904.robot.subsystems.Tim;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANUltrasonicDistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
+import org.usfirst.frc4904.standard.custom.sensors.IMU;
+import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
@@ -22,6 +25,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -194,6 +198,7 @@ public class RobotMap {
 		public static Tim tim; // His name is Tim.
 		public static Innie innie;
 		public static TankDrive chassis;
+		public static IMU imu;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
 		public static DistanceSensor ultrasonicSensor;
@@ -210,6 +215,10 @@ public class RobotMap {
 		public static CANEncoder flywheelEncoder;
 	}
 	
+	public static class MotionControl {
+		public static MotionController chassisTurnMC;
+	}
+	
 	public static class HumanInput {
 		public static class Driver {
 			public static CustomXbox xbox;
@@ -219,7 +228,6 @@ public class RobotMap {
 			public static CustomJoystick stick;
 		}
 	}
-	public static CustomPIDController timPID;
 	
 	public RobotMap() {
 		Component.pdp = new PDP();
@@ -234,6 +242,8 @@ public class RobotMap {
 		Component.rightWheel.disablePID(); // TODO add encoders
 		Component.rightWheel.setInverted(true);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
+		Component.imu = new NavX(SerialPort.Port.kMXP);
+		MotionControl.chassisTurnMC = new CustomPIDController(0.0, 0.0, 0.0, Component.imu);
 		// Intake
 		Component.intakeTalon = new CANTalon(Port.CANMotor.innie);
 		Component.intakeEncoder = new CANTalonEncoder(Component.intakeTalon);
@@ -242,9 +252,9 @@ public class RobotMap {
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
-		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
-		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
-		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
+		CustomPIDController timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
+		timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
+		Component.tim = new Tim(timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
 		Component.tim.disablePID(); // TODO add encoders
 		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
 		// Flywheel
