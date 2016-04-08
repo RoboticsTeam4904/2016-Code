@@ -10,6 +10,6 @@ public class TimIntake extends CommandGroup {
 	public TimIntake() {
 		super("TimIntake");
 		addParallel(new MotorConstant(RobotMap.Component.tim.intakeMotor, RobotMap.Constant.TIM_INTAKE_SPEED));
-		addParallel(new TimSet(Tim.TimState.INTAKE, false));
+		addParallel(new TimSet(Tim.TimState.FULL_DOWN, false));
 	}
 }

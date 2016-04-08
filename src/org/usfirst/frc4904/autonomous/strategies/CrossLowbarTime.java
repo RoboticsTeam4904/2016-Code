@@ -13,6 +13,6 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class CrossLowbarTime extends CommandGroup {
 	public CrossLowbarTime(Chassis chassis, boolean usePID) {
 		addParallel(new RunAllSequential(new WaitCommand(0.5), new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.SPEED_LOWBAR, RobotMap.Constant.AutonomousMetric.TIME_LOWBAR, usePID)));
-		addParallel(new TimSet(Tim.TimState.LOWBAR, false));
+		addParallel(new TimSet(Tim.TimState.FULL_DOWN, false));
 	}
 }

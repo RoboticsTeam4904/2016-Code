@@ -17,7 +17,7 @@ public class Nathan extends Driver {
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
-		RobotMap.HumanInput.Driver.xbox.a.onlyWhileHeld(new TimSet(Tim.TimState.LOWBAR, false));
+		RobotMap.HumanInput.Driver.xbox.a.onlyWhileHeld(new TimSet(Tim.TimState.FULL_DOWN, false));
 		RobotMap.HumanInput.Driver.xbox.a.whenReleased(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false));
 		RobotMap.HumanInput.Driver.xbox.b.onlyWhileHeld(new TimSet(Tim.TimState.FULL_UP, false));
 		RobotMap.HumanInput.Driver.xbox.b.whenReleased(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, false));
