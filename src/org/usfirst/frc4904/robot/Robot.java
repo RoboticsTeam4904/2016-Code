@@ -56,7 +56,7 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, DriverStation.getInstance().getMatchTime() <= RobotMap.Constant.BATTER_END_OF_MATCH_TURN_TIME);
-		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, SmartDashboard.getBoolean(SmartDashboardKey.FLYWHEEL_STATE.key) && SmartDashboard.getBoolean(SmartDashboardKey.BALL_LOAD.key) && SmartDashboard.getBoolean(SmartDashboardKey.HOOD_STATE.key));
+		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, SmartDashboard.getBoolean(SmartDashboardKey.HOOD_STATE.key));
 		RobotMap.Component.ballLoadSensor.calibrate();
 	}
 	
