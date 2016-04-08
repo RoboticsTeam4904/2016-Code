@@ -1,4 +1,4 @@
-package org.usfirst.frc4904.robot.commands.shooter;
+package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
@@ -13,8 +13,11 @@ import org.usfirst.frc4904.standard.custom.controllers.Controller;
  * 
  */
 public class InnieControl extends MotorControl {
+	protected final TimIntake timIntake;
+	
 	public InnieControl() {
 		super(RobotMap.Component.innie, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, false);
+		timIntake = new TimIntake();
 	}
 	
 	@Override
@@ -22,12 +25,14 @@ public class InnieControl extends MotorControl {
 		double speed = controller.getAxis(axis);
 		boolean isDirectionIntake = (speed >= 0) && !invert;
 		if (isDirectionIntake) {
-			if (RobotMap.Component.shooter.isBallLoaded() && !RobotMap.Component.shooter.ballLoadOverride) {
-				motor.set(RobotMap.Constant.INNIE_BALL_HOLD_SPEED);
+			super.execute(); // run Innie from joystick (a la MotorControl)
+			if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
+				timIntake.start();
 			} else {
-				super.execute(); // run Innie from joystick (a la MotorControl)
+				timIntake.cancel();
 			}
 		} else { // outtaking
+			timIntake.cancel();
 			if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD) { // if not past threshold
 				stopMotors();
 				return;
