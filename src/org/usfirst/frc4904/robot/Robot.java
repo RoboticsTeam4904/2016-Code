@@ -9,8 +9,9 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnDegrees;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -42,7 +43,8 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void teleopInitialize() {
-		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
+		teleopCommand = new ChassisTurnDegrees(RobotMap.Component.chassis, 180, RobotMap.Component.imu, RobotMap.MotionControl.chassisTurnMC);
+		// new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 	}
 	
 	/**
@@ -52,10 +54,13 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
+		LogKitten.wtf(RobotMap.MotionControl.chassisTurnMC.getError() + " " + RobotMap.MotionControl.chassisTurnMC.getSetpoint());
 	}
 	
 	@Override
-	public void autonomousInitialize() {}
+	public void autonomousInitialize() {
+		RobotMap.Component.imu.reset();
+	}
 	
 	/**
 	 * This function is called periodically during autonomous
