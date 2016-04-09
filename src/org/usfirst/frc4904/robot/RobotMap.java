@@ -9,6 +9,7 @@ import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.subsystems.Tim;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.BangBangController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
@@ -228,16 +229,19 @@ public class RobotMap {
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
+		Component.leftWheelEncoder.setDistancePerPulse(Constant.RobotMetric.WHEEL_CIRCUMFERENCE / Constant.RobotMetric.WHEEL_ENCODER_PPR);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
 		Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
+		Component.rightWheelEncoder.setDistancePerPulse(Constant.RobotMetric.WHEEL_CIRCUMFERENCE / Constant.RobotMetric.WHEEL_ENCODER_PPR);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		Component.rightWheel.setInverted(true);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		Component.imu = new NavX(SerialPort.Port.kMXP);
-		MotionControl.chassisTurnMC = new CustomPIDController(0.0, 0.0, 0.0, Component.imu);
+		Component.imu.reset();
+		MotionControl.chassisTurnMC = new BangBangController(Component.imu, -0.3, 0.0, 10);
 		// Intake
 		Component.intakeTalon = new CANTalon(Port.CANMotor.innie);
 		Component.intakeEncoder = new CANTalonEncoder(Component.intakeTalon);
