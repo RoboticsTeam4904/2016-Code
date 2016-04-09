@@ -30,7 +30,7 @@ public class Tim extends PositionEncodedMotor {
 	public Tim(MotionController motionController, CustomEncoder encoder, SpeedController intakeMotor, SpeedController... motors) {
 		super("Tim", new SpeedModifierGroup(new LinearModifier(RobotMap.Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(RobotMap.Component.pdp)), motionController, motors);
 		this.encoder = encoder;
-		this.intakeMotor = new Motor(intakeMotor);
+		this.intakeMotor = new Motor("Tim Intake Motor", intakeMotor);
 		range = new Util.Range(TimState.FULL_UP.position, TimState.FULL_DOWN.position);
 	}
 	
