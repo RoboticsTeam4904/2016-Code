@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -173,6 +174,7 @@ public class RobotMap {
 		public static final double SHOOTING_RANGE_MAX = Constant.SHOOTING_RANGE_LENGTH + Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double SHOOTING_RANGE_MIN = Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double OUTTAKE_MOTOR_SPEED = -1;
+		public static final int BATTER_END_OF_MATCH_TURN_TIME = 20;
 		public static final double TIMTAP_DURATION = 1;
 		public static final double TIM_INTAKE_SPEED = 0.75;
 		public static final double INNIE_SHOOT_SPEED = 1;
@@ -202,6 +204,7 @@ public class RobotMap {
 		public static CANTalonEncoder intakeEncoder;
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
+		public static Subsystem[] mainSubsystems;
 	}
 	
 	public static class HumanInput {
@@ -252,5 +255,7 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
+		// Main Subsystems
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel, Component.hood};
 	}
 }
