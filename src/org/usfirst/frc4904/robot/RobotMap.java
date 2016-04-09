@@ -174,7 +174,8 @@ public class RobotMap {
 		public static final double SHOOTING_RANGE_MAX = Constant.SHOOTING_RANGE_LENGTH + Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double SHOOTING_RANGE_MIN = Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double OUTTAKE_MOTOR_SPEED = -1;
-		public static final int BATTER_END_OF_MATCH_TURN_TIME = 20;
+		public static final int END_OF_MATCH_NOTIF_START_TIME = 25;
+		public static final int END_OF_MATCH_NOTIF_END_TIME = 22;
 		public static final double TIMTAP_DURATION = 1;
 		public static final double TIM_INTAKE_SPEED = 0.75;
 		public static final double INNIE_SHOOT_SPEED = 1;
