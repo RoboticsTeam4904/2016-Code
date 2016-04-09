@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
@@ -12,6 +13,7 @@ public class Flywheel extends VelocityEncodedMotor {
 	}
 	protected FlywheelStatus currentStatus;
 	protected double targetSpeed = 0.0;
+	protected Long lastSpinUpStartEpoch = Long.MAX_VALUE;
 	
 	public Flywheel(SpeedModifier speedModifier, MotionController motionController, SpeedController... motors) {
 		super("Flywheel", speedModifier, motionController, motors);
@@ -22,35 +24,15 @@ public class Flywheel extends VelocityEncodedMotor {
 		return currentStatus;
 	}
 	
-	public void setTargetSpeedForDistance(double distance) {
-		targetSpeed = 0.7; // temporary magic number
-		if (currentStatus != FlywheelStatus.IDLE) {
-			super.set(targetSpeed);
-		}
-	}
-	
-	public void spinUp() {
-		super.enablePID();
-		super.set(targetSpeed);
-		currentStatus = FlywheelStatus.SPINNING_UP;
-	}
-	
 	public boolean isSpunUp() {
-		if (currentStatus == FlywheelStatus.IDLE) {
-			return false;
-		}
-		if (motionController.onTarget()) {
-			currentStatus = FlywheelStatus.AT_SPEED;
-			return true;
-		}
-		currentStatus = FlywheelStatus.SPINNING_UP;
-		return false;
+		return lastSpinUpStartEpoch != null && (System.currentTimeMillis() - lastSpinUpStartEpoch) >= RobotMap.Constant.HumanInput.TIME_MILLIS_SHOOT_READY_SPINUP_BUFFER;
 	}
 	
-	public void spinDown() {
-		super.disablePID();
-		super.set(0.0);
-		targetSpeed = 0.0;
-		currentStatus = FlywheelStatus.IDLE;
+	public void setSpinUpEpoch() {
+		lastSpinUpStartEpoch = System.currentTimeMillis();
+	}
+	
+	public void discardSpinUpEpoch() {
+		lastSpinUpStartEpoch = null;
 	}
 }

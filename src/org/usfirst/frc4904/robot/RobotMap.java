@@ -85,6 +85,7 @@ public class RobotMap {
 			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY_SECONDS = 1;
 			public static final int XBOX_360_RIGHT_STICK_Y = 5;
 			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
+			public static final long TIME_MILLIS_SHOOT_READY_SPINUP_BUFFER = 2000;
 		}
 		
 		public static class RobotMetric {
