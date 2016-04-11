@@ -25,6 +25,7 @@ public class Flywheel extends VelocityEncodedMotor {
 	}
 	
 	public boolean isSpunUp() {
+		// return RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED;
 		return lastSpinUpStartEpoch != null && (System.currentTimeMillis() - lastSpinUpStartEpoch) >= RobotMap.Constant.HumanInput.TIME_MILLIS_SHOOT_READY_SPINUP_BUFFER;
 	}
 	
