@@ -16,6 +16,10 @@ public class Nathan extends Driver {
 		super("Nathan"); // supernathan!
 	}
 	
+	protected Nathan(String name) {
+		super(name);
+	}
+	
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
