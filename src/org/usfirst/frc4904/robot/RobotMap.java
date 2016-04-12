@@ -243,7 +243,6 @@ public class RobotMap {
 		Component.rightWheel.setInverted(true);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		Component.imu = new NavX(SerialPort.Port.kMXP);
-		Component.imu.reset();
 		MotionControl.chassisTurnMC = new BangBangController(Component.imu, -0.6, 0.0, 10);
 		// Intake
 		Component.intakeTalon = new CANTalon(Port.CANMotor.innie);
