@@ -57,8 +57,17 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
-		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, DriverStation.getInstance().getMatchTime() <= RobotMap.Constant.BATTER_END_OF_MATCH_TURN_TIME);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, SmartDashboard.getBoolean(SmartDashboardKey.HOOD_STATE.key));
+		double matchTime = DriverStation.getInstance().getMatchTime();
+		boolean nearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_START_TIME;
+		boolean veryNearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_END_TIME;
+		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, nearEndOfMatch);
+		if (nearEndOfMatch && !veryNearEndOfMatch) {
+			RobotMap.HumanInput.Driver.xbox.setRumble(1);
+		}
+		if (veryNearEndOfMatch) {
+			RobotMap.HumanInput.Driver.xbox.setRumble(0);
+		}
 	}
 	
 	@Override
