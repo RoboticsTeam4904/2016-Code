@@ -1,12 +1,12 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.sensors.BallLoadSensor;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
+import org.usfirst.frc4904.robot.subsystems.Tim;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -19,12 +19,11 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -56,13 +55,13 @@ public class RobotMap {
 			public static final int defenseManipulatorEncoder = 0x605;
 			public static final int intakeEncoder = 0x606;
 			public static final int ultrasonic = 0x610;
-			public static final int ballLoadSensor = 0x611;
 		}
 		
 		public static class CANMotor {
 			public static final int innie = 3;
 			public static final int rockNRoller = 1;
-			public static final int defenseManipulator = 2;
+			public static final int tim = 2;
+			public static final int timIntake = 4;
 		}
 		
 		public static class PCM {
@@ -82,6 +81,87 @@ public class RobotMap {
 			public static final double TURN_EXP = 2;
 			public static final double DEFENSE_MANIPULATOR_SPEED_SCALE = 0.25;
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
+			public static final double FLYWHEEL_SPINUP_AFTER_HOODUP_DELAY_SECONDS = 0.25;
+			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY_SECONDS = 1;
+			public static final int XBOX_360_RIGHT_STICK_Y = 5;
+			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
+		}
+		
+		public static class RobotMetric {
+			public static final double WIDTH = 22.15;
+			public static final double LENGTH = 25.81;
+			public static final double WHEEL_ENCODER_PPR = 1024;
+			public static final double WHEEL_DIAMETER = 8;
+			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
+		}
+		
+		public static class AutonomousMetric {
+			/**
+			 * The standard autonomous drive speed
+			 */
+			public static final double DRIVE_SPEED = 0.5;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the moat.
+			 */
+			public static final double TIME_MOAT = 3.5;
+			public static final double SPEED_MOAT = 0.5;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the rough terrain.
+			 */
+			public static final double TIME_ROUGH_TERRAIN = 3.5;
+			public static final double SPEED_ROUGH_TERRAIN = 0.5;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the rock wall.
+			 */
+			@Deprecated
+			public static final double TIME_ROCK_WALL = 3;
+			/**
+			 * The amount of time that autonomous runs
+			 * in order to cross the low bar.
+			 */
+			public static final double TIME_LOWBAR = 4;
+			public static final double SPEED_LOWBAR = 0.4;
+			/**
+			 * RAMPARTS WHY
+			 */
+			public static final double TIME_RAMPARTS = 2;
+			public static final double SPEED_RAMPARTS = 0.9;
+			/**
+			 * The speed the robot turns when searching
+			 * for the goal
+			 */
+			public static final double SEARCH_SPEED = 0.2;
+			/**
+			 * Used as the time to run a command when
+			 * reversing direction to prevent drift.
+			 */
+			public static final double BURST_TIME = 0.15;
+			/**
+			 * Used as the speed to travel atx when
+			 * reversing direction to prevent drift.
+			 */
+			public static final double BURST_SPEED = -0.25;
+		}
+		
+		public static class FieldMetric {
+			/**
+			 * The distance that the robot needs to travel
+			 * to cross and pass the low bar.
+			 */
+			public static final double DISTANCE_TO_LOW_BAR = 224;
+			/**
+			 * The tilt of the defenses, if any.
+			 */
+			public static final double DEFENSE_TILT = 25.0; // in degrees
+		}
+		
+		public static class Component {
+			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
+			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
+			public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 		}
 		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
@@ -94,22 +174,26 @@ public class RobotMap {
 		public static final double SHOOTING_RANGE_MAX = Constant.SHOOTING_RANGE_LENGTH + Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double SHOOTING_RANGE_MIN = Constant.CAMERA_DISTANCE_FROM_FRONT_BUMPER + Constant.HORIZONTAL_BATTER_LENGTH + Constant.DISTANCE_FROM_BATTER;
 		public static final double OUTTAKE_MOTOR_SPEED = -1;
-		public static final double INNIE_BALL_HOLD_SPEED = 0.1;
-		public static final int BALL_LOAD_SENSOR_CALIBRATION_TICK_COUNT = 40;
-		public static final double BALL_LOAD_EMPTY_STATE_ABSOLUTE_ERROR = 20;
+		public static final int BATTER_END_OF_MATCH_TURN_TIME = 20;
+		public static final double TIMTAP_DURATION = 1;
+		public static final double TIM_INTAKE_SPEED = 0.75;
+		public static final double INNIE_SHOOT_SPEED = 1;
+		public static final double TIM_P = -0.0012;
+		public static final double TIM_I = -0.0000;
+		public static final double TIM_D = 0.00095;
+		public static final double TIM_ABSOLUTE_TOLERANCE = 50;
 	}
 	
 	public static class Component {
 		public static PDP pdp;
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
+		public static Tim tim; // His name is Tim.
 		public static Innie innie;
-		public static PositionEncodedMotor defenseManipulator; // His name is Tim.
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
 		public static Solenoid hoodSolenoid;
 		public static DistanceSensor ultrasonicSensor;
-		public static BallLoadSensor ballLoadSensor;
 		public static RockNRoller rockNRoller;
 		public static Hood hood;
 		public static Flywheel flywheel;
@@ -118,8 +202,9 @@ public class RobotMap {
 		public static CANEncoder rightWheelEncoder;
 		public static CANTalon intakeTalon;
 		public static CANTalonEncoder intakeEncoder;
-		public static CANEncoder defenseManipulatorEncoder;
+		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
+		public static Subsystem[] mainSubsystems;
 	}
 	
 	public static class HumanInput {
@@ -131,11 +216,13 @@ public class RobotMap {
 			public static CustomJoystick stick;
 		}
 	}
+	public static CustomPIDController timPID;
 	
 	public RobotMap() {
 		Component.pdp = new PDP();
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
+		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
 		Component.leftWheel.setInverted(true);
@@ -150,22 +237,25 @@ public class RobotMap {
 		Component.innie = new Innie(new CustomPIDController(Component.intakeEncoder), Component.intakeTalon);
 		Component.innie.disablePID(); // TODO add encoders
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
-		Component.defenseManipulatorEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
-		Component.defenseManipulator = new PositionEncodedMotor("defenseManipulator", new SpeedModifierGroup(new LinearModifier(Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(Component.pdp)), new CustomPIDController(Component.defenseManipulatorEncoder), new CANTalon(Port.CANMotor.defenseManipulator));
-		Component.defenseManipulator.setInverted(true);
-		Component.defenseManipulator.disablePID(); // TODO add encoders
-		Component.ballLoadSensor = new BallLoadSensor("ballLoadSensor", Port.CAN.ballLoadSensor);
+		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
+		Component.timEncoder.setReverseDirection(true);
+		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
+		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
+		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
+		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
 		Component.hood = new Hood(new DoubleSolenoid(Port.PCM.hoodSolenoidDown, Port.PCM.hoodSolenoidUp));
 		Component.ultrasonicSensor = new CANUltrasonicDistanceSensor("Ultrasonic", Port.CAN.ultrasonic);
-		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor, Component.ballLoadSensor);
+		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
+		// Main Subsystems
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel, Component.hood};
 	}
 }
