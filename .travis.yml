@@ -8,7 +8,7 @@ git:
 
 before_install:
 # Manually install the ant 1.9.3 for Java 1.8 support
-- wget http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.3-bin.tar.bz2 
+- wget https://github.com/RoboticsTeam4904/AntMirror/raw/master/apache-ant-1.9.3-bin.tar.bz2 
 - tar xvf apache-ant-1.9.3-bin.tar.bz2
 - test -f /usr/share/ant || sudo mv /usr/share/ant /usr/share/apache-ant-stock
 - sudo mv apache-ant-1.9.3 /usr/share/

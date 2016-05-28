@@ -8,8 +8,8 @@ import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
-public class CrossMoatTime extends CommandGroup {
-	public CrossMoatTime(Chassis chassis, boolean usePID) {
-		addParallel(new RunAllSequential(new WaitCommand(0.5), new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.SPEED_MOAT, RobotMap.Constant.AutonomousMetric.TIME_MOAT, usePID)));
+public class CrossRampartsTime extends CommandGroup {
+	public CrossRampartsTime(Chassis chassis, boolean usePID) {
+		addParallel(new RunAllSequential(new WaitCommand(0.5), new AutonomousMoveTime(chassis, RobotMap.Constant.AutonomousMetric.SPEED_RAMPARTS, RobotMap.Constant.AutonomousMetric.TIME_RAMPARTS, usePID)));
 	}
 }
