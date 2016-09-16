@@ -224,7 +224,7 @@ public class RobotMap {
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
-		Component.rightWheel.setInverted(true);
+		Component.rightWheel.setInverted(false);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
 		Component.intakeVictor = new VictorSP(Port.PWM.innie);
