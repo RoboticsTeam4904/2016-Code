@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
@@ -8,7 +9,7 @@ public class CameraPIDSource extends Camera implements PIDSource {
 	private PIDSourceType sourceType;
 	
 	public CameraPIDSource(Camera camera, PIDSourceType sourceType) {
-		super(camera.cameraIP, camera.cameraPort, camera.cameraPath, camera.cameraProtocol);
+		super();
 		this.sourceType = sourceType;
 	}
 	
@@ -27,9 +28,9 @@ public class CameraPIDSource extends Camera implements PIDSource {
 	@Override
 	public double pidGet() {
 		if (sourceType == PIDSourceType.kRate) {
-			return super.getCameraData(false).getDegreesToTurn();
+			return super.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2;
 		} else {
-			return super.getCameraData(false).getDistanceToMove();
+			return super.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2;
 		}
 	}
 	

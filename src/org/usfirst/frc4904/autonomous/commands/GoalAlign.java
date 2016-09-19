@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.autonomous.commands;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.ChassisController;
@@ -33,9 +34,9 @@ public class GoalAlign extends CommandGroup implements ChassisController {
 		if (!isAngleAligned) {
 			return 0.0;
 		}
-		if (camera.getCameraData(true).getDistanceToMove() > 0) {
+		if (camera.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2 > 0) {
 			return driveSpeed;
-		} else if (camera.getCameraData(true).getDistanceToMove() < 0) {
+		} else if (camera.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2 > 0) {
 			return -1.0 * driveSpeed;
 		}
 		isDistanceAligned = true;
@@ -44,9 +45,9 @@ public class GoalAlign extends CommandGroup implements ChassisController {
 	
 	@Override
 	public double getTurnSpeed() {
-		if (camera.getCameraData(true).getDegreesToTurn() > 0) {
+		if (camera.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2 > 0) {
 			return turnSpeed;
-		} else if (camera.getCameraData(true).getDegreesToTurn() < 0) {
+		} else if (camera.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2 > 0) {
 			return -1.0 * turnSpeed;
 		}
 		isAngleAligned = true;

@@ -1,34 +1,14 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.camera.CameraPoll;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Camera extends Subsystem {
-	public enum CameraStatus {
-		CONNECTED, DISCONNECTED, ERRDATA;
-	}
-	protected CameraStatus cameraStatus;
-	protected String cameraIP;
-	protected int cameraPort;
-	protected String cameraPath;
-	protected CameraData cameraDataPrevious = new CameraData();
-	protected CameraData cameraDataCurrent = new CameraData();
-	protected double cameraOffAngleCurrent = 0.0;
-	protected double cameraOffAnglePrevious = 0.0;
-	protected double cameraOffDistanceCurrent = 0.0;
-	protected double cameraOffDistancePrevious = 0.0;
-	protected boolean cameraCanSeeGoal = false;
-	protected String cameraProtocol;
-	public static final double CAMERA_ERROR_VALUE = -0;
+	protected CameraData cameraDataCurrent;
 	
-	public Camera(String cameraIP, int cameraPort, String cameraPath, String cameraProtocol) {
-		cameraStatus = CameraStatus.DISCONNECTED;
-		this.cameraIP = cameraIP;
-		this.cameraPort = cameraPort;
-		this.cameraPath = cameraPath;
-		this.cameraProtocol = cameraProtocol;
+	public Camera() {
+		cameraDataCurrent = new CameraData();
 	}
 	
 	@Override
@@ -36,97 +16,48 @@ public class Camera extends Subsystem {
 		setDefaultCommand(new CameraPoll(this));
 	}
 	
-	public String getCameraIP() {
-		return cameraIP;
-	}
-	
-	public int getCameraPort() {
-		return cameraPort;
-	}
-	
-	public String getCameraProtocol() {
-		return cameraProtocol;
-	}
-	
-	public String getCameraPath() {
-		return cameraPath;
-	}
-	
 	public void setCameraData(CameraData data) {
-		if (data.getTotalData().equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
-			cameraDataCurrent = data;
-		} else {
-			cameraDataPrevious = cameraDataCurrent;
-			cameraDataCurrent = data;
-		}
+		cameraDataCurrent = data;
 	}
 	
-	public CameraData getCameraData(boolean shouldIgnoreError) {
-		if (shouldIgnoreError) {
-			if (cameraDataCurrent.getTotalData().equals(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE)) {
-				return cameraDataPrevious;
-			} else {
-				return cameraDataCurrent;
-			}
-		} else {
-			return cameraDataCurrent;
-		}
+	public CameraData getCameraData() {
+		return cameraDataCurrent;
 	}
 	
 	public static class CameraData {
-		private boolean canSeeGoal = false;
-		private double degreesToTurn = 0D;
-		private double distanceToMove = 0D;
-		private CameraStatus cameraStatus;
-		private String totalData = RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE;
+		private final boolean canSeeGoal;
+		private final double goalX;
+		private final double goalY;
 		
-		public CameraData() {
-			cameraStatus = CameraStatus.DISCONNECTED;
+		private CameraData(boolean canSeeGoal, double goalX, double goalY) {
+			this.canSeeGoal = canSeeGoal;
+			this.goalX = goalX;
+			this.goalY = goalY;
 		}
 		
-		public void setCanSeeGoal(boolean canSeeGoal) {
-			this.canSeeGoal = canSeeGoal;
+		public CameraData(double goalX, double goalY) {
+			this(true, goalX, goalY);
+		}
+		
+		public CameraData() {
+			this(false, 0.0, 0.0);
 		}
 		
 		public boolean canSeeGoal() {
 			return canSeeGoal;
 		}
 		
-		public void setDegreesToTurn(Double degreesToTurn) {
-			this.degreesToTurn = degreesToTurn;
+		public double getGoalX() {
+			return goalX;
 		}
 		
-		public double getDegreesToTurn() {
-			return degreesToTurn;
-		}
-		
-		public void setDistanceToMove(Double distanceToMove) {
-			this.distanceToMove = distanceToMove;
-		}
-		
-		public double getDistanceToMove() {
-			return distanceToMove;
-		}
-		
-		public void setCameraStatus(CameraStatus cameraStatus) {
-			this.cameraStatus = cameraStatus;
-		}
-		
-		public CameraStatus getCameraStatus() {
-			return cameraStatus;
-		}
-		
-		public void setTotalData(String totalData) {
-			this.totalData = totalData;
-		}
-		
-		public String getTotalData() {
-			return totalData;
+		public double getGoalY() {
+			return goalY;
 		}
 		
 		@Override
 		public String toString() {
-			return this.getClass().getName() + "#{" + "Distance: " + distanceToMove + ", " + "Turn: " + degreesToTurn + ", " + "Goal Visible: " + Boolean.toString(canSeeGoal) + ", " + "Total Data: " + totalData + ", " + "Camera Status: " + cameraStatus + "}";
+			return this.getClass().getName() + "#{" + "GoalX: " + goalX + ", " + "GoalY: " + goalY + ", " + "Goal Visible: " + Boolean.toString(canSeeGoal) + "}";
 		}
 	}
 }
