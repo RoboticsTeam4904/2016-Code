@@ -16,14 +16,14 @@ public class InnieControl extends MotorControl {
 	protected final TimIntake timIntake;
 	
 	public InnieControl() {
-		super(RobotMap.Component.innie, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, false);
+		super(RobotMap.Component.innie, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, 1.0);
 		timIntake = new TimIntake();
 	}
 	
 	@Override
 	protected void execute() {
 		double speed = controller.getAxis(axis);
-		boolean isDirectionIntake = (speed >= 0) && !invert;
+		boolean isDirectionIntake = (speed >= 0) && (scale >= 0);
 		if (isDirectionIntake) {
 			super.execute(); // run Innie from joystick (a la MotorControl)
 			if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
@@ -39,11 +39,7 @@ public class InnieControl extends MotorControl {
 			}
 			// do outtake:
 			RobotMap.Component.rockNRoller.set(RockerState.OUTTAKE);
-			if (!invert) {
-				RobotMap.Component.innie.set(RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
-			} else {
-				RobotMap.Component.innie.set(-1.0f * RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
-			}
+			RobotMap.Component.innie.set(scale * RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
 		}
 	}
 	
