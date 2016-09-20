@@ -2,7 +2,6 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
-import org.usfirst.frc4904.robot.subsystems.Hood;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.subsystems.Tim;
@@ -18,8 +17,6 @@ import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -59,10 +56,7 @@ public class RobotMap {
 			public static final int timIntake = 2;
 		}
 		
-		public static class PCM {
-			public static final int hoodSolenoidDown = 0;
-			public static final int hoodSolenoidUp = 1;
-		}
+		public static class PCM {}
 	}
 	
 	public static class Constant {
@@ -188,10 +182,8 @@ public class RobotMap {
 		public static Motor innie;
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
-		public static Solenoid hoodSolenoid;
 		public static DistanceSensor ultrasonicSensor;
 		public static RockNRoller rockNRoller;
-		public static Hood hood;
 		public static Flywheel flywheel;
 		public static Shooter shooter;
 		public static CANEncoder leftWheelEncoder;
@@ -241,14 +233,14 @@ public class RobotMap {
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
-		Component.hood = new Hood(new DoubleSolenoid(Port.PCM.hoodSolenoidDown, Port.PCM.hoodSolenoidUp));
-		Component.shooter = new Shooter(Component.rockNRoller, Component.hood, Component.flywheel, Component.ultrasonicSensor);
+		Component.flywheel.setInverted(true);
+		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel, Component.hood};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel};
 	}
 }
