@@ -13,6 +13,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.Acceleration
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class Tim extends PositionEncodedMotor {
 	public enum TimState {
@@ -62,5 +63,10 @@ public class Tim extends PositionEncodedMotor {
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TimSet(Tim.TimState.FULL_UP));
+	}
+	
+	@Override
+	public Command getDefaultCommand() {
+		return (new TimSet(Tim.TimState.FULL_UP));
 	}
 }
