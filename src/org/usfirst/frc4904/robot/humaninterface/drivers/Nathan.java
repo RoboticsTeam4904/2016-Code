@@ -26,7 +26,7 @@ public class Nathan extends Driver {
 	
 	@Override
 	public double getY() {
-		return (RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX()) * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
+		return (RobotMap.HumanInput.Driver.xbox.lt.getX() - RobotMap.HumanInput.Driver.xbox.rt.getX()) * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
 	}
 	
 	@Override

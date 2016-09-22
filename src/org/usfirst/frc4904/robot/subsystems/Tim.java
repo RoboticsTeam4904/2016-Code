@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class Tim extends PositionEncodedMotor {
 	public enum TimState {
-		FULL_UP(25), FULL_DOWN(1700);
+		FULL_UP(25), FULL_DOWN(1740);
 		public final double position;
 		
 		private TimState(double position) {
@@ -31,6 +31,7 @@ public class Tim extends PositionEncodedMotor {
 		super("Tim", new SpeedModifierGroup(new LinearModifier(RobotMap.Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(RobotMap.Component.pdp)), motionController, motors);
 		this.encoder = encoder;
 		this.intakeMotor = new Motor("Tim Intake Motor", intakeMotor);
+		this.intakeMotor.setInverted(true);
 		range = new Util.Range(TimState.FULL_UP.position, TimState.FULL_DOWN.position);
 	}
 	
