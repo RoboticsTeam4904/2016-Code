@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousMoveTime extends CommandGroup {
 	public AutonomousMoveTime(Chassis chassis, double speed, double time, boolean usePID) {
-		addSequential(new ChassisConstant(chassis, 0.0, speed, 0.0, time));
-		addSequential(new ChassisConstant(chassis, 0.0, RobotMap.Constant.AutonomousMetric.BURST_SPEED, 0.0, RobotMap.Constant.AutonomousMetric.BURST_TIME));
+		addSequential(new ChassisConstant(chassis, 0.0, -1.0 * speed, 0.0, time));
+		addSequential(new ChassisConstant(chassis, 0.0, -1.0 * RobotMap.Constant.AutonomousMetric.BURST_SPEED, 0.0, RobotMap.Constant.AutonomousMetric.BURST_TIME));
 	}
 }

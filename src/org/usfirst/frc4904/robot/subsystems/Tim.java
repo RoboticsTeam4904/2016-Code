@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class Tim extends PositionEncodedMotor {
 	public enum TimState {
-		FULL_UP(25), FULL_DOWN(1700);
+		FULL_UP(25), FULL_DOWN(1740);
 		public final double position;
 		
 		private TimState(double position) {
