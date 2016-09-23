@@ -14,14 +14,16 @@ import org.usfirst.frc4904.standard.custom.controllers.Controller;
  */
 public class InnieControl extends MotorControl {
 	protected final TimSpin timSpin;
+	protected final TimSpin timOuttake;
+	protected final RockNRollerOuttake rockNRollerOuttake;
 	protected final TimSet timSet;
-	protected final Outtake outtake;
 	
 	public InnieControl() {
 		super(RobotMap.Component.innie, RobotMap.HumanInput.Operator.stick, Controller.Y_AXIS, 1.0);
 		timSpin = new TimSpin(true);
 		timSet = new TimSet(Tim.TimState.FULL_DOWN, false);
-		outtake = new Outtake();
+		timOuttake = new TimSpin(false);
+		rockNRollerOuttake = new RockNRollerOuttake();
 	}
 	
 	@Override
@@ -29,8 +31,11 @@ public class InnieControl extends MotorControl {
 		double speed = controller.getAxis(axis);
 		boolean isDirectionIntake = (speed >= 0) && (scale >= 0);
 		if (isDirectionIntake) {
-			if (outtake.isRunning()) {
-				outtake.cancel();
+			if (timOuttake.isRunning()) {
+				timOuttake.cancel();
+			}
+			if (rockNRollerOuttake.isRunning()) {
+				rockNRollerOuttake.cancel();
 			}
 			super.execute(); // run Innie from joystick (a la MotorControl)
 			if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
@@ -50,12 +55,17 @@ public class InnieControl extends MotorControl {
 				timSet.cancel();
 			}
 			if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD) { // if not past threshold
-				if (outtake.isRunning()) {
-					outtake.cancel();
+				if (timOuttake.isRunning()) {
+					timOuttake.cancel();
+				}
+				if (rockNRollerOuttake.isRunning()) {
+					rockNRollerOuttake.cancel();
 				}
 				return;
 			}
-			outtake.start();
+			timOuttake.start();
+			rockNRollerOuttake.start();
+			motor.set(RobotMap.Constant.OUTTAKE_MOTOR_SPEED);
 		}
 	}
 	
