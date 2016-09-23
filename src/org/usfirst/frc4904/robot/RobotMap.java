@@ -4,7 +4,6 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.robot.subsystems.CameraPIDSource;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
-import org.usfirst.frc4904.robot.subsystems.Innie;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.subsystems.Tim;
@@ -12,17 +11,15 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.CANUltrasonicDistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
+import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -40,35 +37,29 @@ public class RobotMap {
 		}
 		
 		public static class PWM {
-			public static final int leftDriveAMotor = 0;
-			public static final int leftDriveBMotor = 1;
-			public static final int rightDriveAMotor = 2;
-			public static final int rightDriveBMotor = 3;
-			public static final int flywheelAMotor = 4;
-			public static final int flywheelBMotor = 5;
-			public static final int rockNRollerMotor = 6;
+			public static final int leftDriveAMotor = 3;
+			public static final int leftDriveBMotor = 4;
+			public static final int rightDriveAMotor = 5;
+			public static final int rightDriveBMotor = 6;
+			public static final int flywheelAMotor = 0;
+			public static final int flywheelBMotor = 1;
+			public static final int innie = 2;
 		}
 		
 		public static class CAN {
 			public static final int leftEncoder = 0x602;
 			public static final int rightEncoder = 0x603;
 			public static final int flywheelEncoder = 0x604;
-			public static final int defenseManipulatorEncoder = 0x605;
-			public static final int intakeEncoder = 0x606;
-			public static final int ultrasonic = 0x610;
+			public static final int defenseManipulatorEncoder = 0x610;
 		}
 		
 		public static class CANMotor {
-			public static final int innie = 3;
 			public static final int rockNRoller = 1;
-			public static final int tim = 2;
-			public static final int timIntake = 4;
+			public static final int tim = 3;
+			public static final int timIntake = 2;
 		}
 		
-		public static class PCM {
-			public static final int hoodSolenoidDown = 0;
-			public static final int hoodSolenoidUp = 1;
-		}
+		public static class PCM {}
 	}
 	
 	public static class Constant {
@@ -87,6 +78,7 @@ public class RobotMap {
 			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY_SECONDS = 1;
 			public static final int XBOX_360_RIGHT_STICK_Y = 5;
 			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
+			public static final double FLYWHEEL_TARGET_SPEED = 1;
 		}
 		
 		public static class RobotMetric {
@@ -229,10 +221,11 @@ public class RobotMap {
 		public static final int END_OF_MATCH_NOTIF_DURATION = 3;
 		public static final double TIMTAP_DURATION = 1;
 		public static final double TIM_INTAKE_SPEED = 0.75;
+		public static final double TIM_OUTTAKE_SPEED = -0.75;
 		public static final double INNIE_SHOOT_SPEED = 1;
-		public static final double TIM_P = -0.0012;
-		public static final double TIM_I = -0.0000;
-		public static final double TIM_D = 0.00095;
+		public static final double TIM_P = 0.001;
+		public static final double TIM_I = -0.000;
+		public static final double TIM_D = -0.0014;
 		public static final double TIM_ABSOLUTE_TOLERANCE = 50;
 		public static final double CAMERA_WIDTH_PIXELS = 320;
 	}
@@ -242,18 +235,16 @@ public class RobotMap {
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
 		public static Tim tim; // His name is Tim.
-		public static Innie innie;
+		public static Motor innie;
 		public static TankDrive chassis;
 		public static VelocityEncodedMotor flywheelMotor;
-		public static Solenoid hoodSolenoid;
 		public static DistanceSensor ultrasonicSensor;
 		public static RockNRoller rockNRoller;
 		public static Flywheel flywheel;
 		public static Shooter shooter;
 		public static CANEncoder leftWheelEncoder;
 		public static CANEncoder rightWheelEncoder;
-		public static CANTalon intakeTalon;
-		public static CANTalonEncoder intakeEncoder;
+		public static VictorSP intakeVictor;
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
 		public static Camera camera;
@@ -283,32 +274,31 @@ public class RobotMap {
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
-		Component.rightWheel.setInverted(true);
+		Component.rightWheel.setInverted(false);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
-		Component.intakeTalon = new CANTalon(Port.CANMotor.innie);
-		Component.intakeEncoder = new CANTalonEncoder(Component.intakeTalon);
-		Component.innie = new Innie(new CustomPIDController(Component.intakeEncoder), Component.intakeTalon);
-		Component.innie.disablePID(); // TODO add encoders
+		Component.intakeVictor = new VictorSP(Port.PWM.innie);
+		Component.innie = new Motor("Innie", new AccelerationCap(RobotMap.Component.pdp), Component.intakeVictor);
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
 		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
 		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
 		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
+		Component.tim.setInverted(true);
 		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
-		Component.ultrasonicSensor = new CANUltrasonicDistanceSensor("Ultrasonic", Port.CAN.ultrasonic);
+		Component.flywheel.setInverted(true);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		// IR Camera
+		// Camera
 		Component.camera = new Camera();
 		Component.cameraPIDSource = new CameraPIDSource(Component.camera, PIDSourceType.kRate);
 		// Main Subsystems

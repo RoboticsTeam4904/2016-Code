@@ -16,7 +16,7 @@ public class CameraPoll extends Command {
 		super(name);
 		requires(camera);
 		this.camera = camera;
-		server = NetworkTable.getTable("RoboRealm");
+		server = NetworkTable.getTable("GRIP/myCountoursReport");
 		setRunWhenDisabled(true);
 		setInterruptible(false);
 	}
@@ -35,8 +35,8 @@ public class CameraPoll extends Command {
 		double goalX = 0;
 		double goalY = 0;
 		try {
-			goalX = server.getNumber("goalX", 0);
-			goalY = server.getNumber("goalY", 0);
+			goalX = server.getNumber("centerX", 0);
+			goalY = server.getNumber("centerY", 0);
 		}
 		catch (TableKeyNotDefinedException ex) {
 			LogKitten.ex(ex);

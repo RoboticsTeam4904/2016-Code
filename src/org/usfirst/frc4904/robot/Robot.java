@@ -7,7 +7,6 @@ import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
-import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.Camera.CameraData;
@@ -15,12 +14,10 @@ import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
@@ -38,7 +35,6 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
-		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
 		// Configure position Chooser
@@ -50,15 +46,6 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, false);
-		// Start camera server
-		USBCamera camera = new USBCamera("cam1");
-		// camera.setBrightness(1);
-		camera.setExposureManual(-1);
-		camera.updateSettings();
-		camera.openCamera();
-		CameraServer cameraServer = CameraServer.getInstance();
-		cameraServer.setQuality(50);
-		cameraServer.startAutomaticCapture(camera);
 	}
 	
 	@Override
