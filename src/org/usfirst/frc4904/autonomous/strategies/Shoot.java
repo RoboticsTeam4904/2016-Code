@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class Shoot extends CommandGroup {
 	public Shoot() {
 		addParallel(new SpinUpFlywheel());
-		addSequential(new WaitCommand(0.5));
+		addSequential(new WaitCommand(RobotMap.Constant.AutonomousMetric.FLYWHEEL_SPINUP_DURATION));
 		addSequential(new RockNRollerShoot());
 		addParallel(new MotorIdle(RobotMap.Component.flywheel));
 	}

@@ -9,9 +9,7 @@ import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
-import org.usfirst.frc4904.robot.subsystems.Camera.CameraData;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -80,8 +78,6 @@ public class Robot extends CommandRobotBase {
 		if (veryNearEndOfMatch) {
 			RobotMap.HumanInput.Driver.xbox.setRumble(0);
 		}
-		CameraData d = RobotMap.Component.camera.getCameraData();
-		LogKitten.wtf(d.canSeeGoal() + " | " + d.getGoalX() + " | " + d.getGoalY());
 	}
 	
 	@Override

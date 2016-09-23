@@ -74,8 +74,6 @@ public class RobotMap {
 			public static final double TURN_EXP = 2;
 			public static final double DEFENSE_MANIPULATOR_SPEED_SCALE = 0.25;
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
-			public static final double FLYWHEEL_SPINUP_AFTER_HOODUP_DELAY_SECONDS = 0.25;
-			public static final double HOODDOWN_AFTER_TRIGGERRELEASE_DELAY_SECONDS = 1;
 			public static final int XBOX_360_RIGHT_STICK_Y = 5;
 			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
 			public static final double FLYWHEEL_TARGET_SPEED = 1;
@@ -127,7 +125,15 @@ public class RobotMap {
 			 * The speed the robot turns when searching
 			 * for the goal
 			 */
-			public static final double SEARCH_SPEED = 0.2;
+			public static final double SEARCH_SPEED = 0.45;
+			/**
+			 * The speed the robot turns when doing fine alignment with the goal
+			 */
+			public static final double ALIGN_SPEED = 0.3;
+			public static final double ALIGN_P = -0.004;
+			public static final double ALIGN_I = -0.0001;
+			public static final double ALIGN_D = 0;
+			public static final double ALIGN_TOLERANCE = 10;
 			/**
 			 * Used as the time to run a command when
 			 * reversing direction to prevent drift.
@@ -139,6 +145,8 @@ public class RobotMap {
 			 */
 			public static final double BURST_SPEED = -0.25;
 			public static final double INFRARED_ADJUSTMENT = -4.0;
+			public static final double FLYWHEEL_SPINUP_DURATION = 2;
+			public static final double AUTONOMOUS_POSITION_TO_GOAL_DELAY_AFTER_CAMERA_SIGHTING = 0.5;
 		}
 		
 		public static class FieldMetric {
@@ -154,47 +162,7 @@ public class RobotMap {
 		}
 		
 		public static class Network {
-			
-			public static final String PI_IR_ADDRESS = "ir.local";
-			public static final int PI_IR_PORT = 9999;
-			@Deprecated
-			public static final int PI_VISUAL_PORT = Integer.MAX_VALUE;
-			/**
-			 * The HTTP 'GET' request method constant.
-			 */
-			public static final String CONNECTION_METHOD_GET = "GET";
-			/**
-			 * The HTTP 'POST' request method constant.
-			 */
-			public static final String CONNECTION_METHOD_POST = "POST";
-			/**
-			 * The URL connection protocol string for HTTP
-			 */
-			public static final String CONNECTION_PROTOCOL_HTTP = "http";
-			/**
-			 * The URL connection protocol string for HTTPS
-			 */
-			public static final String CONNECTION_PROTOCOL_HTTPS = "https";
-			/**
-			 * Autonomous URL destination for the PI IR camera
-			 */
-			public static final String PI_IR_AUTO_PATH = "/autonomous";
-			/**
-			 * Return this when connnection cannot be established to anything"
-			 */
-			public static final String CONNECTION_ERROR_MESSAGE = "CONNECTION COULD NOT BE ESTABLISHED";
-			/**
-			 * This is value of the IR Camera status if it's good.
-			 */
-			public static final String PI_IR_STATUS_GOOD = "1";
-			/**
-			 * This is value of the IR Camera status if it's bad.
-			 */
-			public static final String PI_IR_STATUS_BAD = "0";
-			/**
-			 * The position of the IR Camera status in the IR Camerowa data
-			 */
-			public static final int PI_IR_STATUS_INDEX_POSITION = 0;
+			public static final String VISION_GOAL_NETWORK_TABLE_ADDRESS = "GRIP/myContoursReport";
 		}
 		
 		public static class Component {
@@ -227,7 +195,7 @@ public class RobotMap {
 		public static final double TIM_I = -0.000;
 		public static final double TIM_D = -0.0014;
 		public static final double TIM_ABSOLUTE_TOLERANCE = 50;
-		public static final double CAMERA_WIDTH_PIXELS = 320;
+		public static final double CAMERA_WIDTH_PIXELS = 640;
 	}
 	
 	public static class Component {

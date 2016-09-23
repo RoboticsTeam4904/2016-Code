@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
@@ -21,16 +20,16 @@ public class CameraPIDSource extends Camera implements PIDSource {
 	/**
 	 * 
 	 * Gets the value to use in PID.
-	 * If PIDSourceType is set to kDisplacement then it returns the distance.
-	 * If PIDSourceType is set to kRate then it returns OffAngle
+	 * If PIDSourceType is set to kDisplacement then it returns the goalX.
+	 * If PIDSourceType is set to kRate then it returns the goalY.
 	 * 
 	 */
 	@Override
 	public double pidGet() {
 		if (sourceType == PIDSourceType.kRate) {
-			return super.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2;
+			return super.getCameraData().getGoalX();
 		} else {
-			return super.getCameraData().getGoalX() - RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2;
+			return super.getCameraData().getGoalY();
 		}
 	}
 	

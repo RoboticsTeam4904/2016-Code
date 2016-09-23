@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.commands.camera;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.robot.subsystems.Camera.CameraData;
 import org.usfirst.frc4904.standard.LogKitten;
@@ -16,7 +17,7 @@ public class CameraPoll extends Command {
 		super(name);
 		requires(camera);
 		this.camera = camera;
-		server = NetworkTable.getTable("GRIP/myCountoursReport");
+		server = NetworkTable.getTable(RobotMap.Constant.Network.VISION_GOAL_NETWORK_TABLE_ADDRESS);
 		setRunWhenDisabled(true);
 		setInterruptible(false);
 	}
@@ -35,8 +36,18 @@ public class CameraPoll extends Command {
 		double goalX = 0;
 		double goalY = 0;
 		try {
-			goalX = server.getNumber("centerX", 0);
-			goalY = server.getNumber("centerY", 0);
+			double[] goalXArray = server.getNumberArray("centerX", new double[0]);
+			if (goalXArray.length > 0) {
+				goalX = goalXArray[0];
+			} else {
+				goalX = 0;
+			}
+			double[] goalYArray = server.getNumberArray("centerY", new double[0]);
+			if (goalYArray.length > 0) {
+				goalY = goalYArray[0];
+			} else {
+				goalY = 0;
+			}
 		}
 		catch (TableKeyNotDefinedException ex) {
 			LogKitten.ex(ex);
