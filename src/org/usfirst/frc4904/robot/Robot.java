@@ -5,7 +5,6 @@ import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
-import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
@@ -30,7 +29,6 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
-		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
 		// Configure position Chooser
