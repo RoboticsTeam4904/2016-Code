@@ -14,7 +14,7 @@ public class AutonomousPositionToGoal extends CommandGroup {
 		addSequential(new GoalFind(chassis, camera, RobotMap.Constant.AutonomousMetric.SEARCH_SPEED, usePID));
 		addParallel(new PrintCommand("Goal Found"));
 		addSequential(new WaitCommand(RobotMap.Constant.AutonomousMetric.AUTONOMOUS_POSITION_TO_GOAL_DELAY_AFTER_CAMERA_SIGHTING));
-		addParallel(new GoalAlign(chassis, camera, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.ALIGN_SPEED));
+		addParallel(new GoalAlign(chassis, camera, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.ALIGN_SPEED, true));
 		addSequential(new PrintCommand("Goal Aligned"));
 	}
 }
