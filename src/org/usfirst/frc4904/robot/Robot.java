@@ -5,7 +5,6 @@ import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
-import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
@@ -30,7 +29,6 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
-		driverChooser.addObject(new Nathan());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
 		// Configure position Chooser
@@ -59,8 +57,17 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
-		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, DriverStation.getInstance().getMatchTime() <= RobotMap.Constant.BATTER_END_OF_MATCH_TURN_TIME);
-		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, SmartDashboard.getBoolean(SmartDashboardKey.HOOD_STATE.key));
+		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, true);
+		double matchTime = DriverStation.getInstance().getMatchTime();
+		boolean nearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_START_TIME;
+		boolean veryNearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_START_TIME - RobotMap.Constant.END_OF_MATCH_NOTIF_DURATION;
+		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, nearEndOfMatch);
+		if (nearEndOfMatch && !veryNearEndOfMatch) {
+			RobotMap.HumanInput.Driver.xbox.setRumble(1);
+		}
+		if (veryNearEndOfMatch) {
+			RobotMap.HumanInput.Driver.xbox.setRumble(0);
+		}
 	}
 	
 	@Override

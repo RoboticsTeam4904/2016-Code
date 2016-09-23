@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem {
 	public final RockNRoller rockNRoller;
-	public final Hood hood;
 	public final Flywheel flywheel;
 	public final DistanceSensor towerDistanceSensor;
 	protected final HashMap<Double, Double> measuredSpeeds;
@@ -27,10 +26,9 @@ public class Shooter extends Subsystem {
 	 * @param towerDistanceSensor
 	 *        the distance sensor for the tower
 	 */
-	public Shooter(RockNRoller rockNRoller, Hood hood, Flywheel flywheel, DistanceSensor towerDistanceSensor) {
+	public Shooter(RockNRoller rockNRoller, Flywheel flywheel, DistanceSensor towerDistanceSensor) {
 		super("Shooter");
 		this.rockNRoller = rockNRoller;
-		this.hood = hood;
 		this.flywheel = flywheel;
 		this.towerDistanceSensor = towerDistanceSensor;
 		measuredSpeeds = new HashMap<Double, Double>();

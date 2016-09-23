@@ -13,10 +13,11 @@ import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.Acceleration
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class Tim extends PositionEncodedMotor {
 	public enum TimState {
-		FULL_UP(25), FULL_DOWN(1700);
+		FULL_UP(25), FULL_DOWN(1740);
 		public final double position;
 		
 		private TimState(double position) {
@@ -31,6 +32,7 @@ public class Tim extends PositionEncodedMotor {
 		super("Tim", new SpeedModifierGroup(new LinearModifier(RobotMap.Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE), new AccelerationCap(RobotMap.Component.pdp)), motionController, motors);
 		this.encoder = encoder;
 		this.intakeMotor = new Motor("Tim Intake Motor", intakeMotor);
+		this.intakeMotor.setInverted(true);
 		range = new Util.Range(TimState.FULL_UP.position, TimState.FULL_DOWN.position);
 	}
 	
@@ -61,5 +63,10 @@ public class Tim extends PositionEncodedMotor {
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TimSet(Tim.TimState.FULL_UP));
+	}
+	
+	@Override
+	public Command getDefaultCommand() {
+		return (new TimSet(Tim.TimState.FULL_UP));
 	}
 }
