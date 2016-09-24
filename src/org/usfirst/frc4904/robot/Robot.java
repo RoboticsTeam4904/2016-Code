@@ -12,6 +12,7 @@ import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndAlign;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
+import org.usfirst.frc4904.robot.subsystems.Camera.CameraData;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -46,7 +47,6 @@ public class Robot extends CommandRobotBase {
 		positionChooser.addDefault("Left: 0", 0);
 		positionChooser.addObject("Right: 1", 1);
 		// Initialize SmartDashboard display values
-		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, 0);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, false);
@@ -63,12 +63,12 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		final double offAngle = 0;
+		CameraData d = RobotMap.Component.camera.getCameraData();
+		final double offAngle = d.getGoalX();
 		final double offDistance = 0;
-		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
 		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, offAngle);
 		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, offDistance);
-		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, Math.abs(offAngle) < 5);
+		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_ALIGNED.key, Math.abs(offAngle) < RobotMap.Constant.AutonomousMetric.ALIGN_TOLERANCE);
 		// SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, MIN < Math.abs(offDistance) < MAX);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, true);
