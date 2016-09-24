@@ -56,7 +56,6 @@ public class Robot extends CommandRobotBase {
 	public void teleopInitialize() {
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
-		RobotMap.Component.timEncoder.reset();
 	}
 	
 	/**
