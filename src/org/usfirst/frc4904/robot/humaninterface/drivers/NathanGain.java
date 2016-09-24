@@ -1,11 +1,13 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
+import org.usfirst.frc4904.autonomous.commands.GoalAlign;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.TimSet;
 import org.usfirst.frc4904.robot.subsystems.Tim;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.motor.MotorControl;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 
@@ -20,6 +22,8 @@ public class NathanGain extends Driver {
 	
 	@Override
 	public void bindCommands() {
+		RobotMap.HumanInput.Driver.xbox.x.onlyWhileHeld(new GoalAlign(RobotMap.Component.chassis, RobotMap.Component.camera, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.ALIGN_SPEED, false));
+		RobotMap.HumanInput.Driver.xbox.x.whenReleased(new ChassisMove(RobotMap.Component.chassis, this));
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
 		// TODO: If we switch to Xbox Ones, change the port to the Xbox One port. The Xbox 360 has a slightly different mapping, so we have a special comment for that.
 		RobotMap.HumanInput.Driver.xbox.a.onlyWhileHeld(new TimSet(Tim.TimState.FULL_DOWN, false));
