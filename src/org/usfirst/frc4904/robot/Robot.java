@@ -8,6 +8,7 @@ import org.usfirst.frc4904.autonomous.strategies.CrossMoatTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndAlign;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
@@ -32,6 +33,7 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossMoatTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossRoughTerrainTimeAndAlign(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossRoughTerrainTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossRampartsTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
