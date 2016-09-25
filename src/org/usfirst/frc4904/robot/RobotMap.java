@@ -134,11 +134,21 @@ public class RobotMap {
 			public static final double ALIGN_I = -0.0001;
 			public static final double ALIGN_D = 0;
 			public static final double ALIGN_TOLERANCE = 10;
+			/**
+			 * The time in ms the robot waits while on target to ensure
+			 * before stopping PID
+			 */
+			public static final double ALIGN_TIME_TOLERANCE = 250;
 			public static final double DISTANCE_ALIGN_SETPOINT = 110;
 			public static final double DISTANCE_ALIGN_P = 0.003;
 			public static final double DISTANCE_ALIGN_I = 0;
 			public static final double DISTANCE_ALIGN_D = 0.008;
 			public static final double DISTANCE_ALIGN_TOLERANCE = 10;
+			/**
+			 * The time in ms the robot waits while on target to ensure
+			 * before stopping PID
+			 */
+			public static final double DISTANCE_ALIGN_TIME_TOLERANCE = 250;
 			/**
 			 * Used as the time to run a command when
 			 * reversing direction to prevent drift.

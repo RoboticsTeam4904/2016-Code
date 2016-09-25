@@ -76,7 +76,7 @@ public class GoalAlignDistance extends Command implements ChassisController {
 			if (waitStart == 0) {
 				waitStart = System.currentTimeMillis();
 			} else {
-				if ((System.currentTimeMillis() - waitStart) >= 250) {
+				if ((System.currentTimeMillis() - waitStart) >= RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_TIME_TOLERANCE) {
 					isStable = true;
 				}
 			}
