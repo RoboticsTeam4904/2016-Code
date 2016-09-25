@@ -2,9 +2,14 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossMoatTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
+import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndAlign;
+import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
@@ -24,9 +29,14 @@ public class Robot extends CommandRobotBase {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossLowbarTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossMoatTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossRoughTerrainTimeAndAlign(RobotMap.Component.chassis, RobotMap.Component.camera, false));
+		autoChooser.addObject(new CrossRoughTerrainTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
+		autoChooser.addObject(new CrossRampartsTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator command chooser
@@ -55,7 +65,13 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
+		final double offAngle = 0;
+		final double offDistance = 0;
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
+		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, offAngle);
+		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, offDistance);
+		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, Math.abs(offAngle) < 5);
+		// SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, MIN < Math.abs(offDistance) < MAX);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, true);
 		double matchTime = DriverStation.getInstance().getMatchTime();

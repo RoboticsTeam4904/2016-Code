@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
+import org.usfirst.frc4904.autonomous.commands.GoalAlign;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.TimSet;
 import org.usfirst.frc4904.robot.subsystems.Tim;
@@ -22,6 +23,8 @@ public class NathanGain extends Driver {
 	
 	@Override
 	public void bindCommands() {
+		RobotMap.HumanInput.Driver.xbox.x.onlyWhileHeld(new GoalAlign(RobotMap.Component.chassis, RobotMap.Component.camera, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.ALIGN_SPEED, false));
+		RobotMap.HumanInput.Driver.xbox.x.whenReleased(new ChassisMove(RobotMap.Component.chassis, this));
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
 		// TODO: If we switch to Xbox Ones, change the port to the Xbox One port. The Xbox 360 has a slightly different mapping, so we have a special comment for that.
 		RobotMap.HumanInput.Driver.xbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 45, RobotMap.Component.imu, RobotMap.MotionControl.chassisTurnMC));
@@ -33,7 +36,7 @@ public class NathanGain extends Driver {
 		RobotMap.HumanInput.Driver.xbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180, RobotMap.Component.imu, RobotMap.MotionControl.chassisTurnMC));
 		RobotMap.HumanInput.Driver.xbox.dPad.down.whenReleased(new ChassisMove(RobotMap.Component.chassis, this));
 		RobotMap.HumanInput.Driver.xbox.a.onlyWhileHeld(new TimSet(Tim.TimState.FULL_DOWN, false));
-		RobotMap.HumanInput.Driver.xbox.lb.onlyWhileHeld(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, RobotMap.Constant.HumanInput.DEFENSE_MANIPULATOR_SPEED_SCALE));
+		RobotMap.HumanInput.Driver.xbox.lb.onlyWhileHeld(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, 1.5));
 	}
 	
 	@Override
