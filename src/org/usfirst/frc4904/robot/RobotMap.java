@@ -73,7 +73,6 @@ public class RobotMap {
 			public static final double OPERATOR_Y_OUTTAKE_THRESHOLD = -0.5;
 			public static final int XBOX_360_RIGHT_STICK_Y_AXIS_INDEX = 5;
 			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
-			public static final double FLYWHEEL_TARGET_SPEED = 1;
 		}
 		
 		public static class RobotMetric {
@@ -163,6 +162,7 @@ public class RobotMap {
 		}
 		
 		public static class Component {
+			public static final double FLYWHEEL_SHOOT_SPEED = 1.0;
 			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
 			public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
