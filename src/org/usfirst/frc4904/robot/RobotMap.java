@@ -104,8 +104,8 @@ public class RobotMap {
 			 * The amount of time that autonomous runs
 			 * in order to cross the rock wall.
 			 */
-			@Deprecated
 			public static final double TIME_ROCK_WALL = 3;
+			public static final double SPEED_ROCK_WALL = 0.5;
 			/**
 			 * The amount of time that autonomous runs
 			 * in order to cross the low bar.
