@@ -11,24 +11,24 @@ import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class GoalAlign extends Command implements ChassisController {
+public class GoalAlignDistance extends Command implements ChassisController {
 	private final Chassis chassis;
 	private final Camera camera;
 	private final boolean stopWhenOnTarget;
-	private boolean isAngleAligned;
+	private boolean isDistanceAligned;
 	private ChassisMove chassisMove;
 	private final CustomPIDController pidController;
 	
-	public GoalAlign(Chassis chassis, Camera camera, boolean stopWhenOnTarget) {
+	public GoalAlignDistance(Chassis chassis, Camera camera, boolean stopWhenOnTarget) {
 		this.camera = camera;
 		this.chassis = chassis;
 		this.stopWhenOnTarget = stopWhenOnTarget;
-		isAngleAligned = false;
-		pidController = new CustomPIDController(RobotMap.Constant.AutonomousMetric.ALIGN_P, RobotMap.Constant.AutonomousMetric.ALIGN_I, RobotMap.Constant.AutonomousMetric.ALIGN_D, new CameraPIDSource(camera, PIDSourceType.kRate));
-		pidController.setAbsoluteTolerance(RobotMap.Constant.AutonomousMetric.ALIGN_TOLERANCE);
+		isDistanceAligned = false;
+		pidController = new CustomPIDController(RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_P, RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_I, RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_D, new CameraPIDSource(camera, PIDSourceType.kDisplacement));
+		pidController.setAbsoluteTolerance(RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
 		pidController.enable();
-		pidController.setSetpoint(RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT);
+		pidController.setSetpoint(RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_SETPOINT);
 	}
 	
 	@Override
@@ -38,14 +38,9 @@ public class GoalAlign extends Command implements ChassisController {
 	
 	@Override
 	public double getY() {
-		return 0;
-	}
-	
-	@Override
-	public double getTurnSpeed() {
 		double get = pidController.get();
 		if (camera.getCameraData().canSeeGoal()) {
-			isAngleAligned = pidController.onTarget();
+			isDistanceAligned = pidController.onTarget();
 			return get;
 		} else {
 			return 0;
@@ -53,11 +48,16 @@ public class GoalAlign extends Command implements ChassisController {
 	}
 	
 	@Override
+	public double getTurnSpeed() {
+		return 0;
+	}
+	
+	@Override
 	protected void initialize() {
 		chassisMove = new ChassisMove(chassis, this);
 		chassisMove.start();
 		pidController.enable();
-		pidController.setSetpoint(RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT);
+		pidController.setSetpoint(RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_SETPOINT);
 	}
 	
 	@Override
@@ -65,14 +65,14 @@ public class GoalAlign extends Command implements ChassisController {
 	
 	@Override
 	public boolean isFinished() {
-		return stopWhenOnTarget && isAngleAligned;
+		return stopWhenOnTarget && isDistanceAligned;
 	}
 	
 	@Override
 	protected void end() {
 		chassisMove.cancel();
 		pidController.reset();
-		isAngleAligned = false;
+		isDistanceAligned = false;
 	}
 	
 	@Override
