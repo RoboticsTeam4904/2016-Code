@@ -252,7 +252,7 @@ public class RobotMap {
 		Component.timEncoder.setReverseDirection(true);
 		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
 		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
-		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
+		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new PryingCANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
 		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
