@@ -129,7 +129,7 @@ public class RobotMap {
 			/**
 			 * The speed the robot turns when doing fine alignment with the goal
 			 */
-			public static final double ALIGN_SPEED = 0.3;
+			public static final double ALIGN_SETPOINT = Constant.CAMERA_WIDTH_PIXELS / 2;
 			public static final double ALIGN_P = -0.004;
 			public static final double ALIGN_I = -0.0001;
 			public static final double ALIGN_D = 0;
