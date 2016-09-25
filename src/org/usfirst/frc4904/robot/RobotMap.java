@@ -50,7 +50,7 @@ public class RobotMap {
 			public static final int leftEncoder = 0x602;
 			public static final int rightEncoder = 0x603;
 			public static final int flywheelEncoder = 0x604;
-			public static final int defenseManipulatorEncoder = 0x610;
+			public static final int timEncoder = 0x610;
 		}
 		
 		public static class CANMotor {
@@ -245,7 +245,7 @@ public class RobotMap {
 		Component.intakeVictor = new VictorSP(Port.PWM.innie);
 		Component.innie = new Motor("Innie", new AccelerationCap(RobotMap.Component.pdp), Component.intakeVictor);
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
-		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
+		Component.timEncoder = new CANEncoder(Port.CAN.timEncoder);
 		Component.timEncoder.setReverseDirection(true);
 		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
 		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
