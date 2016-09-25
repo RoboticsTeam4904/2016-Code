@@ -22,7 +22,7 @@ public class NathanGain extends Driver {
 	
 	@Override
 	public void bindCommands() {
-		RobotMap.HumanInput.Driver.xbox.x.onlyWhileHeld(new GoalAlignDistance(RobotMap.Component.chassis, RobotMap.Component.camera, RobotMap.Constant.AutonomousMetric.DRIVE_SPEED, RobotMap.Constant.AutonomousMetric.ALIGN_SPEED, false));
+		RobotMap.HumanInput.Driver.xbox.x.onlyWhileHeld(new GoalAlignDistance(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		RobotMap.HumanInput.Driver.xbox.x.whenReleased(new ChassisMove(RobotMap.Component.chassis, this));
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
 		// TODO: If we switch to Xbox Ones, change the port to the Xbox One port. The Xbox 360 has a slightly different mapping, so we have a special comment for that.
