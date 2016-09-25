@@ -58,8 +58,6 @@ public class RobotMap {
 			public static final int tim = 3;
 			public static final int timIntake = 2;
 		}
-		
-		public static class PCM {}
 	}
 	
 	public static class Constant {
