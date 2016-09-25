@@ -4,6 +4,7 @@ package org.usfirst.frc4904.autonomous.commands;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.robot.subsystems.CameraPIDSource;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.ChassisController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -18,12 +19,16 @@ public class GoalAlignDistance extends Command implements ChassisController {
 	private boolean isDistanceAligned;
 	private ChassisMove chassisMove;
 	private final CustomPIDController pidController;
+	private long waitStart;
+	private boolean isStable;
 	
 	public GoalAlignDistance(Chassis chassis, Camera camera, boolean stopWhenOnTarget) {
 		this.camera = camera;
 		this.chassis = chassis;
 		this.stopWhenOnTarget = stopWhenOnTarget;
 		isDistanceAligned = false;
+		isStable = false;
+		waitStart = 0;
 		pidController = new CustomPIDController(RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_P, RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_I, RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_D, new CameraPIDSource(camera, PIDSourceType.kDisplacement));
 		pidController.setAbsoluteTolerance(RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
@@ -41,8 +46,10 @@ public class GoalAlignDistance extends Command implements ChassisController {
 		double get = pidController.get();
 		if (camera.getCameraData().canSeeGoal()) {
 			isDistanceAligned = pidController.onTarget();
+			LogKitten.wtf(isDistanceAligned + " " + get);
 			return get;
 		} else {
+			LogKitten.wtf("Can't see goal");
 			return 0;
 		}
 	}
@@ -65,7 +72,18 @@ public class GoalAlignDistance extends Command implements ChassisController {
 	
 	@Override
 	public boolean isFinished() {
-		return stopWhenOnTarget && isDistanceAligned;
+		if (pidController.onTarget()) {
+			if (waitStart == 0) {
+				waitStart = System.currentTimeMillis();
+			} else {
+				if ((System.currentTimeMillis() - waitStart) >= 250) {
+					isStable = true;
+				}
+			}
+		} else {
+			waitStart = 0;
+		}
+		return stopWhenOnTarget && isDistanceAligned && isStable;
 	}
 	
 	@Override
