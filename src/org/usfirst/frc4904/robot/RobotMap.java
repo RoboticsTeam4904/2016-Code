@@ -2,7 +2,6 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.subsystems.Camera;
-import org.usfirst.frc4904.robot.subsystems.CameraPIDSource;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
@@ -19,7 +18,6 @@ import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -140,7 +138,6 @@ public class RobotMap {
 			 * reversing direction to prevent drift.
 			 */
 			public static final double BURST_SPEED = -0.25;
-			public static final double INFRARED_ADJUSTMENT = -4.0;
 			public static final double FLYWHEEL_SPINUP_DURATION = 2;
 			public static final double AUTONOMOUS_POSITION_TO_GOAL_DELAY_AFTER_CAMERA_SIGHTING = 0.5;
 		}
@@ -165,15 +162,7 @@ public class RobotMap {
 			public static final double FLYWHEEL_SHOOT_SPEED = 1.0;
 			public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
 			public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
-			public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
-			public static double AlignAngle_P = 0;
-			public static double AlignAngle_I = 0;
-			public static double AlignAngle_D = 0;
-			public static double AlignAngleTolerance = 5;
 		}
-		public static final double ROCKNROLLER_OUTTAKE_SPEED = 1.0;
-		public static final double ROCKNROLLER_SHOOT_SPEED = -1.0;
-		public static final int FLYWHEEL_PERCENT_TOLERANCE = 5; // 5% error
 		public static final int FLYWHEEL_SPIN_UP_SPEED = 750000;
 		public static final double HORIZONTAL_BATTER_LENGTH = 43.5;
 		public static final double CAMERA_DISTANCE_FROM_FRONT_BUMPER = 13;
@@ -184,10 +173,8 @@ public class RobotMap {
 		public static final double OUTTAKE_MOTOR_SPEED = -1;
 		public static final int END_OF_MATCH_NOTIF_START_TIME = 25;
 		public static final int END_OF_MATCH_NOTIF_DURATION = 3;
-		public static final double TIMTAP_DURATION = 1;
 		public static final double TIM_INTAKE_SPEED = 0.75;
 		public static final double TIM_OUTTAKE_SPEED = -0.75;
-		public static final double INNIE_SHOOT_SPEED = 1;
 		public static final double TIM_P = 0.0007;
 		public static final double TIM_I = -0.000;
 		public static final double TIM_D = -0.0014;
@@ -213,7 +200,6 @@ public class RobotMap {
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
 		public static Camera camera;
-		public static CameraPIDSource cameraPIDSource;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -265,7 +251,6 @@ public class RobotMap {
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		// Camera
 		Component.camera = new Camera();
-		Component.cameraPIDSource = new CameraPIDSource(Component.camera, PIDSourceType.kRate);
 		// Main Subsystems
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel};
 	}
