@@ -12,6 +12,7 @@ import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndAlign;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
+import org.usfirst.frc4904.robot.humaninterface.operators.OneButtonShot;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -41,6 +42,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		operatorChooser.addObject(new OneButtonShot());
 		// Configure position Chooser
 		positionChooser = new SendableChooser();
 		positionChooser.addDefault("Left: 0", 0);
