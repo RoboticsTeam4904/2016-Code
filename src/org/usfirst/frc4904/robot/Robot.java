@@ -16,7 +16,6 @@ import org.usfirst.frc4904.robot.subsystems.Camera.CameraData;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,14 +46,11 @@ public class Robot extends CommandRobotBase {
 		positionChooser.addDefault("Left: 0", 0);
 		positionChooser.addObject("Right: 1", 1);
 		// Initialize SmartDashboard display values
-		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
-		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, false);
 	}
 	
 	@Override
 	public void teleopInitialize() {
-		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 	}
 	
@@ -64,24 +60,15 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopExecute() {
 		CameraData d = RobotMap.Component.camera.getCameraData();
-		final double offAngle = d.getGoalX();
-		final double offDistance = 0;
+		final double offAngle = RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT - d.getGoalX();
+		final double offDistance = RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_SETPOINT - d.getGoalY();
 		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, offAngle);
 		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, offDistance);
-		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_ALIGNED.key, Math.abs(offAngle) < RobotMap.Constant.AutonomousMetric.ALIGN_TOLERANCE);
-		// SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, MIN < Math.abs(offDistance) < MAX);
-		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
-		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, true);
-		double matchTime = DriverStation.getInstance().getMatchTime();
-		boolean nearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_START_TIME;
-		boolean veryNearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_START_TIME - RobotMap.Constant.END_OF_MATCH_NOTIF_DURATION;
-		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, nearEndOfMatch);
-		if (nearEndOfMatch && !veryNearEndOfMatch) {
-			RobotMap.HumanInput.Driver.xbox.setRumble(1);
-		}
-		if (veryNearEndOfMatch) {
-			RobotMap.HumanInput.Driver.xbox.setRumble(0);
-		}
+		final boolean angleAligned = Math.abs(offAngle) < RobotMap.Constant.AutonomousMetric.ALIGN_TOLERANCE;
+		final boolean distanceAligned = Math.abs(offDistance) < RobotMap.Constant.AutonomousMetric.DISTANCE_ALIGN_TOLERANCE;
+		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_ALIGNED.key, angleAligned);
+		SmartDashboard.putBoolean(SmartDashboardKey.DISTANCE_ALIGNED.key, distanceAligned);
+		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, angleAligned && distanceAligned);
 	}
 	
 	@Override
