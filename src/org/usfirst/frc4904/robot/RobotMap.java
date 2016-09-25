@@ -238,7 +238,7 @@ public class RobotMap {
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
-		Component.leftWheel.setInverted(true);
+		Component.leftWheel.setInverted(false);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
