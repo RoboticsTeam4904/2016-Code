@@ -80,7 +80,7 @@ public class GoalAlign extends Command implements ChassisController {
 		} else {
 			waitStart = 0;
 		}
-		return stopWhenOnTarget && isAngleAligned;
+		return stopWhenOnTarget && isAngleAligned && isStable;
 	}
 	
 	@Override
