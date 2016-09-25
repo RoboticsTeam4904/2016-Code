@@ -70,7 +70,7 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 			public static final double DEFENSE_MANIPULATOR_SPEED_SCALE = 0.25;
-			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
+			public static final double OPERATOR_Y_OUTTAKE_THRESHOLD = -0.5;
 			public static final int XBOX_360_RIGHT_STICK_Y_AXIS_INDEX = 5;
 			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
 			public static final double FLYWHEEL_TARGET_SPEED = 1;

@@ -54,7 +54,7 @@ public class InnieControl extends MotorControl {
 			if (timSet.isRunning()) {
 				timSet.cancel();
 			}
-			if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD) { // if not past threshold
+			if (speed > RobotMap.Constant.HumanInput.OPERATOR_Y_OUTTAKE_THRESHOLD) { // if not past threshold
 				if (timOuttake.isRunning()) {
 					timOuttake.cancel();
 				}
