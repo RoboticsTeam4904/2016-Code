@@ -47,6 +47,7 @@ public class Robot extends CommandRobotBase {
 		positionChooser.addObject("Right: 1", 1);
 		// Initialize SmartDashboard display values
 		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, 0);
+		SmartDashboard.putNumber("Flywheel speed", RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED);
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, false);
@@ -82,6 +83,7 @@ public class Robot extends CommandRobotBase {
 		if (veryNearEndOfMatch) {
 			RobotMap.HumanInput.Driver.xbox.setRumble(0);
 		}
+		RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED = SmartDashboard.getNumber("Flywheel speed", RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED);
 	}
 	
 	@Override

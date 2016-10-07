@@ -76,7 +76,7 @@ public class RobotMap {
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
 			public static final int XBOX_360_RIGHT_STICK_Y = 5;
 			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
-			public static final double FLYWHEEL_TARGET_SPEED = 1;
+			public static double FLYWHEEL_TARGET_SPEED = 1;
 		}
 		
 		public static class RobotMetric {
