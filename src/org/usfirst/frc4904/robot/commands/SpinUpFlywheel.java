@@ -12,6 +12,7 @@ public class SpinUpFlywheel extends MotorConstant {
 	@Override
 	public void initialize() {
 		motorSpeed = RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED;
+		RobotMap.Component.flywheel.enablePID();
 		motor.set(motorSpeed);
 	}
 	
@@ -19,5 +20,15 @@ public class SpinUpFlywheel extends MotorConstant {
 	public void execute() {
 		motorSpeed = RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED;
 		motor.set(motorSpeed);
+	}
+	
+	@Override
+	public void end() {
+		RobotMap.Component.flywheel.disablePID();
+	}
+	
+	@Override
+	public void interrupted() {
+		end();
 	}
 }

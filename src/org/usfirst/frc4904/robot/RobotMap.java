@@ -11,6 +11,7 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
@@ -76,7 +77,7 @@ public class RobotMap {
 			public static final double OPERATOR_Y_OUTTAKE_UPPER_THRESHOLD = -0.5;
 			public static final int XBOX_360_RIGHT_STICK_Y = 5;
 			public static final double TIM_DOWN_INTAKE_SPEED_THRESHOLD = 0.5;
-			public static double FLYWHEEL_TARGET_SPEED = 1;
+			public static double FLYWHEEL_TARGET_SPEED = 60;
 		}
 		
 		public static class RobotMetric {
@@ -214,10 +215,11 @@ public class RobotMap {
 		public static CANEncoder rightWheelEncoder;
 		public static VictorSP intakeVictor;
 		public static CANEncoder timEncoder;
-		public static CANEncoder flywheelEncoder;
+		public static CANTalonEncoder flywheelEncoder;
 		public static Camera camera;
 		public static CameraPIDSource cameraPIDSource;
 		public static Subsystem[] mainSubsystems;
+		public static CustomPIDController flywheelMotionController;
 	}
 	
 	public static class HumanInput {
@@ -252,12 +254,18 @@ public class RobotMap {
 		Component.timEncoder.setReverseDirection(true);
 		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
 		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
-		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
+		CANTalon timtake = new CANTalon(Port.CANMotor.timIntake);
+		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, timtake, new CANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
 		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
-		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
-		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
+		Component.flywheelEncoder = new CANTalonEncoder("Flywheel Encoder", timtake, true);
+		Component.flywheelEncoder.reset();
+		Component.flywheelEncoder.setDistancePerPulse(1.0 / 4096.0);
+		Component.flywheelEncoder.setPIDSourceType(PIDSourceType.kRate);
+		Component.flywheelMotionController = new CustomPIDController(0.001, 0, 0, 0.01, Component.flywheelEncoder); // I = 0.0005
+		Component.flywheelMotionController.setAbsoluteTolerance(0.5);
+		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), Component.flywheelMotionController, new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
 		Component.flywheel.setInverted(true);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);

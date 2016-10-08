@@ -13,6 +13,7 @@ import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -84,6 +85,7 @@ public class Robot extends CommandRobotBase {
 			RobotMap.HumanInput.Driver.xbox.setRumble(0);
 		}
 		RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED = SmartDashboard.getNumber("Flywheel speed", RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED);
+		LogKitten.wtf(RobotMap.Component.flywheelEncoder.getRate() + " | " + RobotMap.Component.flywheelMotionController.getError() + " | " + RobotMap.Component.flywheelMotionController.get());
 	}
 	
 	@Override
