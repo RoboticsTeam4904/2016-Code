@@ -2,7 +2,6 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.subsystems.motor.SensorMotor;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -30,7 +29,6 @@ public class SpinUpFlywheelDistance extends Command {
 	public void execute() {
 		motorSpeed = RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED;
 		motor.set(motorSpeed);
-		LogKitten.wtf(endOnArrival + "");
 	}
 	
 	@Override
