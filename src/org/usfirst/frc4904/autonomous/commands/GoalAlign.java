@@ -18,12 +18,16 @@ public class GoalAlign extends Command implements ChassisController {
 	private boolean isAngleAligned;
 	private ChassisMove chassisMove;
 	private final CustomPIDController pidController;
+	private long waitStart;
+	private boolean isStable;
 	
 	public GoalAlign(Chassis chassis, Camera camera, boolean stopWhenOnTarget) {
 		this.camera = camera;
 		this.chassis = chassis;
 		this.stopWhenOnTarget = stopWhenOnTarget;
 		isAngleAligned = false;
+		isStable = false;
+		waitStart = 0;
 		pidController = new CustomPIDController(RobotMap.Constant.AutonomousMetric.ALIGN_P, RobotMap.Constant.AutonomousMetric.ALIGN_I, RobotMap.Constant.AutonomousMetric.ALIGN_D, new CameraPIDSource(camera, PIDSourceType.kRate));
 		pidController.setAbsoluteTolerance(RobotMap.Constant.AutonomousMetric.ALIGN_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
@@ -65,7 +69,18 @@ public class GoalAlign extends Command implements ChassisController {
 	
 	@Override
 	public boolean isFinished() {
-		return stopWhenOnTarget && isAngleAligned;
+		if (pidController.onTarget()) {
+			if (waitStart == 0) {
+				waitStart = System.currentTimeMillis();
+			} else {
+				if ((System.currentTimeMillis() - waitStart) >= RobotMap.Constant.AutonomousMetric.ALIGN_TIME_TOLERANCE) {
+					isStable = true;
+				}
+			}
+		} else {
+			waitStart = 0;
+		}
+		return stopWhenOnTarget && isAngleAligned && isStable;
 	}
 	
 	@Override
