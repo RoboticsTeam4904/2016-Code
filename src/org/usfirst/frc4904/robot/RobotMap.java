@@ -12,6 +12,7 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CANUltrasonicDistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
@@ -50,7 +51,7 @@ public class RobotMap {
 		public static class CAN {
 			public static final int leftEncoder = 0x602;
 			public static final int rightEncoder = 0x603;
-			public static final int flywheelEncoder = 0x604;
+			public static final int ultrasonicSensor = 0x604;
 			public static final int defenseManipulatorEncoder = 0x610;
 		}
 		
@@ -292,6 +293,8 @@ public class RobotMap {
 		// Camera
 		Component.camera = new Camera();
 		Component.cameraPIDSource = new CameraPIDSource(Component.camera, PIDSourceType.kRate);
+		// Ultrasonic
+		Component.ultrasonicSensor = new CANUltrasonicDistanceSensor("TowerDistance", Port.CAN.ultrasonicSensor);
 		// Main Subsystems
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel};
 	}
