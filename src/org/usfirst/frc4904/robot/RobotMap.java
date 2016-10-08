@@ -192,7 +192,7 @@ public class RobotMap {
 		public static final double TIM_INTAKE_SPEED = 0.75;
 		public static final double TIM_OUTTAKE_SPEED = -0.75;
 		public static final double INNIE_SHOOT_SPEED = 1;
-		public static final double TIM_P = 0.0008;
+		public static final double TIM_P = 0.00095;
 		public static final double TIM_I = -0.000;
 		public static final double TIM_D = -0.0014;
 		public static final double TIM_ABSOLUTE_TOLERANCE = 50;
