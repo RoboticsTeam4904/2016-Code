@@ -2,11 +2,11 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
-import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.SensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class Flywheel extends VelocityEncodedMotor {
+public class Flywheel extends SensorMotor {
 	public enum FlywheelStatus {
 		IDLE, SPINNING_UP, AT_SPEED
 	}
