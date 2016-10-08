@@ -2,29 +2,30 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
+import org.usfirst.frc4904.standard.commands.motor.MotorSet;
 
-public class SpinUpFlywheel extends MotorConstant {
+public class SpinUpFlywheel extends MotorSet {
 	public SpinUpFlywheel() {
-		super(RobotMap.Component.flywheel, RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED);
+		super(RobotMap.Component.flywheel);
 	}
 	
 	@Override
 	public void initialize() {
-		motorSpeed = RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED;
+		super.set(RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED);
 		RobotMap.Component.flywheel.enablePID();
-		motor.set(motorSpeed);
+		super.initialize();
 	}
 	
 	@Override
 	public void execute() {
-		motorSpeed = RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED;
-		motor.set(motorSpeed);
+		super.set(RobotMap.Constant.HumanInput.FLYWHEEL_TARGET_SPEED);
+		super.execute();
 	}
 	
 	@Override
 	public void end() {
 		RobotMap.Component.flywheel.disablePID();
+		super.end();
 	}
 	
 	@Override
