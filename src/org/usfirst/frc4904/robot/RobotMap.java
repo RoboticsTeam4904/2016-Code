@@ -263,7 +263,7 @@ public class RobotMap {
 		Component.flywheelEncoder.reset();
 		Component.flywheelEncoder.setDistancePerPulse(1.0 / 4096.0);
 		Component.flywheelEncoder.setPIDSourceType(PIDSourceType.kRate);
-		Component.flywheelMotionController = new CustomPIDController(0.001, 0, 0, 0.01, Component.flywheelEncoder); // I = 0.0005
+		Component.flywheelMotionController = new CustomPIDController(0.03, 0.00002, 0, 0.01, Component.flywheelEncoder); // I = 0.0005
 		Component.flywheelMotionController.setAbsoluteTolerance(0.5);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), Component.flywheelMotionController, new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
