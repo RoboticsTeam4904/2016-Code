@@ -40,8 +40,10 @@ public class InnieControl extends MotorControl {
 			super.execute(); // run Innie from joystick (a la MotorControl)
 			if (speed > RobotMap.Constant.HumanInput.TIM_DOWN_INTAKE_SPEED_THRESHOLD) {
 				timSpin.start();
-				if (((TimSet) RobotMap.Component.tim.getCurrentCommand()).getState().equals(Tim.TimState.FULL_UP)) {
-					timSet.start();
+				if (RobotMap.Component.tim.getCurrentCommand() instanceof TimSet) {
+					if (((TimSet) RobotMap.Component.tim.getCurrentCommand()).getState().equals(Tim.TimState.FULL_UP)) {
+						timSet.start();
+					}
 				}
 			} else {
 				timSpin.cancel();
