@@ -22,6 +22,7 @@ public class GoalAlign extends Command implements ChassisController {
 	private ChassisMove chassisMove;
 	private final CustomPIDController pidController;
 	private final boolean stopWhenOnTarget;
+	private int counter;
 	
 	public GoalAlign(Chassis chassis, Camera camera, double driveSpeed, double turnSpeed, boolean stopWhenOnTarget) {
 		this.camera = camera;
@@ -29,6 +30,7 @@ public class GoalAlign extends Command implements ChassisController {
 		this.driveSpeed = driveSpeed;
 		this.turnSpeed = turnSpeed;
 		this.stopWhenOnTarget = stopWhenOnTarget;
+		counter = 0;
 		isAngleAligned = false;
 		isDistanceAligned = false;
 		pidController = new CustomPIDController(RobotMap.Constant.AutonomousMetric.ALIGN_P, RobotMap.Constant.AutonomousMetric.ALIGN_I, RobotMap.Constant.AutonomousMetric.ALIGN_D, new CameraPIDSource(camera, PIDSourceType.kRate));
@@ -77,7 +79,7 @@ public class GoalAlign extends Command implements ChassisController {
 			return get;
 		} else {
 			// return Math.signum(get) * RobotMap.Constant.AutonomousMetric.ALIGN_SPEED;
-			LogKitten.wtf("MASOIFMIASOFMAIOSDMIOASMDOIASFIAOA");
+			LogKitten.wtf("can't see goal");
 			return 0;
 		}
 	}
@@ -87,7 +89,7 @@ public class GoalAlign extends Command implements ChassisController {
 		chassisMove = new ChassisMove(chassis, this);
 		chassisMove.start();
 		pidController.enable();
-		pidController.setSetpoint(RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2);
+		pidController.setSetpoint((RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2) + 30);
 	}
 	
 	@Override
@@ -95,7 +97,17 @@ public class GoalAlign extends Command implements ChassisController {
 	
 	@Override
 	public boolean isFinished() {
-		return stopWhenOnTarget && isAngleAligned && isDistanceAligned;
+		
+		if (stopWhenOnTarget && isAngleAligned && isDistanceAligned) {
+			if (counter == 50) {
+				return true;
+			}
+			counter++;
+			return false;
+		} else {
+			counter = 0;
+			return false;
+		}
 	}
 	
 	@Override
