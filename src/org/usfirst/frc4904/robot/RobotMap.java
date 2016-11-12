@@ -195,7 +195,23 @@ public class RobotMap {
 		public static final double TIM_I = -0.000;
 		public static final double TIM_D = -0.0014;
 		public static final double TIM_ABSOLUTE_TOLERANCE = 50;
-		public static final double CAMERA_WIDTH_PIXELS = 640;
+		
+		public static class Autoalign {
+			public static final double CAMERA_WIDTH_PIXELS = 640;
+			public static final double CAMERA_HEIGHT_PIXELS = 540; // idk
+			public static final double MOUNT_ANGLE_X = 0;
+			public static final double MOUNT_ANGLE_Y = 45; // degrees
+			public static final double NATIVE_RES_X = 2592;
+			public static final double NATIVE_RES_Y = 1944;
+			public static final double NATIVE_ANGLE_X = 53.5; // degrees
+			public static final double NATIVE_ANGLE_Y = 41.41; // degrees
+			public static final double MOUNT_OFFSET_X = 336.55; // 13.25 inches
+			public static final double MOUNT_OFFSET_Y = 63.5; // 2.5 inches
+			public static final double GOAL_HEIGHT = 2438.4; // 8 feet
+			public static final double CAMERA_HEIGHT = 296.0; // 296 millimeters
+			public static final double DEG_PER_PIXEL_X = Autoalign.NATIVE_ANGLE_X / Autoalign.CAMERA_WIDTH_PIXELS;
+			public static final double DEG_PER_PIXEL_Y = Autoalign.NATIVE_ANGLE_Y / Autoalign.CAMERA_HEIGHT_PIXELS;
+		}
 	}
 	
 	public static class Component {

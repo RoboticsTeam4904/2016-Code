@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.robot.RobotMap.Constant.Autoalign;
 import org.usfirst.frc4904.robot.commands.camera.CameraPoll;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -49,6 +50,21 @@ public class Camera extends Subsystem {
 		
 		public double getGoalX() {
 			return goalX;
+		}
+		
+		// X angle
+		public double getAngleToGoal() {
+			double cameraToGoalAngleY = Autoalign.DEG_PER_PIXEL_Y * (goalY - Autoalign.CAMERA_HEIGHT_PIXELS / 2);
+			double cameraToGoalAngleX = Autoalign.DEG_PER_PIXEL_X * (goalX - Autoalign.CAMERA_WIDTH_PIXELS / 2);
+			double cameraDistance = (Autoalign.GOAL_HEIGHT - Autoalign.CAMERA_HEIGHT) / Math.tan(cameraToGoalAngleY);
+			double mountOffsetDistance = Math.sqrt(Math.pow(Autoalign.MOUNT_OFFSET_X, 2) + Math.pow(Autoalign.MOUNT_OFFSET_Y, 2));
+			double mountOffsetAngle = Math.atan(Autoalign.MOUNT_OFFSET_Y / Autoalign.MOUNT_OFFSET_X);
+			double innerCameraAngle = Math.PI / 2 - cameraToGoalAngleX - mountOffsetAngle;
+			double distance = Math.sqrt(Math.pow(cameraDistance, 2) + Math.pow(mountOffsetDistance, 2) - 2 * cameraDistance * mountOffsetDistance * Math.cos(innerCameraAngle));
+			double innerShooterAngle = Math.asin(Math.sin(innerCameraAngle) * cameraDistance / distance);
+			double angleToGoal = innerShooterAngle - mountOffsetAngle - Math.PI / 2;
+			return angleToGoal;
+			// use distance
 		}
 		
 		public double getGoalY() {

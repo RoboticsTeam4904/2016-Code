@@ -37,7 +37,7 @@ public class GoalAlign extends Command implements ChassisController {
 		pidController.setAbsoluteTolerance(RobotMap.Constant.AutonomousMetric.ALIGN_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
 		pidController.enable();
-		pidController.setSetpoint(RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2);
+		pidController.setSetpoint(0);
 	}
 	
 	@Override
@@ -89,7 +89,7 @@ public class GoalAlign extends Command implements ChassisController {
 		chassisMove = new ChassisMove(chassis, this);
 		chassisMove.start();
 		pidController.enable();
-		pidController.setSetpoint((RobotMap.Constant.CAMERA_WIDTH_PIXELS / 2) + 30);
+		pidController.setSetpoint((RobotMap.Constant.Autoalign.CAMERA_WIDTH_PIXELS / 2) + 30);
 	}
 	
 	@Override
