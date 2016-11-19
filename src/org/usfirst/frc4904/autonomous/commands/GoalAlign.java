@@ -90,7 +90,7 @@ public class GoalAlign extends Command implements ChassisController {
 		chassisMove = new ChassisMove(chassis, this);
 		chassisMove.start();
 		pidController.enable();
-		pidController.setSetpoint((RobotMap.Constant.Autoalign.CAMERA_WIDTH_PIXELS / 2) + 30);
+		pidController.setSetpoint((RobotMap.Constant.Autoalign.CAMERA_WIDTH_PIXELS / 2) + 30); // change the 30 to an actual value for the offset in pixels between the center of the camera view and where the shooter actually shoots
 	}
 	
 	@Override
