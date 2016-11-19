@@ -132,8 +132,9 @@ public class RobotMap {
 			public static final double ALIGN_SPEED = 0.3;
 			public static final double ALIGN_P = -0.004;
 			public static final double ALIGN_I = -0.0001;
-			public static final double ALIGN_D = 0;
+			public static final double ALIGN_D = 0.0001;
 			public static final double ALIGN_TOLERANCE = 10;
+			public static final double TICKS_UNTIL_ALIGNED = 10;
 			/**
 			 * Used as the time to run a command when
 			 * reversing direction to prevent drift.
@@ -252,12 +253,12 @@ public class RobotMap {
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
-		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
-		Component.leftWheel.disablePID(); // TODO add encoders
+		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(0, 0, 0, 0.1, Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
+		Component.leftWheel.enablePID(); // TODO add encoders
 		Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
-		Component.rightWheel.disablePID(); // TODO add encoders
+		Component.rightWheel.enablePID(); // TODO add encoders
 		Component.rightWheel.setInverted(false);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake

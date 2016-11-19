@@ -74,6 +74,7 @@ public class GoalAlign extends Command implements ChassisController {
 		 * return 0.0;
 		 */
 		double get = pidController.get();
+		LogKitten.wtf(get + " | " + pidController.getError() + " | " + pidController.onTarget());
 		if (camera.getCameraData().canSeeGoal()) {
 			isAngleAligned = pidController.onTarget();
 			return get;
@@ -97,9 +98,8 @@ public class GoalAlign extends Command implements ChassisController {
 	
 	@Override
 	public boolean isFinished() {
-		
 		if (stopWhenOnTarget && isAngleAligned && isDistanceAligned) {
-			if (counter == 50) {
+			if (counter == RobotMap.Constant.AutonomousMetric.TICKS_UNTIL_ALIGNED) {
 				return true;
 			}
 			counter++;
