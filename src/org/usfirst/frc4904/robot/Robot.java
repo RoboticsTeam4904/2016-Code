@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.autonomous.commands.GearAlign;
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
 import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
 import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
@@ -12,10 +13,12 @@ import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndAlign;
 import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
+import org.usfirst.frc4904.robot.subsystems.AligningCamera;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,6 +40,7 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new CrossRoughTerrainTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossRampartsTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
+		autoChooser.addObject(new GearAlign(map, new AligningCamera(PIDSourceType.kRate, AligningCamera.TABLE_NAME)));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator command chooser
