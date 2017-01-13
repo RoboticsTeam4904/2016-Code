@@ -15,7 +15,6 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.AligningCamera;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -26,11 +25,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	private SendableChooser positionChooser;
+	private final GearAlign gearAlign = new GearAlign(map, new AligningCamera(PIDSourceType.kRate, AligningCamera.TABLE_NAME));
 	
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addDefault(new GearAlign(map, new AligningCamera(PIDSourceType.kRate, AligningCamera.TABLE_NAME)));
 		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossLowbarTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
@@ -40,7 +40,7 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new CrossRoughTerrainTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossRampartsTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
-		autoChooser.addObject(new GearAlign(map, new AligningCamera(PIDSourceType.kRate, AligningCamera.TABLE_NAME)));
+		autoChooser.addObject(gearAlign);
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator command chooser
@@ -54,6 +54,10 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, false);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_P.key, 0.0);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_I.key, 0.0);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_D.key, 0.0);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_SETPOINT.key, 0.0);
 	}
 	
 	@Override
@@ -109,7 +113,13 @@ public class Robot extends CommandRobotBase {
 	public void disabledInitialize() {}
 	
 	@Override
-	public void disabledExecute() {}
+	public void disabledExecute() {
+		RobotMap.Constant.AutonomousMetric.ALIGN_P = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_P.key);
+		RobotMap.Constant.AutonomousMetric.ALIGN_I = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_I.key);
+		RobotMap.Constant.AutonomousMetric.ALIGN_D = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_D.key);
+		RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_SETPOINT.key);
+		gearAlign.updatePID();
+	}
 	
 	@Override
 	public void testInitialize() {}

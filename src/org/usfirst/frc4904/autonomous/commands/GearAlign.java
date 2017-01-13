@@ -2,11 +2,13 @@ package org.usfirst.frc4904.autonomous.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.SmartDashboardKey;
 import org.usfirst.frc4904.robot.subsystems.AligningCamera;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.ChassisController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GearAlign extends Command implements ChassisController {
 	
@@ -58,7 +60,9 @@ public class GearAlign extends Command implements ChassisController {
 	}
 	
 	@Override
-	public void execute() {}
+	public void execute() {
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_E.key, pidController.getError());
+	}
 	
 	@Override
 	public boolean isFinished() {
@@ -75,5 +79,9 @@ public class GearAlign extends Command implements ChassisController {
 	@Override
 	public void interrupted() {
 		end();
+	}
+	
+	public void updatePID() {
+		pidController.setPID(RobotMap.Constant.AutonomousMetric.ALIGN_P, RobotMap.Constant.AutonomousMetric.ALIGN_I, RobotMap.Constant.AutonomousMetric.ALIGN_D);
 	}
 }
