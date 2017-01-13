@@ -30,7 +30,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new GearAlign(map, new AligningCamera(PIDSourceType.kRate, AligningCamera.TABLE_NAME)));
+		autoChooser.addDefault(gearAlign);
 		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
 		autoChooser.addObject(new CrossLowbarTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
@@ -54,10 +54,10 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, false);
 		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, false);
-		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_P.key, 0.0);
-		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_I.key, 0.0);
-		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_D.key, 0.0);
-		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_SETPOINT.key, 0.0);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_P.key, RobotMap.Constant.AutonomousMetric.ALIGN_P);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_I.key, RobotMap.Constant.AutonomousMetric.ALIGN_I);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_D.key, RobotMap.Constant.AutonomousMetric.ALIGN_D);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_SETPOINT.key, RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT);
 	}
 	
 	@Override

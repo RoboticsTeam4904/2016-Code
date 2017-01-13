@@ -43,12 +43,10 @@ public class GearAlign extends Command implements ChassisController {
 	
 	@Override
 	public double getTurnSpeed() {
+		pidController.setSetpoint(RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT); // Potentially change this to be the horizontal resolution of the camera / 2
 		double pidGet = pidController.get();
-		if (camera.isVisible()) {
-			onAngle = pidController.onTarget();
-			return pidGet;
-		}
-		return 0;
+		onAngle = pidController.onTarget();
+		return pidGet;
 	}
 	
 	@Override
@@ -56,7 +54,7 @@ public class GearAlign extends Command implements ChassisController {
 		chassisMove = new ChassisMove(RobotMap.Component.chassis, this);
 		chassisMove.start();
 		pidController.enable();
-		pidController.setSetpoint(0); // Potentially change this to be the horizontal resolution of the camera / 2
+		pidController.setSetpoint(RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT); // Potentially change this to be the horizontal resolution of the camera / 2
 	}
 	
 	@Override
