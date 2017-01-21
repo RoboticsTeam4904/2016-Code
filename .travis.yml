@@ -22,6 +22,8 @@ before_install:
 
 install:
 - git clone https://github.com/RoboticsTeam4904/wpilib-mirror.git ~/wpilib
+- mkdir -p ~/wpilib/user/java/lib/
+- git clone https://github.com/RoboticsTeam4904/4904-USERLIBS.git ~/wpilib/user/java/lib/
 
 notifications:
   email: none
