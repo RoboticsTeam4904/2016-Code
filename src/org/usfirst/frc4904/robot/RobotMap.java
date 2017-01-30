@@ -7,6 +7,7 @@ import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.RockNRoller;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.subsystems.Tim;
+import org.usfirst.frc4904.sovereignty.TrimmablePIDController;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -230,10 +231,12 @@ public class RobotMap {
 		}
 	}
 	public static CustomPIDController timPID;
+	public static TrimmablePIDController flywheelPID;
 	
 	public RobotMap() {
 		Component.pdp = new PDP();
 		// Chassis
+		RobotMap.flywheelPID = new TrimmablePIDController(Component.flywheelEncoder);
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
@@ -257,7 +260,7 @@ public class RobotMap {
 		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
-		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
+		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new TrimmablePIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
 		Component.flywheel.setInverted(true);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);

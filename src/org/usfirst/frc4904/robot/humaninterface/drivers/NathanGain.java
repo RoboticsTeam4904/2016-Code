@@ -5,6 +5,8 @@ import org.usfirst.frc4904.autonomous.commands.GoalAlign;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.TimSet;
 import org.usfirst.frc4904.robot.subsystems.Tim;
+import org.usfirst.frc4904.sovereignty.TrimCommand;
+import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -28,6 +30,8 @@ public class NathanGain extends Driver {
 		// TODO: If we switch to Xbox Ones, change the port to the Xbox One port. The Xbox 360 has a slightly different mapping, so we have a special comment for that.
 		RobotMap.HumanInput.Driver.xbox.a.onlyWhileHeld(new TimSet(Tim.TimState.FULL_DOWN, false));
 		RobotMap.HumanInput.Driver.xbox.lb.onlyWhileHeld(new MotorControl(RobotMap.Component.tim, RobotMap.HumanInput.Driver.xbox, RobotMap.Constant.HumanInput.XBOX_360_RIGHT_STICK_Y, 1.5));
+		RobotMap.HumanInput.Driver.xbox.dPad.left.whenPressed(new TrimCommand(RobotMap.flywheelPID, TrimDirection.LEFT));
+		RobotMap.HumanInput.Driver.xbox.dPad.right.whenPressed(new TrimCommand(RobotMap.flywheelPID, TrimDirection.RIGHT));
 	}
 	
 	@Override
