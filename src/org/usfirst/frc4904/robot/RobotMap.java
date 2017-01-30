@@ -236,7 +236,6 @@ public class RobotMap {
 	public RobotMap() {
 		Component.pdp = new PDP();
 		// Chassis
-		RobotMap.flywheelPID = new TrimmablePIDController(Component.flywheelEncoder);
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
@@ -260,7 +259,8 @@ public class RobotMap {
 		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
-		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new TrimmablePIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
+		RobotMap.flywheelPID = new TrimmablePIDController(Component.flywheelEncoder);
+		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), RobotMap.flywheelPID, new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
 		Component.flywheel.disablePID(); // TODO add encoders
 		Component.flywheel.setInverted(true);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);
