@@ -52,6 +52,7 @@ public class TrimmablePIDController extends CustomPIDController implements Trimm
 	@Override
 	public void setTrim(double trimValue) {
 		this.trimValue = trimValue;
+		setSetpoint(setpoint);
 	}
 	
 	@Override
