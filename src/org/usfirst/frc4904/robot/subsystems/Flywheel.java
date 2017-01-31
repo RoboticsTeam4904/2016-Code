@@ -2,11 +2,11 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
-import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class Flywheel extends VelocityEncodedMotor {
+public class Flywheel extends VelocitySensorMotor {
 	public enum FlywheelStatus {
 		IDLE, SPINNING_UP, AT_SPEED
 	}
@@ -30,7 +30,7 @@ public class Flywheel extends VelocityEncodedMotor {
 	}
 	
 	public void spinUp() {
-		super.enablePID();
+		super.enableMotionController();
 		super.set(targetSpeed);
 		currentStatus = FlywheelStatus.SPINNING_UP;
 	}
@@ -48,7 +48,7 @@ public class Flywheel extends VelocityEncodedMotor {
 	}
 	
 	public void spinDown() {
-		super.disablePID();
+		super.disableMotionController();
 		super.set(0.0);
 		targetSpeed = 0.0;
 		currentStatus = FlywheelStatus.IDLE;

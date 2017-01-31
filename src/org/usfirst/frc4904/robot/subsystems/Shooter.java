@@ -35,7 +35,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public double getDesiredFlywheelSpeed() {
-		double distance = towerDistanceSensor.getDistanceSafely();
+		double distance = towerDistanceSensor.getDistance();
 		double nearestDistance = nearestKey(distance, measuredSpeeds);
 		return measuredSpeeds.get(nearestDistance);
 	}
