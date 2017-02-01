@@ -261,6 +261,7 @@ public class RobotMap {
 		Component.tim.disableMotionController(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", timIntake);
+		Component.flywheelEncoder.setPIDSourceType(PIDSourceType.kRate);
 		RobotMap.flywheelPID = new TrimmablePIDController(0, 0, 0, 1, Component.flywheelEncoder);
 		RobotMap.flywheelPID.setTrimIncrement(0.1);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), RobotMap.flywheelPID, new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
