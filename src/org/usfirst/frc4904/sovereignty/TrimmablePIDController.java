@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.sovereignty;
 
 
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.PIDSensor;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -51,6 +52,7 @@ public class TrimmablePIDController extends CustomPIDController implements Trimm
 	
 	@Override
 	public void setTrim(double trimValue) {
+		LogKitten.wtf("trim value: " + this.trimValue);
 		this.trimValue = trimValue;
 		setSetpoint(setpoint);
 	}

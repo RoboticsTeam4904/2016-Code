@@ -12,6 +12,7 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
@@ -215,7 +216,7 @@ public class RobotMap {
 		public static CANEncoder rightWheelEncoder;
 		public static VictorSP intakeVictor;
 		public static CANEncoder timEncoder;
-		public static CANEncoder flywheelEncoder;
+		public static CANTalonEncoder flywheelEncoder;
 		public static Camera camera;
 		public static CameraPIDSource cameraPIDSource;
 		public static Subsystem[] mainSubsystems;
@@ -236,12 +237,12 @@ public class RobotMap {
 	public RobotMap() {
 		Component.pdp = new PDP();
 		// Chassis
-		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
+		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionSensorMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
 		Component.leftWheel.disableMotionController(); // TODO add encoders
 		Component.leftWheel.setInverted(true);
-		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
+		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
 		Component.rightWheel.disableMotionController(); // TODO add encoders
 		Component.rightWheel.setInverted(false);
@@ -250,15 +251,16 @@ public class RobotMap {
 		Component.intakeVictor = new VictorSP(Port.PWM.innie);
 		Component.innie = new Motor("Innie", new AccelerationCap(RobotMap.Component.pdp), Component.intakeVictor);
 		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
-		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
+		Component.timEncoder = new CANEncoder("DMEncoder", Port.CAN.defenseManipulatorEncoder, false);
 		Component.timEncoder.setReverseDirection(true);
 		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
 		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
-		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
+		CANTalon timIntake = new CANTalon(Port.CANMotor.timIntake);
+		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, timIntake, new CANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
 		Component.tim.disableMotionController(); // TODO add encoders
 		// Flywheel
-		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
+		Component.flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", timIntake);
 		RobotMap.flywheelPID = new TrimmablePIDController(0, 0, 0, 1, Component.flywheelEncoder);
 		RobotMap.flywheelPID.setTrimIncrement(0.1);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), RobotMap.flywheelPID, new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
