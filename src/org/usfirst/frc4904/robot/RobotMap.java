@@ -240,11 +240,11 @@ public class RobotMap {
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionSensorMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
-		Component.leftWheel.disableMotionController(); // TODO add encoders
+		Component.leftWheel.disablePID(); // TODO add encoders
 		Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
-		Component.rightWheel.disableMotionController(); // TODO add encoders
+		Component.rightWheel.disablePID(); // TODO add encoders
 		Component.rightWheel.setInverted(false);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
@@ -258,14 +258,14 @@ public class RobotMap {
 		CANTalon timIntake = new CANTalon(Port.CANMotor.timIntake);
 		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, timIntake, new CANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
-		Component.tim.disableMotionController(); // TODO add encoders
+		Component.tim.disablePID(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", timIntake);
 		Component.flywheelEncoder.setPIDSourceType(PIDSourceType.kRate);
 		RobotMap.flywheelPID = new TrimmablePIDController(0, 0, 0, 1, Component.flywheelEncoder);
 		RobotMap.flywheelPID.setTrimIncrement(0.1);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), RobotMap.flywheelPID, new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
-		Component.flywheel.disableMotionController(); // TODO add encoders
+		Component.flywheel.disablePID(); // TODO add encoders
 		Component.flywheel.setInverted(true);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs

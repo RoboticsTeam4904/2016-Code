@@ -30,7 +30,7 @@ public class Flywheel extends VelocitySensorMotor {
 	}
 	
 	public void spinUp() {
-		super.enableMotionController();
+		super.enablePID();
 		super.set(targetSpeed);
 		currentStatus = FlywheelStatus.SPINNING_UP;
 	}
@@ -48,7 +48,7 @@ public class Flywheel extends VelocitySensorMotor {
 	}
 	
 	public void spinDown() {
-		super.disableMotionController();
+		super.disablePID();
 		super.set(0.0);
 		targetSpeed = 0.0;
 		currentStatus = FlywheelStatus.IDLE;

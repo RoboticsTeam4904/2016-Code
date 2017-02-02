@@ -83,7 +83,7 @@ public class Robot extends CommandRobotBase {
 		if (veryNearEndOfMatch) {
 			RobotMap.HumanInput.Driver.xbox.setRumble(0);
 		}
-		LogKitten.wtf(RobotMap.Component.flywheelEncoder.get());
+		LogKitten.wtf(RobotMap.Component.flywheelEncoder.get() + "");
 	}
 	
 	@Override
