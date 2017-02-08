@@ -15,8 +15,8 @@ import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
-import org.usfirst.frc4904.standard.subsystems.motor.VelocityEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -200,12 +200,12 @@ public class RobotMap {
 	
 	public static class Component {
 		public static PDP pdp;
-		public static PositionEncodedMotor leftWheel;
-		public static PositionEncodedMotor rightWheel;
+		public static PositionSensorMotor leftWheel;
+		public static PositionSensorMotor rightWheel;
 		public static Tim tim; // His name is Tim.
 		public static Motor innie;
 		public static TankDrive chassis;
-		public static VelocityEncodedMotor flywheelMotor;
+		public static VelocitySensorMotor flywheelMotor;
 		public static DistanceSensor ultrasonicSensor;
 		public static RockNRoller rockNRoller;
 		public static Flywheel flywheel;
@@ -236,12 +236,12 @@ public class RobotMap {
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
-		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
-		Component.leftWheel.disablePID(); // TODO add encoders
+		Component.leftWheel = new PositionSensorMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveAMotor), new VictorSP(Port.PWM.leftDriveBMotor));
+		Component.leftWheel.disableMotionController(); // TODO add encoders
 		Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
-		Component.rightWheel.disablePID(); // TODO add encoders
+		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveAMotor), new VictorSP(Port.PWM.rightDriveBMotor));
+		Component.rightWheel.disableMotionController(); // TODO add encoders
 		Component.rightWheel.setInverted(false);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
 		// Intake
@@ -254,11 +254,11 @@ public class RobotMap {
 		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
 		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
 		Component.tim.setInverted(true);
-		Component.tim.disablePID(); // TODO add encoders
+		Component.tim.disableMotionController(); // TODO add encoders
 		// Flywheel
 		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
-		Component.flywheel.disablePID(); // TODO add encoders
+		Component.flywheel.disableMotionController(); // TODO add encoders
 		Component.flywheel.setInverted(true);
 		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
