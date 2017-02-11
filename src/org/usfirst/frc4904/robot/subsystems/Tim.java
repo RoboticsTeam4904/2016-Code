@@ -8,14 +8,14 @@ import org.usfirst.frc4904.standard.Util;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Tim extends PositionEncodedMotor {
+public class Tim extends PositionSensorMotor {
 	public enum TimState {
 		FULL_UP(75), FULL_DOWN(1740);
 		public final double position;
