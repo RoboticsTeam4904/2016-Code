@@ -1,20 +1,12 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossLowbarTimeAndShoot;
-import org.usfirst.frc4904.autonomous.strategies.CrossMoatTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossMoatTimeAndShoot;
-import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossRampartsTimeAndShoot;
-import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTime;
-import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndAlign;
-import org.usfirst.frc4904.autonomous.strategies.CrossRoughTerrainTimeAndShoot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.custom.CustomCAN;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -28,15 +20,6 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addObject(new CrossLowbarTime(RobotMap.Component.chassis, false));
-		autoChooser.addObject(new CrossLowbarTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
-		autoChooser.addObject(new CrossMoatTime(RobotMap.Component.chassis, false));
-		autoChooser.addObject(new CrossMoatTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
-		autoChooser.addObject(new CrossRoughTerrainTime(RobotMap.Component.chassis, false));
-		autoChooser.addObject(new CrossRoughTerrainTimeAndAlign(RobotMap.Component.chassis, RobotMap.Component.camera, false));
-		autoChooser.addObject(new CrossRoughTerrainTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
-		autoChooser.addObject(new CrossRampartsTime(RobotMap.Component.chassis, false));
-		autoChooser.addObject(new CrossRampartsTimeAndShoot(RobotMap.Component.chassis, RobotMap.Component.camera, false));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator command chooser
@@ -82,6 +65,7 @@ public class Robot extends CommandRobotBase {
 		if (veryNearEndOfMatch) {
 			RobotMap.HumanInput.Driver.xbox.setRumble(0);
 		}
+		(new CustomCAN("TestCAN", 0x676)).writeSafely(new byte[] {0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04});
 	}
 	
 	@Override

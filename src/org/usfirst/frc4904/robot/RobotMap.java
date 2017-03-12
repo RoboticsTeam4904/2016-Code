@@ -1,25 +1,14 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.subsystems.Camera;
-import org.usfirst.frc4904.robot.subsystems.CameraPIDSource;
-import org.usfirst.frc4904.robot.subsystems.Flywheel;
-import org.usfirst.frc4904.robot.subsystems.RockNRoller;
-import org.usfirst.frc4904.robot.subsystems.Shooter;
-import org.usfirst.frc4904.robot.subsystems.Tim;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.DistanceSensor;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
-import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
-import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -202,21 +191,11 @@ public class RobotMap {
 		public static PDP pdp;
 		public static PositionSensorMotor leftWheel;
 		public static PositionSensorMotor rightWheel;
-		public static Tim tim; // His name is Tim.
-		public static Motor innie;
 		public static TankDrive chassis;
-		public static VelocitySensorMotor flywheelMotor;
-		public static DistanceSensor ultrasonicSensor;
-		public static RockNRoller rockNRoller;
-		public static Flywheel flywheel;
-		public static Shooter shooter;
 		public static CANEncoder leftWheelEncoder;
 		public static CANEncoder rightWheelEncoder;
-		public static VictorSP intakeVictor;
 		public static CANEncoder timEncoder;
 		public static CANEncoder flywheelEncoder;
-		public static Camera camera;
-		public static CameraPIDSource cameraPIDSource;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -244,32 +223,12 @@ public class RobotMap {
 		Component.rightWheel.disableMotionController(); // TODO add encoders
 		Component.rightWheel.setInverted(false);
 		Component.chassis = new TankDrive("StrongholdChassis", Component.leftWheel, Component.rightWheel);
-		// Intake
-		Component.intakeVictor = new VictorSP(Port.PWM.innie);
-		Component.innie = new Motor("Innie", new AccelerationCap(RobotMap.Component.pdp), Component.intakeVictor);
-		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
-		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
-		Component.timEncoder.setReverseDirection(true);
-		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
-		RobotMap.timPID.setAbsoluteTolerance(Constant.TIM_ABSOLUTE_TOLERANCE);
-		Component.tim = new Tim(RobotMap.timPID, Component.timEncoder, new CANTalon(Port.CANMotor.timIntake), new CANTalon(Port.CANMotor.tim));
-		Component.tim.setInverted(true);
-		Component.tim.disableMotionController(); // TODO add encoders
-		// Flywheel
-		Component.flywheelEncoder = new CANEncoder(Port.CAN.flywheelEncoder);
-		Component.flywheel = new Flywheel(new AccelerationCap(Component.pdp), new CustomPIDController(Component.flywheelEncoder), new VictorSP(Port.PWM.flywheelAMotor), new VictorSP(Port.PWM.flywheelBMotor));
-		Component.flywheel.disableMotionController(); // TODO add encoders
-		Component.flywheel.setInverted(true);
-		Component.shooter = new Shooter(Component.rockNRoller, Component.flywheel, Component.ultrasonicSensor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(0.1);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		// Camera
-		Component.camera = new Camera();
-		Component.cameraPIDSource = new CameraPIDSource(Component.camera, PIDSourceType.kRate);
 		// Main Subsystems
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.innie, Component.rockNRoller, Component.tim, Component.tim.intakeMotor, Component.flywheel};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis};
 	}
 }
