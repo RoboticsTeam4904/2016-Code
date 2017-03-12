@@ -194,8 +194,6 @@ public class RobotMap {
 		public static TankDrive chassis;
 		public static CANEncoder leftWheelEncoder;
 		public static CANEncoder rightWheelEncoder;
-		public static CANEncoder timEncoder;
-		public static CANEncoder flywheelEncoder;
 		public static Subsystem[] mainSubsystems;
 	}
 	

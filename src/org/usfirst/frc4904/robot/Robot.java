@@ -7,7 +7,6 @@ import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.CustomCAN;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,25 +45,6 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		final double offAngle = 0;
-		final double offDistance = 0;
-		SmartDashboard.putNumber(SmartDashboardKey.TIM.key, RobotMap.Component.timEncoder.getDistance());
-		SmartDashboard.putNumber(SmartDashboardKey.ANGLE_OFF_GOAL.key, offAngle);
-		SmartDashboard.putNumber(SmartDashboardKey.DISTANCE_FROM_GOAL.key, offDistance);
-		SmartDashboard.putBoolean(SmartDashboardKey.ANGLE_WITHIN_FIVE.key, Math.abs(offAngle) < 5);
-		// SmartDashboard.putBoolean(SmartDashboardKey.IN_RANGE.key, MIN < Math.abs(offDistance) < MAX);
-		SmartDashboard.putBoolean(SmartDashboardKey.FLYWHEEL_STATE.key, RobotMap.Component.flywheelEncoder.getRate() >= RobotMap.Constant.FLYWHEEL_SPIN_UP_SPEED);
-		SmartDashboard.putBoolean(SmartDashboardKey.SHOOT_READY.key, true);
-		double matchTime = DriverStation.getInstance().getMatchTime();
-		boolean nearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_START_TIME;
-		boolean veryNearEndOfMatch = matchTime <= RobotMap.Constant.END_OF_MATCH_NOTIF_START_TIME - RobotMap.Constant.END_OF_MATCH_NOTIF_DURATION;
-		SmartDashboard.putBoolean(SmartDashboardKey.BATTER_END_OF_MATCH_TURN.key, nearEndOfMatch);
-		if (nearEndOfMatch && !veryNearEndOfMatch) {
-			RobotMap.HumanInput.Driver.xbox.setRumble(1);
-		}
-		if (veryNearEndOfMatch) {
-			RobotMap.HumanInput.Driver.xbox.setRumble(0);
-		}
 		(new CustomCAN("TestCAN", 0x676)).writeSafely(new byte[] {0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04});
 	}
 	
