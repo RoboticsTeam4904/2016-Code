@@ -18,6 +18,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.IdentityModifier;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -191,9 +192,9 @@ public class RobotMap {
 		public static final double TIM_INTAKE_SPEED = 0.75;
 		public static final double TIM_OUTTAKE_SPEED = -0.75;
 		public static final double INNIE_SHOOT_SPEED = 1;
-		public static final double TIM_P = 0.0008;
+		public static final double TIM_P = 0.002;
 		public static final double TIM_I = -0.000;
-		public static final double TIM_D = -0.0014;
+		public static final double TIM_D = -0.0002;
 		public static final double TIM_ABSOLUTE_TOLERANCE = 50;
 		public static final double CAMERA_WIDTH_PIXELS = 640;
 	}
@@ -247,7 +248,7 @@ public class RobotMap {
 		// Intake
 		Component.intakeVictor = new VictorSP(Port.PWM.innie);
 		Component.innie = new Motor("Innie", new AccelerationCap(RobotMap.Component.pdp), Component.intakeVictor);
-		Component.rockNRoller = new RockNRoller("rockNRoller", new AccelerationCap(Component.pdp), new CANTalon(Port.CANMotor.rockNRoller));
+		Component.rockNRoller = new RockNRoller("rockNRoller", new IdentityModifier(), new CANTalon(Port.CANMotor.rockNRoller));
 		Component.timEncoder = new CANEncoder(Port.CAN.defenseManipulatorEncoder);
 		Component.timEncoder.setReverseDirection(true);
 		RobotMap.timPID = new CustomPIDController(Constant.TIM_P, Constant.TIM_I, Constant.TIM_D, Component.timEncoder);
